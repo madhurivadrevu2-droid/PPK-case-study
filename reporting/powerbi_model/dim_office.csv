@@ -1,0 +1,15 @@
+office,country,country_code,subdivision_code,region
+New York,United States,US,US-NY,Americas
+Boston,United States,US,US-MA,Americas
+Chicago,United States,US,US-IL,Americas
+Sao Paulo,Brazil,BR,BR-SP,Americas
+London,United Kingdom,GB,GB-ENG,EMEA
+Munich,Germany,DE,DE-BY,EMEA
+Paris,France,FR,,EMEA
+Madrid,Spain,ES,ES-MD,EMEA
+Tokyo,Japan,JP,,APAC
+Singapore,Singapore,SG,,APAC
+Sydney,Australia,AU,AU-NSW,APAC
+New Delhi,India,IN,,India & Middle East
+Dubai,United Arab Emirates,AE,,India & Middle East
+Riyadh,Saudi Arabia,SA,,India & Middle East
