@@ -1,0 +1,16 @@
+{
+  "name": "PPK Ops",
+  "dataColors": ["#CC0000", "#333333", "#8C8C8C", "#E06666", "#5B5B5B", "#BFBFBF", "#990000", "#D9D9D9"],
+  "foreground": "#333333",
+  "background": "#FFFFFF",
+  "tableAccent": "#CC0000",
+  "good": "#2E7D32",
+  "neutral": "#8C8C8C",
+  "bad": "#CC0000",
+  "textClasses": {
+    "title": {"fontFace": "Segoe UI Semibold", "fontSize": 14, "color": "#333333"},
+    "header": {"fontFace": "Segoe UI Semibold", "fontSize": 11, "color": "#333333"},
+    "label": {"fontFace": "Segoe UI", "fontSize": 10, "color": "#5B5B5B"},
+    "callout": {"fontFace": "Segoe UI Semibold", "fontSize": 26, "color": "#333333"}
+  }
+}
