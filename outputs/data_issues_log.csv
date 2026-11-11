@@ -1,13 +1,14 @@
-issue,rows_affected,impact,treatment
-Exact duplicate proposal rows,300,Inflates volume and value,"Dropped duplicates, kept first"
-"Test / dummy records (ZZ IDs, clients like 'TEST CLIENT', 'Dummy Co')",50,Fake round values (USD 1-5M) inflate value,Excluded from clean data
-"Mixed date formats in submitted_date (5670 dd/mm/yyyy, 2884 'dd Mon yyyy')",8554,Naive parsing misreads or drops ~35% of dates,"Parsed each format explicitly; slash dates are day-first (first part >12 in 3,400+ rows, second part never >12)"
-Office names with inconsistent case / stray whitespace,744,Splits one office into up to 5 labels,Trimmed and case-matched to offices.csv
-Practice names with inconsistent case / stray whitespace,681,Splits one practice into several labels,Trimmed and case-matched
-Practice renamed: 'Customer Strategy & Marketing' (2025) -> 'Customer' (from Jan 2026),952,"Without merging, one practice looks like it vanished and a new one appeared",Merged under 'Customer Strategy & Marketing' to keep 11 practices comparable
-"Values entered in USD thousands (USD 30 - 2,000 vs median ~USD 244K; empty gap between 2K and 30K)",618,Understates value and distorts averages,"Multiplied by 1,000; flagged in value_flag"
-"Extreme value outlier (USD 1.5B, ~3,700x median; 1000x keying error)",1,Single row would be ~25% of total 2025 value,"Divided by 1,000 (USD 1.5M); flagged in value_flag"
-proposal_id lost leading zeros in status_events (e.g. '10131' vs '0010131'),64391,A string join matches ~0% of events to proposals,Zero-padded to 7 characters before joining
-Status events with no matching clean proposal (test records),100,Would add phantom outcomes,Excluded
-"Open proposals with no status change for >90 days (likely stale, never closed)",4,Pipeline overstated; true win/loss unknown,Kept as open; excluded from win rate and turnaround; flagged is_stale
-Right-censoring: recent proposals still open at extract (Jul-Oct 2026 cohorts),1148,"Recent cohorts only contain fast decisions, so turnaround looks better than it is","Turnaround trends use mature cohorts only (submitted on/before 2026-07-15, >=90 days before extract; slowest decision observed is 161 days)"
+short,issue,rows_affected,impact,treatment
+Duplicate rows,Exact duplicate proposal rows,300,Inflates volume and value,"Dropped duplicates, kept first"
+Test / dummy records,"Test / dummy records (ZZ IDs, clients like 'TEST CLIENT', 'Dummy Co')",50,Fake round values (USD 1-5M) inflate value,Excluded from clean data
+Mixed date formats,"Mixed date formats in submitted_date (5670 dd/mm/yyyy, 2884 'dd Mon yyyy')",8554,Naive parsing misreads or drops ~35% of dates,"Parsed each format explicitly; slash dates are day-first (first part >12 in 3,400+ rows, second part never >12)"
+Office name variants,Office names with inconsistent case / stray whitespace,744,Splits one office into up to 5 labels,Trimmed and case-matched to offices.csv
+Practice name variants,Practice names with inconsistent case / stray whitespace,681,Splits one practice into several labels,Trimmed and case-matched
+Practice renamed in 2026,Practice renamed: 'Customer Strategy & Marketing' (2025) -> 'Customer' (from Jan 2026),952,"Without merging, one practice looks like it vanished and a new one appeared",Merged under 'Customer Strategy & Marketing' to keep 11 practices comparable
+Values keyed in thousands,"Values entered in USD thousands (USD 30 - 2,000 vs median ~USD 244K; empty gap between 2K and 30K)",618,Understates value and distorts averages,"Multiplied by 1,000; flagged in value_flag"
+USD 1.5B keying error,"Extreme value outlier (USD 1.5B, ~3,700x median; 1000x keying error)",1,Single row would be ~25% of total 2025 value,"Divided by 1,000 (USD 1.5M); flagged in value_flag"
+IDs lost leading zeros,proposal_id lost leading zeros in status_events (e.g. '10131' vs '0010131'),64391,A string join matches ~0% of events to proposals,Zero-padded to 7 characters before joining
+Orphan status events,Status events with no matching clean proposal (test records),100,Would add phantom outcomes,Excluded
+Stale open proposals,"Open proposals with no status change for >90 days (likely stale, never closed)",4,Pipeline overstated; true win/loss unknown,Kept as open; excluded from win rate and turnaround; flagged is_stale
+Recent cohorts not yet closed,Right-censoring: recent proposals still open at extract (Jul-Oct 2026 cohorts),1148,"Recent cohorts only contain fast decisions, so turnaround looks better than it is","Turnaround trends use mature cohorts only (submitted on/before 2026-07-15, >=90 days before extract; slowest decision observed is 161 days)"
+"Missing Gulf submissions, Aug 2026","Missing submissions: zero proposals in Dubai 2026-08, Riyadh 2026-08 while the system kept logging status changes (105 events)",110,Understates those offices' volume (Dubai Q3 looks -42%; India & ME looks flat),"Kept as received (cannot impute rows); growth also reported gap-adjusted, excluding that month in both years for those offices; confirm with the offices"

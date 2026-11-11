@@ -1,0 +1,5 @@
+region,decided,win_rate,rest_win_rate,gap_pp,p_value
+APAC,1744,38.5894,42.5194,-3.93,0.0036
+Americas,2404,50.1248,37.5,12.6248,0.0
+EMEA,2192,39.0055,42.682,-3.6765,0.0034
+India & Middle East,1072,32.6493,43.1073,-10.458,0.0

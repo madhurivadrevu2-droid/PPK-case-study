@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPK proposal performance | FY27 fact base</title>
+<style>
+:root {
+  --plane: #ecebe7; --surface: #ffffff; --tint: #f5f5f3;
+  --ink: #1b1b1b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e6e5df; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --accent: #cc0000; --accent-soft: #f2c4c4; --context: #a9a8a2; --context-dark: #6f6e69;
+  --good: #006300; --bad: #b42323;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--plane); color: var(--ink); overflow: hidden; }
+#viewport { position: absolute; inset: 0 0 56px 0; display: flex; align-items: center; justify-content: center; }
+#stage { width: 1280px; height: 720px; position: relative; transform-origin: center center; }
+.page { position: absolute; inset: 0; background: var(--surface); border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.06);
+  padding: 34px 44px 30px; display: none; flex-direction: column; }
+.page.active { display: flex; }
+.kicker { font-size: 13px; font-weight: 600; color: var(--accent); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 6px; }
+h1 { font-size: 26px; line-height: 1.22; margin: 0 0 6px; font-weight: 700; max-width: 1150px; }
+.sub { font-size: 15px; color: var(--ink-2); margin: 0 0 16px; }
+.foot { margin-top: auto; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); padding-top: 8px; }
+.grid { display: grid; gap: 18px; flex: 1; min-height: 0; }
+.card { background: var(--tint); border-radius: 6px; padding: 14px 16px; min-height: 0; display: flex; flex-direction: column; }
+.card.plain { background: transparent; padding: 0; }
+.card h3 { font-size: 14px; margin: 0 0 2px; font-weight: 650; }
+.card .hint { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+.chart { flex: 1; min-height: 0; position: relative; }
+.chart svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--ink-2); margin: 0 0 6px; flex-wrap: wrap; }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; background: var(--sw); }
+.legend span.line::before { height: 2px; vertical-align: 3px; width: 14px; }
+/* KPI tiles */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 16px; }
+.kpi { background: var(--tint); border-radius: 6px; padding: 14px 16px; }
+.kpi .label { font-size: 13px; color: var(--ink-2); }
+.kpi .value { font-size: 34px; font-weight: 650; margin: 4px 0 2px; }
+.kpi .delta { font-size: 13px; color: var(--ink-2); }
+.kpi .delta.up { color: var(--good); } .kpi .delta.down { color: var(--bad); }
+.kpi.hero .value { font-size: 48px; }
+/* lists */
+.num { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; font-size: 15px; flex: none; }
+.row-item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+.row-item b { display: block; font-size: 15px; margin-bottom: 2px; }
+.row-item p { margin: 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.4; }
+.row-item .meta { font-size: 12.5px; color: var(--ink); margin-top: 4px; }
+/* tables */
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th { text-align: left; font-weight: 650; color: var(--ink-2); font-size: 12px; padding: 5px 8px; border-bottom: 1px solid var(--axis); }
+td { padding: 5px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.hl td { background: #fbeaea; }
+.up { color: var(--good); } .down { color: var(--bad); }
+.pill { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 10px; background: #e9e8e3; color: var(--ink-2); white-space: nowrap; }
+.pill.ok { background: #e3f1e3; color: var(--good); } .pill.warn { background: #fbeaea; color: var(--bad); }
+/* filters */
+.filters { display: flex; gap: 10px; align-items: center; margin: 0 0 12px; font-size: 12.5px; color: var(--ink-2); }
+.filters label { display: flex; gap: 6px; align-items: center; }
+.filters select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--axis); border-radius: 5px; padding: 4px 8px; }
+.filters button { font: inherit; border: 1px solid var(--axis); background: var(--surface); border-radius: 5px; padding: 4px 10px; cursor: pointer; color: var(--ink-2); }
+.filters .scope { margin-left: auto; color: var(--muted); font-size: 12px; }
+/* title page */
+.page.title { background: #1b1b1b; color: #fff; justify-content: center; padding: 70px 80px; }
+.page.title h1 { font-size: 44px; max-width: 980px; margin-bottom: 18px; }
+.page.title .sub { color: #cfcfcf; font-size: 19px; max-width: 900px; }
+.page.title .kicker { color: #ff6b6b; }
+.page.title .agenda { display: flex; gap: 28px; margin-top: 46px; font-size: 14px; color: #bdbdbd; }
+.page.title .agenda b { color: #fff; display: block; font-size: 15px; margin-bottom: 3px; }
+.page.title .foot { color: #8f8f8f; }
+/* process strip */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+.step { background: var(--tint); border-radius: 6px; padding: 9px 12px; font-size: 12.5px; color: var(--ink-2); }
+.step b { color: var(--ink); display: block; font-size: 13.5px; }
+/* nav + notes */
+#nav { position: fixed; left: 0; right: 0; bottom: 0; height: 56px; display: flex; align-items: center; gap: 10px; padding: 0 18px; font-size: 13px; color: var(--ink-2); }
+#nav button { font: inherit; border: 1px solid var(--axis); background: var(--surface); border-radius: 5px; padding: 6px 12px; cursor: pointer; }
+#nav .dots { display: flex; gap: 6px; }
+#nav .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--axis); cursor: pointer; border: 0; padding: 0; }
+#nav .dot.on { background: var(--accent); }
+#nav .keys { margin-left: auto; color: var(--muted); font-size: 12px; }
+#notes { position: fixed; left: 50%; transform: translateX(-50%); bottom: 64px; width: min(1000px, 94vw); background: #1b1b1b; color: #eee;
+  border-radius: 8px; padding: 14px 18px; font-size: 15px; line-height: 1.5; display: none; box-shadow: 0 8px 30px rgba(0,0,0,.3); z-index: 5; }
+#notes.on { display: block; }
+#notes b { color: #ff8a8a; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 4px; }
+#tip { position: fixed; pointer-events: none; background: #1b1b1b; color: #fff; font-size: 12px; padding: 7px 9px; border-radius: 5px;
+  display: none; z-index: 10; max-width: 260px; line-height: 1.45; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+#tip .t { font-weight: 650; margin-bottom: 2px; }
+svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+@media print {
+  html, body { overflow: visible; background: #fff; }
+  #nav, #notes, #tip, .filters button { display: none !important; }
+  #viewport { position: static; display: block; }
+  #stage { transform: none !important; width: 1280px; height: auto; }
+  .page { display: flex !important; position: relative; height: 720px; page-break-after: always; box-shadow: none; margin: 0; }
+  @page { size: 1280px 720px; margin: 0; }
+}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+<!-- 1. Title -->
+<section class="page title" data-key="title">
+  <p class="kicker">PPK Operations | proposal performance</p>
+  <h1>A fact base on proposal performance across 14 offices, ahead of FY27 planning</h1>
+  <p class="sub" id="title-sub"></p>
+  <div class="agenda">
+    <div><b>1. The answer</b>Summary and actions</div>
+    <div><b>2. Growth</b>Volume, value, win rate</div>
+    <div><b>3. Speed</b>Time to decision</div>
+    <div><b>4. Data quality</b>Issues and treatment</div>
+    <div><b>5. Actions</b>What to do in FY27</div>
+  </div>
+  <div class="foot" style="margin-top:auto"><span>Take-home assessment, Senior Analyst PPK Operations | November 2026 | Fictitious data</span><span>Press N for speaker notes</span></div>
+</section>
+
+<!-- 2. Executive summary -->
+<section class="page" data-key="summary">
+  <p class="kicker">Executive summary</p>
+  <h1 id="sum-headline"></h1>
+  <p class="sub">Proposals submitted 1 Jan 2025 to 15 Oct 2026; growth compares the same 1 Jan to 15 Oct window in each year</p>
+  <div class="kpis" id="sum-kpis"></div>
+  <div class="grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="card"><h3>What the data says</h3><p class="hint">Three findings</p><div id="sum-findings"></div></div>
+    <div class="card"><h3>What PPK leadership should do</h3><p class="hint">Three actions for FY27 planning</p><div id="sum-actions"></div></div>
+  </div>
+  <div class="foot"><span class="src"></span><span class="pg"></span></div>
+</section>
+
+<!-- 3. Growth dashboard -->
+<section class="page" data-key="growth">
+  <p class="kicker">Growth</p>
+  <h1 id="growth-title">Growth is led by the Americas and APAC and by Performance Improvement, TMT and Strategy</h1>
+  <div class="filters" data-filters></div>
+  <div class="kpis" id="growth-kpis"></div>
+  <div class="grid" style="grid-template-columns: 1fr 1.15fr 1.25fr;">
+    <div class="card"><h3>Growth by region</h3><p class="hint">% change, same window vs prior year</p>
+      <div class="legend"><span style="--sw:var(--accent)">Volume</span><span style="--sw:var(--context)">Value</span></div>
+      <div class="chart" id="ch-region"></div></div>
+    <div class="card"><h3>Volume growth by practice</h3><p class="hint">% change; top three highlighted</p>
+      <div class="chart" id="ch-practice"></div></div>
+    <div class="card"><h3>Proposals submitted per month</h3><p class="hint">2026 vs 2025; 2026 runs to the 15 Oct extract</p>
+      <div class="legend"><span class="line" style="--sw:var(--accent)">2026</span><span class="line" style="--sw:var(--context)">2025</span></div>
+      <div class="chart" id="ch-monthly"></div></div>
+  </div>
+  <div class="foot"><span class="src"></span><span class="pg"></span></div>
+</section>
+
+<!-- 4. Office scorecard -->
+<section class="page" data-key="offices">
+  <p class="kicker">Growth | office scorecard</p>
+  <h1 id="office-title">Boston and Sao Paulo grow fastest; Dubai is the only office shrinking</h1>
+  <div class="filters" data-filters></div>
+  <div class="grid" style="grid-template-columns: 1fr;">
+    <div class="card plain"><div id="tbl-offices"></div></div>
+  </div>
+  <div class="foot"><span class="src"></span><span class="pg"></span></div>
+</section>
+
+<!-- 5. Speed dashboard -->
+<section class="page" data-key="speed">
+  <p class="kicker">Speed</p>
+  <h1 id="speed-title"></h1>
+  <div class="filters" data-filters></div>
+  <div class="grid" style="grid-template-columns: 1.15fr 1fr;">
+    <div class="card"><h3>Median business days to decision, by office and stage</h3><p class="hint">Won or Lost proposals; selected office highlighted</p>
+      <div class="legend"><span style="--sw:var(--context)">Submitted to under review</span><span style="--sw:var(--context-dark)">Under review to decision</span><span style="--sw:var(--accent)">Highlighted office</span></div>
+      <div class="chart" id="ch-stage"></div></div>
+    <div style="display:grid; grid-template-rows: 1fr 1fr; gap: 18px; min-height:0;">
+      <div class="card"><h3>Business days to decision by submission quarter</h3><p class="hint">Shaded quarters are not mature yet: slow proposals are still open</p>
+        <div class="legend"><span class="line" style="--sw:var(--accent)">Median</span><span class="line" style="--sw:var(--context)">90th percentile</span></div>
+        <div class="chart" id="ch-tat"></div></div>
+      <div class="card"><h3>Share of each quarter's proposals still open at extract</h3><p class="hint">Why recent quarters look faster than they are</p>
+        <div class="chart" id="ch-open"></div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src"></span><span class="pg"></span></div>
+</section>
+
+<!-- 6. Data quality -->
+<section class="page" data-key="quality">
+  <p class="kicker">Data quality</p>
+  <h1 id="dq-title"></h1>
+  <div class="steps">
+    <div class="step"><b>1. Detect</b>Profile every field before any analysis</div>
+    <div class="step"><b>2. Quantify</b>Count rows and size the impact on the answer</div>
+    <div class="step"><b>3. Treat</b>Fix, merge or exclude, with a stated rule</div>
+    <div class="step"><b>4. Flag</b>Keep a flag so every change is reversible</div>
+  </div>
+  <div class="grid" style="grid-template-columns: 2.3fr 1fr;">
+    <div class="card plain" style="overflow:hidden"><div id="tbl-issues"></div></div>
+    <div style="display:flex; flex-direction:column; gap:14px; min-height:0;">
+      <div class="card"><h3>From raw extract to clean proposals</h3><p class="hint">Rows removed at each step</p><div class="chart" id="ch-funnel" style="min-height:150px"></div></div>
+      <div class="card"><h3>Holiday API coverage (Task 1)</h3><p class="hint">Nager.Date, 2025-2026</p><div id="tbl-holidays"></div></div>
+    </div>
+  </div>
+  <div class="foot"><span>Full log: outputs/data_issues_log.csv and README</span><span class="pg"></span></div>
+</section>
+
+<!-- 7. Actions -->
+<section class="page" data-key="actions">
+  <p class="kicker">Recommendations</p>
+  <h1>Three actions for FY27: back the growth, fix two hotspots, and fix the data at source</h1>
+  <p class="sub">Each with an owner, a measure and a first step; sizing uses full-year 2025 volumes</p>
+  <div class="grid" style="grid-template-columns: repeat(3, 1fr);" id="act-cards"></div>
+  <div class="foot"><span class="src"></span><span class="pg"></span></div>
+</section>
+
+<!-- 8. Appendix -->
+<section class="page" data-key="appendix">
+  <p class="kicker">Appendix</p>
+  <h1>Definitions and method</h1>
+  <div class="grid" style="grid-template-columns: 1.2fr 1fr;">
+    <div class="card plain"><table>
+      <tr><th>Metric</th><th>Definition</th></tr>
+      <tr><td>Volume</td><td>Proposals submitted, after removing duplicates and test records</td></tr>
+      <tr><td>Value</td><td>Sum of proposal value in USD, after unit corrections</td></tr>
+      <tr><td>Win rate</td><td>Won / (Won + Lost); Withdrawn (4.6% of closed) and open proposals excluded</td></tr>
+      <tr><td>Turnaround</td><td>Business days from submission to the first Won or Lost event, excluding weekends and public holidays</td></tr>
+      <tr><td>Growth</td><td>Same window each year: 1 Jan to 15 Oct for volume and value; cohorts submitted 1 Jan to 15 Jul for win rate and turnaround, so slow proposals have had time to close</td></tr>
+      <tr><td>Open / stale</td><td>No Won, Lost or Withdrawn event at the 15 Oct 2026 extract; stale = open more than 90 days</td></tr>
+    </table></div>
+    <div class="card"><h3>Task 1: public holidays and business days</h3>
+      <div class="row-item"><span class="num">1</span><div><b>Call the API</b><p>Nager.Date for 12 countries x 2 years, with timeout and retries</p></div></div>
+      <div class="row-item"><span class="num">2</span><div><b>Save and flag</b><p>322 holidays to CSV; India, UAE and Saudi Arabia return no data (HTTP 204) and are flagged, not fatal</p></div></div>
+      <div class="row-item"><span class="num">3</span><div><b>Apply per office</b><p>National holidays plus the office's ISO subdivision (e.g. US-NY, GB-ENG), then numpy busday_count</p></div></div>
+      <div class="row-item" style="margin:0"><span class="num">4</span><div><b>One command</b><p><code>python run_pipeline.py</code> rebuilds data, tables, deck and this page</p></div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src"></span><span class="pg"></span></div>
+</section>
+
+</div></div>
+<div id="nav">
+  <button id="prev" aria-label="Previous page">&larr;</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" aria-label="Next page">&rarr;</button>
+  <span id="pageLabel"></span>
+  <button id="notesBtn">Speaker notes (N)</button>
+  <span class="keys">&larr; &rarr; to move | N notes | F full screen | Ctrl+P to save as PDF</span>
+</div>
+<div id="notes"><b>Speaker notes</b><span id="notesText"></span></div>
+<div id="tip"></div>
+
+<script>
+const D = /*__DATA__*/null;
+const C = D.cols, N = C.y.length, S = D.story;
+const OFF = D.offices, PRAC = D.practices, REG = D.regions;
+const SRC = "Source: PPK proposal system extract, 15 Oct 2026 (fictitious data); " +
+  S.rows.clean.toLocaleString() + " proposals after cleaning";
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const QUARTERS = ["2025 Q1","2025 Q2","2025 Q3","2025 Q4","2026 Q1","2026 Q2","2026 Q3","2026 Q4"];
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmtPct = (v, d = 1) => v == null || isNaN(v) ? "n/a" : (v > 0 ? "+" : "") + v.toFixed(d) + "%";
+const fmtPP = v => v == null || isNaN(v) ? "n/a" : (v > 0 ? "+" : "") + v.toFixed(1) + "pp";
+const fmtUSD = v => v >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : v >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : "$" + Math.round(v / 1e3) + "K";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- metric engine ---------- */
+const state = { region: "All", office: "All", practice: "All", period: "All" };
+function periodSpec(per) {
+  if (per === "All") return { y: null, lo: 101, hi: 1231 };
+  if (per === "2025" || per === "2026") return { y: +per - 2025, lo: 101, hi: 1231 };
+  const [yy, q] = per.split(" Q"); const qi = +q;
+  return { y: +yy - 2025, lo: (qi - 1) * 300 + 101, hi: qi * 300 + 31 };
+}
+function dimsMatch(i, st) {
+  const o = C.o[i];
+  if (st.office !== "All" && OFF[o].name !== st.office) return false;
+  if (st.region !== "All" && OFF[o].region !== st.region) return false;
+  if (st.practice !== "All" && PRAC[C.p[i]] !== st.practice) return false;
+  return true;
+}
+function select(st, opts = {}) {
+  const per = periodSpec(st.period), out = [];
+  for (let i = 0; i < N; i++) {
+    if (!opts.ignoreDims && !dimsMatch(i, st)) continue;
+    if (!opts.ignorePeriod) {
+      if (per.y !== null && C.y[i] !== per.y) continue;
+      if (C.md[i] < per.lo || C.md[i] > per.hi) continue;
+    }
+    if (opts.y !== undefined && C.y[i] !== opts.y) continue;
+    if (opts.mdHi !== undefined && C.md[i] > opts.mdHi) continue;
+    if (opts.mdLo !== undefined && C.md[i] < opts.mdLo) continue;
+    if (opts.extra && !opts.extra(i)) continue;
+    out.push(i);
+  }
+  return out;
+}
+const decided = i => C.s[i] === 1 || C.s[i] === 2;
+const sum = (idx, f) => idx.reduce((a, i) => a + f(i), 0);
+function quantile(arr, q) { if (!arr.length) return NaN; const a = arr.slice().sort((x, y) => x - y);
+  const pos = (a.length - 1) * q, lo = Math.floor(pos), hi = Math.ceil(pos); return a[lo] + (a[hi] - a[lo]) * (pos - lo); }
+const median = a => quantile(a, 0.5);
+function winRate(idx) { const d = idx.filter(decided); return d.length ? 100 * d.filter(i => C.s[i] === 1).length / d.length : NaN; }
+const tatList = idx => idx.filter(decided).map(i => C.b[i]);
+/* Growth windows: current period vs same window a year earlier, capped at the extract (15 Oct)
+   for volume/value and at 15 Jul (mature cohorts) for win rate / turnaround. */
+function growth(st) {
+  const per = periodSpec(st.period);
+  if (per.y === 0) return null;                       // 2025 has no prior year in the data
+  const lo = per.lo, hiV = Math.min(per.hi, 1015), hiW = Math.min(per.hi, 715);
+  const base = { ...st, period: "All" };
+  const cur = select(base, { y: 1, mdLo: lo, mdHi: hiV }), py = select(base, { y: 0, mdLo: lo, mdHi: hiV });
+  const curW = hiW >= lo ? select(base, { y: 1, mdLo: lo, mdHi: hiW }) : [];
+  const pyW = hiW >= lo ? select(base, { y: 0, mdLo: lo, mdHi: hiW }) : [];
+  const v = idx => sum(idx, i => C.v[i]);
+  const enough = curW.filter(decided).length >= 30 && pyW.filter(decided).length >= 30;
+  return {
+    n: cur.length, nPY: py.length, val: v(cur), valPY: v(py),
+    volG: py.length ? 100 * (cur.length / py.length - 1) : NaN,
+    valG: v(py) ? 100 * (v(cur) / v(py) - 1) : NaN,
+    wr: enough ? winRate(curW) : NaN, wrPY: enough ? winRate(pyW) : NaN,
+    wrD: enough ? winRate(curW) - winRate(pyW) : NaN,
+    tat: enough ? median(tatList(curW)) : NaN, tatPY: enough ? median(tatList(pyW)) : NaN,
+  };
+}
+
+/* ---------- tooltip ---------- */
+const tip = document.getElementById("tip");
+document.addEventListener("mousemove", e => {
+  const t = e.target.closest("[data-tip]");
+  if (!t) { tip.style.display = "none"; return; }
+  tip.innerHTML = t.getAttribute("data-tip");
+  tip.style.display = "block";
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.min(e.clientX + 14, innerWidth - w - 8) + "px";
+  tip.style.top = Math.max(e.clientY - h - 10, 8) + "px";
+});
+const tipHTML = (title, rows) => `<div class='t'>${esc(title)}</div>` + rows.map(r => esc(r)).join("<br>");
+
+/* ---------- charts (SVG) ---------- */
+function size(el) { const r = el.getBoundingClientRect(), s = scale || 1; return [Math.max(r.width / s, 120), Math.max(r.height / s, 80)]; }
+function barEnd(x0, x1, y, h, r = 4) {           // horizontal bar, rounded at the data end only
+  const neg = x1 < x0, w = Math.abs(x1 - x0); r = Math.min(r, w, h / 2);
+  if (w < 0.5) return "";
+  if (!neg) return `M${x0},${y}H${x1 - r}Q${x1},${y} ${x1},${y + r}V${y + h - r}Q${x1},${y + h} ${x1 - r},${y + h}H${x0}Z`;
+  return `M${x0},${y}H${x1 + r}Q${x1},${y} ${x1},${y + r}V${y + h - r}Q${x1},${y + h} ${x1 + r},${y + h}H${x0}Z`;
+}
+function hbars(el, rows, series, o = {}) {
+  /* rows: [{label, vals:[...], tip, hl}] ; series: [{name, color}] */
+  const [W, H] = size(el), lw = o.labelW || 120, pad = 46;
+  const all = rows.flatMap(r => r.vals).filter(v => !isNaN(v));
+  const mn = Math.min(0, ...all), mx = Math.max(0, ...all);
+  const x = v => lw + pad * (mn < 0 ? 1 : 0) + (v - mn) / ((mx - mn) || 1) * (W - lw - pad * (mn < 0 ? 2 : 1));
+  const band = H / rows.length, k = series.length, bh = Math.min(o.barH || 14, (band - 6) / k);
+  let s = `<svg viewBox="0 0 ${W} ${H}"><line x1="${x(0)}" x2="${x(0)}" y1="0" y2="${H}" stroke="${css("--axis")}"/>`;
+  rows.forEach((r, ri) => {
+    const y0 = ri * band + (band - bh * k - 2 * (k - 1)) / 2;
+    s += `<text x="${lw - 8}" y="${ri * band + band / 2 + 4}" text-anchor="end" font-size="12" fill="${css(r.hl ? "--ink" : "--ink-2")}" font-weight="${r.hl ? 650 : 400}">${esc(r.label)}</text>`;
+    r.vals.forEach((v, si) => {
+      if (isNaN(v)) return;
+      const y = y0 + si * (bh + 2), color = (r.colors && r.colors[si]) || series[si].color;
+      s += `<path d="${barEnd(x(0), x(v), y, bh)}" fill="${color}"/>`;
+      if (o.labels !== false) {
+        const lx = v >= 0 ? x(v) + 4 : x(v) - 4;
+        s += `<text x="${lx}" y="${y + bh / 2 + 4}" font-size="11.5" fill="${css("--ink-2")}" text-anchor="${v >= 0 ? "start" : "end"}">${(o.fmt || fmtPct)(v)}</text>`;
+      }
+    });
+    s += `<rect x="0" y="${ri * band}" width="${W}" height="${band}" fill="transparent" data-tip="${esc(r.tip || "")}"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+function stacked(el, rows, colors, o = {}) {
+  /* rows: [{label, parts:[a,b], hl, tip}] */
+  const [W, H] = size(el), lw = 84, mx = Math.max(...rows.map(r => r.parts.reduce((a, b) => a + b, 0))) * 1.08;
+  const x = v => lw + v / mx * (W - lw - 30), band = H / rows.length, bh = Math.min(18, band - 6);
+  let s = `<svg viewBox="0 0 ${W} ${H}">`;
+  rows.forEach((r, ri) => {
+    const y = ri * band + (band - bh) / 2; let acc = 0;
+    s += `<text x="${lw - 8}" y="${y + bh / 2 + 4}" text-anchor="end" font-size="12" fill="${css(r.hl ? "--ink" : "--ink-2")}" font-weight="${r.hl ? 650 : 400}">${esc(r.label)}</text>`;
+    r.parts.forEach((v, pi) => {
+      const x0 = x(acc) + (pi ? 1 : 0), x1 = x(acc + v) - (pi < r.parts.length - 1 ? 1 : 0);
+      const last = pi === r.parts.length - 1;
+      const fill = r.hl && pi === r.parts.length - 1 ? css("--accent") : colors[pi];
+      s += last ? `<path d="${barEnd(x0, x1, y, bh)}" fill="${fill}"/>` : `<rect x="${x0}" y="${y}" width="${Math.max(0, x1 - x0)}" height="${bh}" fill="${fill}"/>`;
+      if (x1 - x0 > 22) s += `<text x="${(x0 + x1) / 2}" y="${y + bh / 2 + 4}" text-anchor="middle" font-size="11" fill="${pi === 0 ? css("--ink") : "#fff"}">${Math.round(v)}</text>`;
+      acc += v;
+    });
+    s += `<text x="${x(acc) + 6}" y="${y + bh / 2 + 4}" font-size="11.5" fill="${css("--ink-2")}" font-weight="${r.hl ? 650 : 400}">${Math.round(acc)}</text>`;
+    s += `<rect x="0" y="${ri * band}" width="${W}" height="${band}" fill="transparent" data-tip="${esc(r.tip || "")}"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+function lines(el, xLabels, series, o = {}) {
+  /* series: [{name, color, vals:[... or null]}] ; o.shadeFrom = index from which x is shaded */
+  const [W, H] = size(el), l = 34, r = 40, t = 8, b = 22;
+  const all = series.flatMap(s => s.vals).filter(v => v != null && !isNaN(v));
+  const mx = Math.max(...all) * 1.12, mn = o.zero === false ? Math.min(...all) * 0.9 : 0;
+  const x = i => l + i * (W - l - r) / (xLabels.length - 1), y = v => t + (1 - (v - mn) / ((mx - mn) || 1)) * (H - t - b);
+  let s = `<svg viewBox="0 0 ${W} ${H}">`;
+  if (o.shadeFrom != null) s += `<rect x="${x(o.shadeFrom) - (W - l - r) / (xLabels.length - 1) / 2}" y="${t}" width="${W - r - x(o.shadeFrom) + (W - l - r) / (xLabels.length - 1) / 2 + 10}" height="${H - t - b}" fill="${css("--grid")}" opacity=".55"/>`;
+  const ticks = niceTicks(mn, mx, 4);
+  ticks.forEach(v => { s += `<line x1="${l}" x2="${W - r}" y1="${y(v)}" y2="${y(v)}" stroke="${css("--grid")}"/><text x="${l - 6}" y="${y(v) + 4}" text-anchor="end" font-size="10.5" fill="${css("--muted")}">${(o.tickFmt || (v => v.toLocaleString()))(v)}</text>`; });
+  xLabels.forEach((lab, i) => { if (o.every && i % o.every) return; s += `<text x="${x(i)}" y="${H - 5}" text-anchor="middle" font-size="10.5" fill="${css("--muted")}">${esc(lab)}</text>`; });
+  series.forEach(se => {
+    const pts = se.vals.map((v, i) => v == null || isNaN(v) ? null : [x(i), y(v)]);
+    let d = "", pen = false;
+    pts.forEach(p => { if (!p) { pen = false; return; } d += (pen ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1); pen = true; });
+    s += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    const lastI = pts.map((p, i) => p ? i : -1).filter(i => i >= 0).pop();
+    if (lastI != null) {
+      const p = pts[lastI];
+      s += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${se.color}" stroke="#fff" stroke-width="2"/>`;
+      if (o.endLabels !== false) s += `<text x="${p[0] + 7}" y="${p[1] + 4}" font-size="11.5" fill="${css("--ink-2")}">${(o.fmt || (v => Math.round(v).toLocaleString()))(se.vals[lastI])}</text>`;
+    }
+  });
+  const step = (W - l - r) / (xLabels.length - 1);
+  xLabels.forEach((lab, i) => {
+    const rows = series.map(se => `${se.name}: ${se.vals[i] == null || isNaN(se.vals[i]) ? "n/a" : (o.fmt || (v => Math.round(v).toLocaleString()))(se.vals[i])}`);
+    if (o.extraTip) rows.push(...o.extraTip(i));
+    s += `<rect x="${x(i) - step / 2}" y="0" width="${step}" height="${H}" fill="transparent" data-tip="${esc(tipHTML(lab, rows))}" class="hov"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+function columns(el, xLabels, vals, o = {}) {
+  const [W, H] = size(el), l = 8, b = 22, t = 16, mx = Math.max(...vals.filter(v => !isNaN(v))) * 1.15 || 1;
+  const band = (W - l * 2) / xLabels.length, bw = Math.min(24, band * 0.55);
+  let s = `<svg viewBox="0 0 ${W} ${H}"><line x1="${l}" x2="${W - l}" y1="${H - b}" y2="${H - b}" stroke="${css("--axis")}"/>`;
+  vals.forEach((v, i) => {
+    const cx = l + band * i + band / 2, h = (H - b - t) * (v / mx), y = H - b - h, r = Math.min(4, h / 2);
+    const fill = o.hlFrom != null && i >= o.hlFrom ? css("--accent") : css("--context");
+    if (h > 0.5) s += `<path d="M${cx - bw / 2},${H - b}V${y + r}Q${cx - bw / 2},${y} ${cx - bw / 2 + r},${y}H${cx + bw / 2 - r}Q${cx + bw / 2},${y} ${cx + bw / 2},${y + r}V${H - b}Z" fill="${fill}"/>`;
+    s += `<text x="${cx}" y="${y - 4}" text-anchor="middle" font-size="11" fill="${css("--ink-2")}">${(o.fmt || (v => v.toFixed(0)))(v)}</text>`;
+    s += `<text x="${cx}" y="${H - 6}" text-anchor="middle" font-size="10.5" fill="${css("--muted")}">${esc(xLabels[i])}</text>`;
+    s += `<rect x="${cx - band / 2}" y="0" width="${band}" height="${H}" fill="transparent" data-tip="${esc(o.tip ? o.tip(i) : "")}"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+function niceTicks(mn, mx, n) {
+  const span = mx - mn, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= step0) || mag * 10;
+  const out = []; for (let v = Math.ceil(mn / step) * step; v <= mx; v += step) out.push(+v.toFixed(6)); return out;
+}
+
+/* ---------- filters ---------- */
+function renderFilters() {
+  document.querySelectorAll("[data-filters]").forEach(box => {
+    const offices = OFF.filter(o => state.region === "All" || o.region === state.region).map(o => o.name);
+    if (state.office !== "All" && !offices.includes(state.office)) state.office = "All";
+    const sel = (key, label, opts) => `<label>${label}<select data-k="${key}">${["All", ...opts].map(v =>
+      `<option ${v === state[key] ? "selected" : ""}>${esc(v)}</option>`).join("")}</select></label>`;
+    const per = periodSpec(state.period);
+    const scope = per.y === 0 ? "Growth n/a for 2025 (no prior year in extract)" :
+      state.period === "All" || state.period === "2026" ? "Growth: 1 Jan-15 Oct 2026 vs 2025" : `Growth: ${state.period} vs same quarter 2025`;
+    box.innerHTML = sel("region", "Region", REG) + sel("office", "Office", offices) + sel("practice", "Practice", PRAC) +
+      sel("period", "Period", ["2025", "2026", ...QUARTERS]) + `<button data-reset>Reset</button><span class="scope">${scope}</span>`;
+  });
+}
+document.addEventListener("change", e => { const k = e.target.dataset.k; if (!k) return; state[k] = e.target.value; refresh(); });
+document.addEventListener("click", e => { if (e.target.matches("[data-reset]")) { Object.assign(state, { region: "All", office: "All", practice: "All", period: "All" }); refresh(); } });
+function scopeLabel() {
+  const bits = [state.office !== "All" ? state.office : state.region !== "All" ? state.region : "All PPK",
+    state.practice !== "All" ? state.practice : null].filter(Boolean); return bits.join(", ");
+}
+
+/* ---------- pages ---------- */
+function kpiTiles(el, tiles) {
+  el.innerHTML = tiles.map((t, i) => `<div class="kpi${t.hero ? " hero" : ""}"><div class="label">${esc(t.label)}</div>
+    <div class="value">${esc(t.value)}</div><div class="delta ${t.dir > 0 ? "up" : t.dir < 0 ? "down" : ""}">${esc(t.delta)}</div></div>`).join("");
+}
+function renderSummary() {
+  document.getElementById("title-sub").textContent =
+    `${S.rows.clean.toLocaleString()} proposals, 14 offices, 11 practices, Jan 2025 to Oct 2026. Growth, speed, data quality and three actions.`;
+  document.getElementById("sum-headline").textContent = S.headline;
+  kpiTiles(document.getElementById("sum-kpis"), S.kpis.map((k, i) => ({ ...k, hero: i === 0 })));
+  document.getElementById("sum-findings").innerHTML = S.findings.map((f, i) =>
+    `<div class="row-item"><span class="num" style="background:var(--ink)">${i + 1}</span><div><b>${esc(f[0])}</b><p>${esc(f[1])}</p></div></div>`).join("");
+  document.getElementById("sum-actions").innerHTML = S.actions.map((a, i) =>
+    `<div class="row-item"><span class="num">${i + 1}</span><div><b>${esc(a[0])}</b><p>${esc(a[1])}</p></div></div>`).join("");
+}
+function renderGrowth() {
+  const g = growth(state);
+  const lvl = select(state);
+  kpiTiles(document.getElementById("growth-kpis"), g ? [
+    { label: `Proposals | ${scopeLabel()}`, value: g.n.toLocaleString(), delta: `${fmtPct(g.volG)} vs prior year (${g.nPY.toLocaleString()})`, dir: Math.sign(g.volG) },
+    { label: "Proposal value", value: fmtUSD(g.val), delta: `${fmtPct(g.valG)} vs prior year`, dir: Math.sign(g.valG) },
+    { label: "Win rate, mature cohorts", value: isNaN(g.wr) ? "n/a" : g.wr.toFixed(1) + "%", delta: `${fmtPP(g.wrD)} vs prior year`, dir: 0 },
+    { label: "Median business days to decision", value: isNaN(g.tat) ? "n/a" : g.tat.toFixed(0), delta: isNaN(g.tatPY) ? "not mature" : `prior year ${g.tatPY.toFixed(0)}`, dir: 0 },
+  ] : [
+    { label: `Proposals | ${scopeLabel()}`, value: lvl.length.toLocaleString(), delta: "no prior year in extract", dir: 0 },
+    { label: "Proposal value", value: fmtUSD(sum(lvl, i => C.v[i])), delta: "", dir: 0 },
+    { label: "Win rate", value: winRate(lvl).toFixed(1) + "%", delta: "Won / (Won + Lost)", dir: 0 },
+    { label: "Median business days to decision", value: median(tatList(lvl)).toFixed(0), delta: "", dir: 0 },
+  ]);
+  const regRows = REG.map(r => { const gr = growth({ ...state, region: r, office: "All" });
+    return { label: r === "India & Middle East" ? "India & ME" : r, vals: gr ? [gr.volG, gr.valG] : [NaN, NaN], hl: state.region === r,
+      tip: gr ? tipHTML(r, [`Volume ${fmtPct(gr.volG)} (${gr.nPY.toLocaleString()} to ${gr.n.toLocaleString()})`, `Value ${fmtPct(gr.valG)}`, `Win rate ${isNaN(gr.wr) ? "n/a" : gr.wr.toFixed(1) + "%"} (${fmtPP(gr.wrD)})`]) : "" }; });
+  hbars(document.getElementById("ch-region"), regRows, [{ name: "Volume", color: css("--accent") }, { name: "Value", color: css("--context") }], { labelW: 82, barH: 13 });
+  const prRows = PRAC.map(p => { const gr = growth({ ...state, practice: p });
+    return { p, gr, label: p.replace("Technology, Media & Telecom", "TMT").replace("Customer Strategy & Marketing", "Customer Strat. & Mktg").replace("Energy & Natural Resources", "Energy & Nat. Res."),
+      vals: [gr ? gr.volG : NaN] }; }).sort((a, b) => b.vals[0] - a.vals[0]);
+  prRows.forEach((r, i) => { r.colors = [i < 3 ? css("--accent") : css("--context")]; r.hl = state.practice === r.p;
+    r.tip = r.gr ? tipHTML(r.p, [`Volume ${fmtPct(r.gr.volG)} (${r.gr.nPY} to ${r.gr.n})`, `Value ${fmtPct(r.gr.valG)}`, `Win rate ${isNaN(r.gr.wr) ? "n/a" : r.gr.wr.toFixed(1) + "%"} (${fmtPP(r.gr.wrD)})`]) : ""; });
+  hbars(document.getElementById("ch-practice"), prRows, [{ name: "Volume", color: css("--context") }], { labelW: 132, barH: 12 });
+  const base = { ...state, period: "All" }, m25 = Array(12).fill(0), m26 = Array(12).fill(null);
+  select(base).forEach(i => { const m = C.m[i]; if (m < 12) m25[m]++; else { m26[m - 12] = (m26[m - 12] || 0) + 1; } });
+  const m26plot = m26.map((v, i) => i <= 8 ? (v || 0) : null);   // Oct 2026 is partial (to 15 Oct): drop from line
+  lines(document.getElementById("ch-monthly"), MONTHS, [
+    { name: "2026", color: css("--accent"), vals: m26plot }, { name: "2025", color: css("--context"), vals: m25 }],
+    { extraTip: i => i === 9 ? [`Oct 2026 to 15 Oct: ${m26[9] || 0} (partial, not plotted)`] : [] });
+}
+function renderOffices() {
+  const rows = OFF.map(o => ({ o, g: growth({ ...state, office: o.name, region: "All" }) }))
+    .filter(r => state.region === "All" || r.o.region === state.region);
+  rows.sort((a, b) => (b.g ? b.g.volG : 0) - (a.g ? a.g.volG : 0));
+  const cell = (v, f, good = true) => `<td class="n ${isNaN(v) ? "" : (v > 0) === good ? "up" : "down"}">${f(v)}</td>`;
+  let h = `<table><tr><th>Office</th><th>Region</th><th class="n">Proposals, prior year</th><th class="n">Proposals, current</th><th class="n">Volume growth</th><th class="n">Value growth</th><th class="n">Win rate</th><th class="n">Win rate change</th><th class="n">Median days to decision</th><th style="width:150px">Volume growth</th></tr>`;
+  const mx = Math.max(...rows.map(r => r.g ? Math.abs(r.g.volG) : 0)) || 1;
+  rows.forEach(({ o, g }) => {
+    if (!g) { h += `<tr><td>${esc(o.name)}</td><td>${esc(o.region)}</td><td colspan="8" class="n">n/a for 2025 periods</td></tr>`; return; }
+    const w = Math.abs(g.volG) / mx * 60;
+    const bar = `<svg viewBox="0 0 150 14" width="150" height="14"><line x1="75" x2="75" y1="0" y2="14" stroke="${css("--axis")}"/><rect x="${g.volG >= 0 ? 75 : 75 - w}" y="3" width="${w}" height="8" rx="2" fill="${o.name === state.office ? css("--accent") : g.volG < 0 ? css("--bad") : css("--context")}"/></svg>`;
+    h += `<tr class="${o.name === state.office ? "hl" : ""}"><td><b>${esc(o.name)}</b></td><td>${esc(o.region)}</td><td class="n">${g.nPY.toLocaleString()}</td><td class="n">${g.n.toLocaleString()}</td>` +
+      cell(g.volG, fmtPct) + cell(g.valG, fmtPct) + `<td class="n">${isNaN(g.wr) ? "n/a" : g.wr.toFixed(1) + "%"}</td>` + cell(g.wrD, fmtPP) +
+      `<td class="n">${isNaN(g.tat) ? "n/a" : g.tat.toFixed(0)}</td><td>${bar}</td></tr>`;
+  });
+  document.getElementById("tbl-offices").innerHTML = h + `</table><p class="hint" style="margin-top:8px">Volume and value: same window vs prior year (capped at 15 Oct). Win rate and days to decision: cohorts submitted by 15 Jul. Filters for practice and period apply.</p>`;
+}
+function renderSpeed() {
+  const lvl = select({ ...state, office: "All" });
+  const stats = OFF.filter(o => state.region === "All" || o.region === state.region).map(o => {
+    const d = lvl.filter(i => OFF[C.o[i]].name === o.name && decided(i));
+    const rv = d.filter(i => C.r[i] >= 0);
+    const a = median(rv.map(i => C.r[i])), b = median(rv.map(i => C.b[i] - C.r[i])), tot = median(d.map(i => C.b[i]));
+    return { o, a, b, tot, n: d.length };
+  }).filter(s => s.n > 0).sort((x, y) => y.tot - x.tot);
+  const hl = state.office !== "All" ? state.office : "Paris";
+  stacked(document.getElementById("ch-stage"), stats.map(s => ({ label: s.o.name, parts: [s.a, s.b], hl: s.o.name === hl,
+    tip: tipHTML(s.o.name, [`Median to decision: ${s.tot} business days`, `Submitted to review: ${s.a}`, `Review to decision: ${s.b}`, `${s.n.toLocaleString()} decided proposals`]) })),
+    [css("--context"), css("--context-dark")]);
+  const base = { ...state, period: "All" }, q = QUARTERS.map(() => []), sub = QUARTERS.map(() => 0), open = QUARTERS.map(() => 0);
+  select(base).forEach(i => { const qi = C.y[i] * 4 + Math.floor((Math.floor(C.md[i] / 100) - 1) / 3); sub[qi]++; if (C.s[i] === 0) open[qi]++; if (decided(i)) q[qi].push(C.b[i]); });
+  const med = q.map(a => a.length >= 20 ? median(a) : null), p90 = q.map(a => a.length >= 20 ? quantile(a, 0.9) : null);
+  lines(document.getElementById("ch-tat"), QUARTERS.map(s => s.replace("20", "'").replace(" ", " ")), [
+    { name: "Median", color: css("--accent"), vals: med }, { name: "90th percentile", color: css("--context"), vals: p90 }],
+    { shadeFrom: 6, fmt: v => v.toFixed(0), tickFmt: v => v, extraTip: i => [`Decided: ${q[i].length.toLocaleString()}`, `Still open: ${(100 * open[i] / (sub[i] || 1)).toFixed(0)}%`] });
+  columns(document.getElementById("ch-open"), QUARTERS.map(s => s.replace("20", "'")), open.map((o, i) => 100 * o / (sub[i] || 1)),
+    { fmt: v => v.toFixed(0) + "%", hlFrom: 6, tip: i => tipHTML(QUARTERS[i], [`${open[i].toLocaleString()} of ${sub[i].toLocaleString()} still open`]) });
+  const sel = stats.find(s => s.o.name === hl), rest = stats.filter(s => s.o.name !== hl);
+  const restMed = median(rest.map(s => s.tot));
+  document.getElementById("speed-title").textContent = sel && rest.length ?
+    `Time to decision has not improved, and ${hl} takes ${Math.round(sel.tot - restMed)} business days ${sel.tot >= restMed ? "longer" : "less"} than the median office (${sel.tot} vs ${restMed})` :
+    "Time to decision has not improved";
+}
+function renderQuality() {
+  const iss = D.issues;
+  document.getElementById("dq-title").textContent =
+    `${S.rows.issues} issues in the source data were found and treated; three of them would have changed the answer`;
+  const key = [0, 5, 6, 7, 8];   // duplicates, rename, thousands, 1.5B typo, ID padding
+  const big = new Set([5, 7, 8]);
+  let h = `<table><tr><th>#</th><th>Issue found</th><th class="n">Rows</th><th>Why it matters</th><th>How it was handled</th></tr>`;
+  iss.forEach((r, i) => { h += `<tr class="${big.has(i) ? "hl" : ""}"><td>${i + 1}</td><td>${esc(r.issue)}</td><td class="n">${(+r.rows_affected).toLocaleString()}</td><td>${esc(r.impact)}</td><td>${esc(r.treatment)}</td></tr>`; });
+  document.getElementById("tbl-issues").innerHTML = h.replace(/<table>/, '<table style="font-size:11px">') + "</table>";
+  const raw = S.rows.raw, dup = +iss[0].rows_affected, test = +iss[1].rows_affected;
+  const steps = [["Raw rows", raw], ["Exact duplicates", -dup], ["Test records", -test], ["Clean proposals", S.rows.clean]];
+  const el = document.getElementById("ch-funnel"); const [W, H] = size(el); const lw = 108, mx = raw;
+  let s = `<svg viewBox="0 0 ${W} ${H}">`, band = H / steps.length, bh = Math.min(18, band - 8);
+  steps.forEach(([lab, v], i) => { const y = i * band + (band - bh) / 2, w = Math.max(2, Math.abs(v) / mx * (W - lw - 60));
+    const neg = v < 0, x0 = neg ? lw + (W - lw - 60) * (1 - 0) - w : lw;
+    s += `<text x="${lw - 8}" y="${y + bh / 2 + 4}" text-anchor="end" font-size="12" fill="${css("--ink-2")}">${lab}</text>`;
+    s += neg ? `<rect x="${lw}" y="${y}" width="${w}" height="${bh}" rx="3" fill="${css("--accent")}"/>` : `<path d="${barEnd(lw, lw + w, y, bh)}" fill="${css(i === steps.length - 1 ? "--ink" : "--context")}"/>`;
+    s += `<text x="${lw + w + 6}" y="${y + bh / 2 + 4}" font-size="12" fill="${css("--ink")}">${(neg ? "-" : "") + Math.abs(v).toLocaleString()}</text>`; });
+  el.innerHTML = s + "</svg>";
+  document.getElementById("tbl-holidays").innerHTML = `<table style="font-size:11.5px">` + D.holidays.map(h =>
+    `<tr><td>${esc(h.country_code)}</td><td>${esc(h.office)}</td><td class="n">${h.status === "ok" ? `<span class="pill ok">${h.holidays} holidays</span>` : `<span class="pill warn">no data, flagged</span>`}</td></tr>`).join("") + "</table>";
+}
+function renderActions() {
+  const imp = S.impact;
+  const sizing = [
+    `Growth regions and practices are where FY27 proposal demand lands; keep support ratios level as volume grows ~${Math.round(S.total.volume_growth_pct)}%.`,
+    `Paris at the network review time saves ~${Math.round(imp.paris_bd_saved).toLocaleString()} proposal-business-days a year (${imp.paris_gap_bd.toFixed(0)} days x ${imp.paris_decided_2025.toLocaleString()} decisions). Closing half of India & ME's win-rate gap (${imp.ime_wr_2025.toFixed(0)}% to ${imp.ime_halfway_wr.toFixed(0)}%) is ~${Math.round(imp.ime_extra_wins)} more wins a year, ~$${imp.ime_extra_value_musd.toFixed(0)}M won value at median size.`,
+    `This case needed 12 fixes before any analysis; at source they cost nothing and make the monthly refresh automatic.`,
+  ];
+  document.getElementById("act-cards").innerHTML = S.actions.map((a, i) => `<div class="card" style="padding:20px 22px">
+    <span class="num" style="width:38px;height:38px;font-size:18px">${i + 1}</span>
+    <h3 style="font-size:18px;margin:14px 0 8px">${esc(a[0])}</h3>
+    <p style="font-size:14px;color:var(--ink-2);line-height:1.45;margin:0 0 12px">${esc(a[1])}</p>
+    <p style="font-size:13px;margin:0 0 12px;line-height:1.45"><b>Size of the prize.</b> ${esc(sizing[i])}</p>
+    <p style="font-size:13px;margin:auto 0 0;line-height:1.45;color:var(--ink)"><b>Owner and measure.</b> ${esc(a[2])}</p></div>`).join("");
+}
+function refresh() { renderFilters(); renderGrowth(); renderOffices(); renderSpeed(); }
+
+/* ---------- navigation ---------- */
+const pages = [...document.querySelectorAll(".page")]; let cur = 0, scale = 1;
+const dots = document.getElementById("dots");
+pages.forEach((p, i) => { const b = document.createElement("button"); b.className = "dot"; b.title = p.dataset.key; b.onclick = () => go(i); dots.appendChild(b);
+  p.querySelectorAll(".pg").forEach(e => e.textContent = i + 1); p.querySelectorAll(".src").forEach(e => e.textContent = SRC); });
+function go(i) {
+  cur = Math.max(0, Math.min(pages.length - 1, i));
+  pages.forEach((p, j) => p.classList.toggle("active", j === cur));
+  [...dots.children].forEach((d, j) => d.classList.toggle("on", j === cur));
+  document.getElementById("pageLabel").textContent = `${cur + 1} / ${pages.length}`;
+  document.getElementById("notesText").textContent = D.notes[pages[cur].dataset.key] || "";
+  history.replaceState(null, "", "#" + (cur + 1));
+  requestAnimationFrame(renderAll);
+}
+function fit() { const v = document.getElementById("viewport"); scale = Math.min(v.clientWidth / 1300, v.clientHeight / 740);
+  document.getElementById("stage").style.transform = `scale(${scale})`; }
+function renderAll() { renderSummary(); refresh(); renderQuality(); renderActions(); }
+document.getElementById("prev").onclick = () => go(cur - 1);
+document.getElementById("next").onclick = () => go(cur + 1);
+const toggleNotes = () => document.getElementById("notes").classList.toggle("on");
+document.getElementById("notesBtn").onclick = toggleNotes;
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "SELECT") return;
+  if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+  if (["ArrowLeft", "PageUp"].includes(e.key)) go(cur - 1);
+  if (e.key === "n" || e.key === "N") toggleNotes();
+  if (e.key === "f" || e.key === "F") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+});
+addEventListener("resize", () => { fit(); renderAll(); });
+window.addEventListener("beforeprint", () => { pages.forEach(p => p.classList.add("active")); renderAll(); });
+window.addEventListener("afterprint", () => go(cur));
+fit(); go(Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1));
+</script>
+</body>
+</html>

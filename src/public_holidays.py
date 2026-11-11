@@ -89,15 +89,22 @@ def office_holiday_calendar(offices: pd.DataFrame, holidays: pd.DataFrame) -> di
     return calendars
 
 
-def add_business_days(proposals: pd.DataFrame, calendars: dict, missing: set[str]) -> pd.DataFrame:
-    """business_days_to_close = business days in [submitted_date, close_date), i.e. elapsed days."""
-    p = proposals.copy()
-    p["business_days_to_close"] = np.nan
-    closed = p["close_date"].notna()
-    for office, idx in p[closed].groupby("office").groups.items():
+def _busdays(p: pd.DataFrame, end_col: str, out_col: str, calendars: dict) -> None:
+    """Business days in [submitted_date, end_col), i.e. elapsed days, per office calendar."""
+    p[out_col] = np.nan
+    has_end = p[end_col].notna()
+    for office, idx in p[has_end].groupby("office").groups.items():
         start = p.loc[idx, "submitted_date"].values.astype("datetime64[D]")
-        end = p.loc[idx, "close_date"].values.astype("datetime64[D]")
-        p.loc[idx, "business_days_to_close"] = np.busday_count(start, end, holidays=calendars[office])
+        end = p.loc[idx, end_col].values.astype("datetime64[D]")
+        p.loc[idx, out_col] = np.busday_count(start, end, holidays=calendars[office])
+
+
+def add_business_days(proposals: pd.DataFrame, calendars: dict, missing: set[str]) -> pd.DataFrame:
+    """Add business_days_to_close (the Task 1 column) and business_days_to_review (for the stage
+    split), both on the same office holiday calendar so the stages add up."""
+    p = proposals.copy()
+    _busdays(p, "close_date", "business_days_to_close", calendars)
+    _busdays(p, "under_review_date", "business_days_to_review", calendars)
     p["holiday_data_missing"] = p["country_code"].isin(missing)
     return p
 

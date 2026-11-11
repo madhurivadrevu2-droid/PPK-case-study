@@ -1,15 +1,15 @@
-office,bd_to_review,bd_review_to_close,business_days_to_close
-Paris,3.0,20.0,23.0
-Dubai,3.0,13.0,17.0
-Riyadh,3.0,13.0,17.0
-New York,3.0,13.0,17.0
-New Delhi,3.0,14.0,17.0
-Tokyo,3.0,13.0,17.0
-Munich,3.0,13.0,16.0
-Madrid,3.0,13.0,16.0
-London,3.0,13.0,16.0
-Chicago,3.0,14.0,16.0
-Boston,3.0,13.0,16.0
-Sao Paulo,3.0,13.0,16.0
-Singapore,3.0,13.0,16.0
-Sydney,3.0,13.0,16.0
+office,bd_to_review,bd_review_to_close,business_days_to_close,median_bd_no_review,share_over_30_bd_pct,decided
+Paris,3.0,20.0,23.0,24.0,30.3,1630
+Dubai,3.0,13.0,17.0,17.0,13.4,1070
+Riyadh,3.0,13.0,17.0,17.0,10.5,1006
+New York,3.0,13.0,17.0,17.0,11.6,1794
+New Delhi,3.0,14.0,17.0,17.0,12.2,1131
+Tokyo,3.0,13.0,17.0,17.0,11.6,1717
+Munich,3.0,13.0,16.0,16.0,10.4,1623
+Madrid,3.0,13.0,16.0,16.0,10.9,1663
+London,3.0,13.0,16.0,16.0,10.4,1742
+Chicago,3.0,14.0,16.0,15.0,11.8,1801
+Boston,3.0,13.0,16.0,17.0,10.9,1777
+Sao Paulo,3.0,13.0,16.0,16.5,10.5,1751
+Singapore,3.0,13.0,16.0,15.0,10.3,1711
+Sydney,3.0,13.0,16.0,16.0,10.8,1740
