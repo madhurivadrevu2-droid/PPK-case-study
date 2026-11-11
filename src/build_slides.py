@@ -166,7 +166,7 @@ def slide_growth(prs, d, st):
               [RED, LIGHT], number_format='0.0"%"', legend=True, name="Region growth chart")
 
     pr = d["practice"]
-    text(s, 4.7, 2.9, 4.2, 0.35, "Volume growth by practice, % YTD", size=14, bold=True,
+    text(s, 4.7, 2.9, 4.2, 0.35, "Volume growth by practice, % YTD (gap-adjusted)", size=14, bold=True,
          name="Practice chart title")
     bar_chart(s, 4.6, 3.25, 4.3, 3.5, [SHORT.get(p, p) for p in pr.index],
               {"Volume": pr.volume_growth_pct.tolist()},
@@ -233,7 +233,7 @@ def slide_speed_actions(prs, d, st):
     s.notes_slide.notes_text_frame.text = st["notes"]["speed"] + " " + st["notes"]["actions"]
 
 
-KEY_ISSUES = {"Practice renamed in 2026", "Values keyed in thousands", "USD 1.5B keying error",
+KEY_ISSUES = {"Practice renamed in 2026", "Tokyo values in thousands", "USD 1.5B keying error",
               "IDs lost leading zeros", "Missing Gulf submissions, Aug 2026"}
 
 
@@ -284,7 +284,7 @@ def slide_quality(prs, issues: pd.DataFrame, st):
 def load() -> dict:
     return {
         "region_adj": pd.read_csv(OUTPUTS / "growth_by_region_gap_adjusted.csv", index_col=0),
-        "practice": pd.read_csv(OUTPUTS / "growth_by_practice.csv", index_col=0),
+        "practice": pd.read_csv(OUTPUTS / "growth_by_practice_gap_adjusted.csv", index_col=0),
         "stage": pd.read_csv(OUTPUTS / "turnaround_stage_by_office.csv", index_col=0),
         "issues": pd.read_csv(OUTPUTS / "data_issues_log.csv"),
     }

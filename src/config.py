@@ -26,7 +26,10 @@ PRACTICES = [
 # Practice renamed on 2026-01-01; both labels are the same practice.
 PRACTICE_ALIASES = {"customer": "Customer Strategy & Marketing"}
 
-# Values below this are treated as entered in USD thousands; above the upper bound as a 1000x typo.
+# Tokyo switched to keying values in USD thousands from its fiscal-year start; the value band below
+# is the cross-check (it must flag exactly the same rows). Above the upper bound = 1000x typo.
+THOUSANDS_OFFICE = "Tokyo"
+THOUSANDS_FROM = "2026-04-01"
 VALUE_THOUSANDS_BELOW = 10_000
 VALUE_TYPO_ABOVE = 100_000_000
 

@@ -208,6 +208,7 @@ def main() -> None:
         "growth_total_gap_adjusted": growth_table(adj, None),
         "growth_by_region_gap_adjusted": growth_table(adj, "region"),
         "growth_by_office_gap_adjusted": growth_table(adj, "office"),
+        "growth_by_practice_gap_adjusted": growth_table(adj, "practice"),
         "win_rate_gap_by_region": win_rate_gap_by_region(p),
         "trend_by_quarter": quarterly_trend(p),
         "quarterly_yoy": quarterly_yoy(p),

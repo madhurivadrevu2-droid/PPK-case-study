@@ -12,8 +12,8 @@ from __future__ import annotations
 import pandas as pd
 
 from config import (CLEAN, CLOSED_STATUSES, DATE_FORMATS, EXTRACT_DATE, OUTPUTS,
-                    PRACTICE_ALIASES, PRACTICES, RAW, TEST_CLIENT_PATTERN, VALUE_THOUSANDS_BELOW,
-                    VALUE_TYPO_ABOVE)
+                    PRACTICE_ALIASES, PRACTICES, RAW, TEST_CLIENT_PATTERN, THOUSANDS_FROM,
+                    THOUSANDS_OFFICE, VALUE_THOUSANDS_BELOW, VALUE_TYPO_ABOVE)
 
 ISSUES: list[dict] = []
 
@@ -96,18 +96,28 @@ def clean_proposals(offices: pd.DataFrame) -> pd.DataFrame:
 
     # Value
     v = p["proposal_value_usd"].astype(float)
-    in_thousands = v < VALUE_THOUSANDS_BELOW
+    # Root cause, not a threshold: every Tokyo proposal from 1 Apr 2026 (Japan's fiscal-year start)
+    # is keyed in USD thousands, and no other office or period is. The threshold is only a cross-check.
+    office_now = normalise_label(p["office"], canon_offices)
+    in_thousands = (office_now == THOUSANDS_OFFICE) & (p["submitted_date"] >= pd.Timestamp(THOUSANDS_FROM))
+    below = v < VALUE_THOUSANDS_BELOW
+    assert (in_thousands == below).all(), "Thousands rule and value threshold disagree: review the rule"
     typo = v > VALUE_TYPO_ABOVE
+    median = v[~in_thousands & ~typo].median()
     p["value_flag"] = "ok"
     p.loc[in_thousands, "value_flag"] = "rescaled_x1000"
     p.loc[typo, "value_flag"] = "rescaled_div1000"
     p["proposal_value_usd_raw"] = v
     p["proposal_value_usd"] = v.where(~in_thousands, v * 1000).where(~typo, v / 1000)
-    log_issue("Values entered in USD thousands (USD 30 - 2,000 vs median ~USD 244K; empty gap "
-              "between 2K and 30K)", in_thousands.sum(),
-              "Understates value and distorts averages", "Multiplied by 1,000; flagged in value_flag",
-              short="Values keyed in thousands")
-    log_issue("Extreme value outlier (USD 1.5B, ~3,700x median; 1000x keying error)", typo.sum(),
+    log_issue(f"Values keyed in USD thousands: every {THOUSANDS_OFFICE} proposal from {THOUSANDS_FROM} "
+              f"(USD {v[in_thousands].min():,.0f} - {v[in_thousands].max():,.0f} vs median USD {median:,.0f}); "
+              "no other office or period affected", in_thousands.sum(),
+              "Understates Tokyo value ~1000x from Apr 2026 (likely a fiscal-year template change)",
+              "Multiplied by 1,000 by rule (office + date), cross-checked against an empty value band "
+              f"between USD {v[in_thousands].max():,.0f} and {v[~in_thousands].min():,.0f}; flagged in value_flag",
+              short="Tokyo values in thousands")
+    log_issue(f"Extreme value outlier (USD {v[typo].max() / 1e9:.1f}B, ~{v[typo].max() / median:,.0f}x median; "
+              "1000x keying error)", typo.sum(),
               "Single row would be ~25% of total 2025 value", "Divided by 1,000 (USD 1.5M); flagged in value_flag",
               short="USD 1.5B keying error")
 
@@ -148,12 +158,22 @@ def add_outcomes(p: pd.DataFrame, e: pd.DataFrame) -> pd.DataFrame:
     p["is_open"] = p["close_status"].isna()
     p["days_open_at_extract"] = (pd.Timestamp(EXTRACT_DATE) - p["submitted_date"]).dt.days.where(p["is_open"])
     p["calendar_days_to_close"] = (p["close_date"] - p["submitted_date"]).dt.days
-    stale = p["is_open"] & (p["days_open_at_extract"] > 90)
+    last_event = p["proposal_id"].map(e.groupby("proposal_id")["event_date"].max())
+    p["days_since_last_status"] = (pd.Timestamp(EXTRACT_DATE) - last_event).dt.days.where(p["is_open"])
+    stale = p["is_open"] & (p["days_since_last_status"] > 90)
     log_issue("Open proposals with no status change for >90 days (likely stale, never closed)",
               stale.sum(), "Pipeline overstated; true win/loss unknown",
               "Kept as open; excluded from win rate and turnaround; flagged is_stale",
               short="Stale open proposals")
     p["is_stale"] = stale
+
+    decided = p["close_status"].isin(["Won", "Lost"])
+    skipped = decided & p["under_review_date"].isna()
+    log_issue(f"{skipped.mean() / decided.mean() * 100:.0f}% of decided proposals skip 'Under Review' "
+              "(Submitted straight to Won/Lost)", skipped.sum(),
+              "Stage split only exists for reviewed proposals; skipping does not change win rate or speed",
+              "Stage chart uses reviewed proposals; total turnaround uses all; no-review median shown separately",
+              short="Proposals skip review")
 
     recent_open = p["is_open"] & (p["submitted_date"] >= pd.Timestamp(EXTRACT_DATE) - pd.Timedelta(days=90))
     log_issue("Right-censoring: recent proposals still open at extract (Jul-Oct 2026 cohorts)",
@@ -213,7 +233,7 @@ def main() -> None:
     cols = ["proposal_id", "submitted_date", "office", "country", "country_code", "region",
             "practice", "client_name", "proposal_value_usd", "proposal_value_usd_raw", "value_flag",
             "current_status", "under_review_date", "close_status", "close_date", "is_open",
-            "is_stale", "days_open_at_extract", "calendar_days_to_close"]
+            "is_stale", "days_open_at_extract", "days_since_last_status", "calendar_days_to_close"]
     proposals[cols].to_csv(CLEAN / "proposals_clean.csv", index=False, date_format="%Y-%m-%d")
     events.to_csv(CLEAN / "status_events_clean.csv", index=False, date_format="%Y-%m-%d")
     offices.to_csv(CLEAN / "offices.csv", index=False)

@@ -43,6 +43,14 @@ h1 { font-size: 26px; line-height: 1.22; margin: 0 0 6px; font-weight: 700; max-
 .kpi .delta { font-size: 13px; color: var(--ink-2); }
 .kpi .delta.up { color: var(--good); } .kpi .delta.down { color: var(--bad); }
 .kpi.hero .value { font-size: 48px; }
+.kpis.six { grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.kpis.six .kpi { padding: 12px 13px; }
+.kpis.six .value { font-size: 26px; }
+.kpis.six .kpi.hero .value { font-size: 34px; margin: 0 0 2px; }
+.kpis.six .delta { font-size: 12px; line-height: 1.3; }
+.legend span.dotk::before { border-radius: 50%; }
+.filters .toggle { gap: 5px; }
+.enabler { font-size: 12.5px; color: var(--ink-2); margin: 10px 0 0; }
 /* lists */
 .num { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700;
   display: inline-flex; align-items: center; justify-content: center; font-size: 15px; flex: none; }
@@ -75,7 +83,10 @@ tr.hl td { background: #fbeaea; }
 .page.title .foot { color: #8f8f8f; }
 /* process strip */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
-.step { background: var(--tint); border-radius: 6px; padding: 9px 12px; font-size: 12.5px; color: var(--ink-2); }
+.step { background: var(--tint); border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--ink-2); }
+.hgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; font-size: 11.5px; }
+.hgrid div { display: flex; justify-content: space-between; gap: 6px; border-bottom: 1px solid var(--grid); padding: 2px 0; }
+table.dense td, table.dense th { padding: 2.5px 6px; line-height: 1.25; }
 .step b { color: var(--ink); display: block; font-size: 13.5px; }
 /* nav + notes */
 #nav { position: fixed; left: 0; right: 0; bottom: 0; height: 56px; display: flex; align-items: center; gap: 10px; padding: 0 18px; font-size: 13px; color: var(--ink-2); }
@@ -112,10 +123,11 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <p class="sub" id="title-sub"></p>
   <div class="agenda">
     <div><b>1. The answer</b>Summary and actions</div>
-    <div><b>2. Growth</b>Volume, value, win rate</div>
-    <div><b>3. Speed</b>Time to decision</div>
-    <div><b>4. Data quality</b>Issues and treatment</div>
-    <div><b>5. Actions</b>What to do in FY27</div>
+    <div><b>2. Growth</b>Volume, value, offices</div>
+    <div><b>3. Win rate</b>Where we win</div>
+    <div><b>4. Speed</b>Time to decision</div>
+    <div><b>5. Data quality</b>Issues and treatment</div>
+    <div><b>6. Actions</b>What to do in FY27</div>
   </div>
   <div class="foot" style="margin-top:auto"><span>Take-home assessment, Senior Analyst PPK Operations | November 2026 | Fictitious data</span><span>Press N for speaker notes</span></div>
 </section>
@@ -125,7 +137,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <p class="kicker">Executive summary</p>
   <h1 id="sum-headline"></h1>
   <p class="sub">Proposals submitted 1 Jan 2025 to 15 Oct 2026; growth compares the same 1 Jan to 15 Oct window in each year</p>
-  <div class="kpis" id="sum-kpis"></div>
+  <div class="kpis six" id="sum-kpis"></div>
   <div class="grid" style="grid-template-columns: 1fr 1fr;">
     <div class="card"><h3>What the data says</h3><p class="hint">Three findings</p><div id="sum-findings"></div></div>
     <div class="card"><h3>What PPK leadership should do</h3><p class="hint">Three actions for FY27 planning</p><div id="sum-actions"></div></div>
@@ -155,10 +167,27 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 <!-- 4. Office scorecard -->
 <section class="page" data-key="offices">
   <p class="kicker">Growth | office scorecard</p>
-  <h1 id="office-title">Boston and Sao Paulo grow fastest; Dubai is the only office shrinking</h1>
+  <h1 id="office-title">Boston and Sao Paulo grow fastest; Dubai's apparent collapse is mostly a data gap</h1>
   <div class="filters" data-filters></div>
   <div class="grid" style="grid-template-columns: 1fr;">
     <div class="card plain"><div id="tbl-offices"></div></div>
+  </div>
+  <div class="foot"><span class="src"></span><span class="pg"></span></div>
+</section>
+
+<!-- 4b. Win rate -->
+<section class="page" data-key="winrate">
+  <p class="kicker">Win rate</p>
+  <h1 id="wr-title">Win rate is steady year on year, but India & Middle East wins about 10 points less than the rest of PPK</h1>
+  <div class="filters" data-filters></div>
+  <div class="grid" style="grid-template-columns: 1.1fr 1fr 0.9fr;">
+    <div class="card"><h3>Win rate by region, 2025 vs 2026</h3><p class="hint">Cohorts submitted 1 Jan-15 Jul; lines show the 95% range</p>
+      <div class="legend"><span class="dotk" style="--sw:var(--context)">2025</span><span class="dotk" style="--sw:var(--accent)">2026</span></div>
+      <div class="chart" id="ch-wr-region"></div><p class="hint" id="wr-region-note" style="margin:6px 0 0"></p></div>
+    <div class="card"><h3>Win rate by office, 2026</h3><p class="hint">India & Middle East offices highlighted</p>
+      <div class="chart" id="ch-wr-office"></div></div>
+    <div class="card"><h3>What India & ME win rate is worth</h3><p class="hint">Extra wins and won value a year, on 2025 volumes</p>
+      <div id="wr-sizing"></div></div>
   </div>
   <div class="foot"><span class="src"></span><span class="pg"></span></div>
 </section>
@@ -169,7 +198,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <h1 id="speed-title"></h1>
   <div class="filters" data-filters></div>
   <div class="grid" style="grid-template-columns: 1.15fr 1fr;">
-    <div class="card"><h3>Median business days to decision, by office and stage</h3><p class="hint">Won or Lost proposals; selected office highlighted</p>
+    <div class="card"><h3>Median business days to decision, by office and stage</h3><p class="hint">Won or Lost proposals; each segment is that stage's median, so segments can differ from the total by a day</p>
       <div class="legend"><span style="--sw:var(--context)">Submitted to under review</span><span style="--sw:var(--context-dark)">Under review to decision</span><span style="--sw:var(--accent)">Highlighted office</span></div>
       <div class="chart" id="ch-stage"></div></div>
     <div style="display:grid; grid-template-rows: 1fr 1fr; gap: 18px; min-height:0;">
@@ -188,16 +217,16 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <p class="kicker">Data quality</p>
   <h1 id="dq-title"></h1>
   <div class="steps">
-    <div class="step"><b>1. Detect</b>Profile every field before any analysis</div>
-    <div class="step"><b>2. Quantify</b>Count rows and size the impact on the answer</div>
-    <div class="step"><b>3. Treat</b>Fix, merge or exclude, with a stated rule</div>
-    <div class="step"><b>4. Flag</b>Keep a flag so every change is reversible</div>
+    <div class="step"><b>1. Detect</b>Profile every field first</div>
+    <div class="step"><b>2. Quantify</b>Rows and impact on the answer</div>
+    <div class="step"><b>3. Treat</b>Fix, merge or exclude by a stated rule</div>
+    <div class="step"><b>4. Flag</b>Keep a flag so it is reversible</div>
   </div>
   <div class="grid" style="grid-template-columns: 2.3fr 1fr;">
     <div class="card plain" style="overflow:hidden"><div id="tbl-issues"></div></div>
     <div style="display:flex; flex-direction:column; gap:14px; min-height:0;">
-      <div class="card"><h3>From raw extract to clean proposals</h3><p class="hint">Rows removed at each step</p><div class="chart" id="ch-funnel" style="min-height:150px"></div></div>
-      <div class="card"><h3>Holiday API coverage (Task 1)</h3><p class="hint">Nager.Date, 2025-2026</p><div id="tbl-holidays"></div></div>
+      <div class="card" style="flex:none"><h3>From raw extract to clean proposals</h3><p class="hint">Rows removed at each step</p><div class="chart" id="ch-funnel" style="height:120px;flex:none"></div></div>
+      <div class="card" style="flex:none"><h3>Holiday API coverage (Task 1)</h3><p class="hint">Nager.Date, holidays returned for 2025-2026</p><div id="tbl-holidays"></div></div>
     </div>
   </div>
   <div class="foot"><span>Full log: outputs/data_issues_log.csv and README</span><span class="pg"></span></div>
@@ -208,7 +237,17 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   <p class="kicker">Recommendations</p>
   <h1>Three actions for FY27: back the growth, fix two hotspots, and fix the data at source</h1>
   <p class="sub">Each with an owner, a measure and a first step; sizing uses full-year 2025 volumes</p>
-  <div class="grid" style="grid-template-columns: repeat(3, 1fr);" id="act-cards"></div>
+  <div class="grid" style="grid-template-columns: repeat(3, 1fr); flex: none;" id="act-cards"></div>
+  <p class="enabler" id="act-enabler"></p>
+  <div class="card" style="flex:none;margin-top:14px;padding:14px 18px">
+    <h3>Fix at source: what the proposal system should enforce</h3><p class="hint">Each one removes a data issue found in this case, so the monthly refresh needs no manual cleaning</p>
+    <div class="steps" style="grid-template-columns: repeat(4, 1fr); margin:4px 0 0">
+      <div class="step" style="background:#fff"><b>Picklists</b>Office and practice from a master list; renames handled centrally</div>
+      <div class="step" style="background:#fff"><b>One date format</b>ISO dates at entry; reject free text</div>
+      <div class="step" style="background:#fff"><b>Value checks</b>USD only, with a range check (catches Tokyo units and the 1.5B typo)</div>
+      <div class="step" style="background:#fff"><b>Completeness</b>Alert when an office logs zero submissions in a month; IDs stored as text</div>
+    </div>
+  </div>
   <div class="foot"><span class="src"></span><span class="pg"></span></div>
 </section>
 
@@ -224,12 +263,15 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
       <tr><td>Win rate</td><td>Won / (Won + Lost); Withdrawn (4.6% of closed) and open proposals excluded</td></tr>
       <tr><td>Turnaround</td><td>Business days from submission to the first Won or Lost event, excluding weekends and public holidays</td></tr>
       <tr><td>Growth</td><td>Same window each year: 1 Jan to 15 Oct for volume and value; cohorts submitted 1 Jan to 15 Jul for win rate and turnaround, so slow proposals have had time to close</td></tr>
-      <tr><td>Open / stale</td><td>No Won, Lost or Withdrawn event at the 15 Oct 2026 extract; stale = open more than 90 days</td></tr>
+      <tr><td>Open / stale</td><td>No Won, Lost or Withdrawn event at the 15 Oct 2026 extract; stale = no status change for more than 90 days</td></tr>
+      <tr><td>Significance</td><td>Two-proportion z-test on win-rate changes; p &lt; 0.05 is significant. Dot-plot lines are 95% ranges</td></tr>
+      <tr><td>Gap-adjusted</td><td>Excludes August for Dubai and Riyadh in both years, because Aug 2026 has no submissions for either office</td></tr>
+      <tr><td>Won value</td><td>Value of Won proposals in cohorts submitted 1 Jan to 15 Jul; value win rate = won value / decided value</td></tr>
     </table></div>
     <div class="card"><h3>Task 1: public holidays and business days</h3>
-      <div class="row-item"><span class="num">1</span><div><b>Call the API</b><p>Nager.Date for 12 countries x 2 years, with timeout and retries</p></div></div>
+      <div class="row-item"><span class="num">1</span><div><b>Call the API</b><p>Nager.Date for 12 countries x 2 years, with timeout, retries and a saved-copy fallback</p></div></div>
       <div class="row-item"><span class="num">2</span><div><b>Save and flag</b><p>322 holidays to CSV; India, UAE and Saudi Arabia return no data (HTTP 204) and are flagged, not fatal</p></div></div>
-      <div class="row-item"><span class="num">3</span><div><b>Apply per office</b><p>National holidays plus the office's ISO subdivision (e.g. US-NY, GB-ENG), then numpy busday_count</p></div></div>
+      <div class="row-item"><span class="num">3</span><div><b>Apply per office</b><p>Days off only (type Public), national or for the office's ISO subdivision (e.g. GB-ENG), then numpy busday_count</p></div></div>
       <div class="row-item" style="margin:0"><span class="num">4</span><div><b>One command</b><p><code>python run_pipeline.py</code> rebuilds data, tables, deck and this page</p></div></div>
     </div>
   </div>
@@ -249,6 +291,11 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
 <div id="tip"></div>
 
 <script>
+window.addEventListener("error", e => { const b = document.createElement("div");
+  b.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:99;background:#b42323;color:#fff;font:13px monospace;padding:8px 12px";
+  b.textContent = "Script error: " + e.message + " (line " + e.lineno + ")"; document.body.appendChild(b); });
+</script>
+<script>
 const D = /*__DATA__*/null;
 const C = D.cols, N = C.y.length, S = D.story;
 const OFF = D.offices, PRAC = D.practices, REG = D.regions;
@@ -263,7 +310,7 @@ const fmtUSD = v => v >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : v >= 1e6 ? "$"
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* ---------- metric engine ---------- */
-const state = { region: "All", office: "All", practice: "All", period: "All" };
+const state = { region: "All", office: "All", practice: "All", period: "All", gapAdj: true };
 function periodSpec(per) {
   if (per === "All") return { y: null, lo: 101, hi: 1231 };
   if (per === "2025" || per === "2026") return { y: +per - 2025, lo: 101, hi: 1231 };
@@ -280,6 +327,7 @@ function dimsMatch(i, st) {
 function select(st, opts = {}) {
   const per = periodSpec(st.period), out = [];
   for (let i = 0; i < N; i++) {
+    if (st.gapAdj && C.g[i]) continue;
     if (!opts.ignoreDims && !dimsMatch(i, st)) continue;
     if (!opts.ignorePeriod) {
       if (per.y !== null && C.y[i] !== per.y) continue;
@@ -321,6 +369,13 @@ function growth(st) {
     tat: enough ? median(tatList(curW)) : NaN, tatPY: enough ? median(tatList(pyW)) : NaN,
   };
 }
+
+function erf(x) { const t = 1 / (1 + 0.3275911 * Math.abs(x)); const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return x >= 0 ? y : -y; }
+function wrStats(idx) { const d = idx.filter(decided), w = d.filter(i => C.s[i] === 1).length, n = d.length;
+  const p = n ? w / n : NaN, se = n ? Math.sqrt(p * (1 - p) / n) : NaN; return { w, n, p: 100 * p, lo: 100 * (p - 1.96 * se), hi: 100 * (p + 1.96 * se) }; }
+function pTwo(a, b) { if (!a.n || !b.n) return NaN; const pool = (a.w + b.w) / (a.n + b.n), se = Math.sqrt(pool * (1 - pool) * (1 / a.n + 1 / b.n));
+  if (!se) return NaN; const z = Math.abs(b.w / b.n - a.w / a.n) / se; return 1 - erf(z / Math.SQRT2); }
+const fmtP = p => isNaN(p) ? "n/a" : p < 0.001 ? "p<0.001" : "p=" + p.toFixed(2);
 
 /* ---------- tooltip ---------- */
 const tip = document.getElementById("tip");
@@ -450,11 +505,15 @@ function renderFilters() {
     const scope = per.y === 0 ? "Growth n/a for 2025 (no prior year in extract)" :
       state.period === "All" || state.period === "2026" ? "Growth: 1 Jan-15 Oct 2026 vs 2025" : `Growth: ${state.period} vs same quarter 2025`;
     box.innerHTML = sel("region", "Region", REG) + sel("office", "Office", offices) + sel("practice", "Practice", PRAC) +
-      sel("period", "Period", ["2025", "2026", ...QUARTERS]) + `<button data-reset>Reset</button><span class="scope">${scope}</span>`;
+      sel("period", "Period", ["2025", "2026", ...QUARTERS]) +
+      `<label class="toggle" title="Dubai and Riyadh have no submissions in Aug 2026; excludes August for both offices in both years"><input type="checkbox" data-gap ${state.gapAdj ? "checked" : ""}>Gap-adjusted</label>` +
+      `<button data-reset>Reset</button><span class="scope">${scope}</span>`;
   });
 }
-document.addEventListener("change", e => { const k = e.target.dataset.k; if (!k) return; state[k] = e.target.value; refresh(); });
-document.addEventListener("click", e => { if (e.target.matches("[data-reset]")) { Object.assign(state, { region: "All", office: "All", practice: "All", period: "All" }); refresh(); } });
+document.addEventListener("change", e => {
+  if (e.target.matches("[data-gap]")) { state.gapAdj = e.target.checked; refresh(); return; }
+  const k = e.target.dataset.k; if (!k) return; state[k] = e.target.value; refresh(); });
+document.addEventListener("click", e => { if (e.target.matches("[data-reset]")) { Object.assign(state, { region: "All", office: "All", practice: "All", period: "All", gapAdj: true }); refresh(); } });
 function scopeLabel() {
   const bits = [state.office !== "All" ? state.office : state.region !== "All" ? state.region : "All PPK",
     state.practice !== "All" ? state.practice : null].filter(Boolean); return bits.join(", ");
@@ -473,7 +532,7 @@ function renderSummary() {
   document.getElementById("sum-findings").innerHTML = S.findings.map((f, i) =>
     `<div class="row-item"><span class="num" style="background:var(--ink)">${i + 1}</span><div><b>${esc(f[0])}</b><p>${esc(f[1])}</p></div></div>`).join("");
   document.getElementById("sum-actions").innerHTML = S.actions.map((a, i) =>
-    `<div class="row-item"><span class="num">${i + 1}</span><div><b>${esc(a[0])}</b><p>${esc(a[1])}</p></div></div>`).join("");
+    `<div class="row-item"><span class="num">${i + 1}</span><div><b>${esc(a[0])}</b><p>${esc(a[1])}</p><div class="meta">${esc(a[2])}</div></div></div>`).join("");
 }
 function renderGrowth() {
   const g = growth(state);
@@ -552,12 +611,11 @@ function renderSpeed() {
 function renderQuality() {
   const iss = D.issues;
   document.getElementById("dq-title").textContent =
-    `${S.rows.issues} issues in the source data were found and treated; three of them would have changed the answer`;
-  const key = [0, 5, 6, 7, 8];   // duplicates, rename, thousands, 1.5B typo, ID padding
-  const big = new Set([5, 7, 8]);
+    `${S.rows.issues} data issues were found and treated before analysis; the five shaded ones would have changed the answer`;
+  const big = new Set(["Practice renamed in 2026", "Tokyo values in thousands", "USD 1.5B keying error", "IDs lost leading zeros", "Missing Gulf submissions, Aug 2026"]);
   let h = `<table><tr><th>#</th><th>Issue found</th><th class="n">Rows</th><th>Why it matters</th><th>How it was handled</th></tr>`;
-  iss.forEach((r, i) => { h += `<tr class="${big.has(i) ? "hl" : ""}"><td>${i + 1}</td><td>${esc(r.issue)}</td><td class="n">${(+r.rows_affected).toLocaleString()}</td><td>${esc(r.impact)}</td><td>${esc(r.treatment)}</td></tr>`; });
-  document.getElementById("tbl-issues").innerHTML = h.replace(/<table>/, '<table style="font-size:11px">') + "</table>";
+  iss.forEach((r, i) => { h += `<tr class="${big.has(r.short) ? "hl" : ""}"><td>${i + 1}</td><td data-tip="${esc(tipHTML(r.short, [r.issue]))}"><b>${esc(r.short)}</b></td><td class="n">${(+r.rows_affected).toLocaleString()}</td><td>${esc(r.impact)}</td><td>${esc(r.treatment)}</td></tr>`; });
+  document.getElementById("tbl-issues").innerHTML = h.replace(/<table>/, '<table class="dense" style="font-size:10.5px">') + "</table>";
   const raw = S.rows.raw, dup = +iss[0].rows_affected, test = +iss[1].rows_affected;
   const steps = [["Raw rows", raw], ["Exact duplicates", -dup], ["Test records", -test], ["Clean proposals", S.rows.clean]];
   const el = document.getElementById("ch-funnel"); const [W, H] = size(el); const lw = 108, mx = raw;
@@ -568,24 +626,79 @@ function renderQuality() {
     s += neg ? `<rect x="${lw}" y="${y}" width="${w}" height="${bh}" rx="3" fill="${css("--accent")}"/>` : `<path d="${barEnd(lw, lw + w, y, bh)}" fill="${css(i === steps.length - 1 ? "--ink" : "--context")}"/>`;
     s += `<text x="${lw + w + 6}" y="${y + bh / 2 + 4}" font-size="12" fill="${css("--ink")}">${(neg ? "-" : "") + Math.abs(v).toLocaleString()}</text>`; });
   el.innerHTML = s + "</svg>";
-  document.getElementById("tbl-holidays").innerHTML = `<table style="font-size:11.5px">` + D.holidays.map(h =>
-    `<tr><td>${esc(h.country_code)}</td><td>${esc(h.office)}</td><td class="n">${h.status === "ok" ? `<span class="pill ok">${h.holidays} holidays</span>` : `<span class="pill warn">no data, flagged</span>`}</td></tr>`).join("") + "</table>";
+  document.getElementById("tbl-holidays").innerHTML = `<div class="hgrid">` + D.holidays.map(h =>
+    `<div title="${esc(h.office)}"><span>${esc(h.country_code)} ${esc(h.office.split(",")[0])}${h.office.includes(",") ? " +2" : ""}</span>${h.status === "no_data" ? `<span class="pill warn">no data</span>` : `<span class="pill ok">${h.holidays}</span>`}</div>`).join("") + "</div>";
 }
 function renderActions() {
   const imp = S.impact;
+  const yq = Object.fromEntries(S.yoy.map(r => [r.quarter, r]));
   const sizing = [
-    `Growth regions and practices are where FY27 proposal demand lands; keep support ratios level as volume grows ~${Math.round(S.total.volume_growth_pct)}%.`,
-    `Paris at the network review time saves ~${Math.round(imp.paris_bd_saved).toLocaleString()} proposal-business-days a year (${imp.paris_gap_bd.toFixed(0)} days x ${imp.paris_decided_2025.toLocaleString()} decisions). Closing half of India & ME's win-rate gap (${imp.ime_wr_2025.toFixed(0)}% to ${imp.ime_halfway_wr.toFixed(0)}%) is ~${Math.round(imp.ime_extra_wins)} more wins a year, ~$${imp.ime_extra_value_musd.toFixed(0)}M won value at median size.`,
-    `This case needed 12 fixes before any analysis; at source they cost nothing and make the monthly refresh automatic.`,
+    `Year-on-year growth was +${yq.Q1.yoy_pct.toFixed(0)}% in Q1, +${yq.Q2.yoy_pct.toFixed(0)}% in Q2 and +${yq.Q3.yoy_gap_adjusted_pct.toFixed(0)}% in Q3 (gap-adjusted). Planning on Q1 would over-staff by ~3-5 points of volume.`,
+    `Each point of India & ME win rate is ~${Math.round(imp.ime_wins_per_pp)} wins and ~$${imp.ime_value_per_pp_musd.toFixed(1)}M a year. The gap to the rest of PPK (${(-imp.ime_gap_pp).toFixed(1)} points) is statistically real; read progress on a full year of decisions.`,
+    `${imp.paris_gap_bd.toFixed(0)} extra business days on ${imp.paris_decided_2025.toLocaleString()} decisions a year is ~${Math.round(imp.paris_bd_saved).toLocaleString()} proposal-days. ${imp.paris_over30.toFixed(0)}% of Paris decisions take over 30 days vs ${imp.network_over30.toFixed(0)}% elsewhere.`,
   ];
   document.getElementById("act-cards").innerHTML = S.actions.map((a, i) => `<div class="card" style="padding:20px 22px">
     <span class="num" style="width:38px;height:38px;font-size:18px">${i + 1}</span>
     <h3 style="font-size:18px;margin:14px 0 8px">${esc(a[0])}</h3>
     <p style="font-size:14px;color:var(--ink-2);line-height:1.45;margin:0 0 12px">${esc(a[1])}</p>
     <p style="font-size:13px;margin:0 0 12px;line-height:1.45"><b>Size of the prize.</b> ${esc(sizing[i])}</p>
-    <p style="font-size:13px;margin:auto 0 0;line-height:1.45;color:var(--ink)"><b>Owner and measure.</b> ${esc(a[2])}</p></div>`).join("");
+    <p style="font-size:13px;margin:0;line-height:1.45;color:var(--ink);border-top:1px solid var(--axis);padding-top:12px"><b>Owner and measure.</b> ${esc(a[2])}</p></div>`).join("");
+  document.getElementById("act-enabler").textContent = S.enabler;
 }
-function refresh() { renderFilters(); renderGrowth(); renderOffices(); renderSpeed(); }
+function dotPlot(el, rows, o = {}) {
+  /* rows: [{label, pts:[{v, lo, hi, color, name}], tip, hl}] */
+  const [W, H] = size(el), lw = o.labelW || 84, r = 16;
+  const all = rows.flatMap(x => x.pts.flatMap(p => [p.lo, p.hi])).filter(v => !isNaN(v));
+  const mn = Math.floor(Math.min(...all) / 5) * 5, mx = Math.ceil(Math.max(...all) / 5) * 5;
+  const x = v => lw + (v - mn) / ((mx - mn) || 1) * (W - lw - r), band = (H - 18) / rows.length;
+  let s = `<svg viewBox="0 0 ${W} ${H}">`;
+  for (let v = mn; v <= mx; v += 5) s += `<line x1="${x(v)}" x2="${x(v)}" y1="0" y2="${H - 18}" stroke="${css("--grid")}"/><text x="${x(v)}" y="${H - 4}" text-anchor="middle" font-size="10.5" fill="${css("--muted")}">${v}%</text>`;
+  rows.forEach((row, ri) => {
+    const cy = ri * band + band / 2;
+    s += `<text x="${lw - 8}" y="${cy + 4}" text-anchor="end" font-size="12" fill="${css(row.hl ? "--ink" : "--ink-2")}" font-weight="${row.hl ? 650 : 400}">${esc(row.label)}</text>`;
+    row.pts.forEach((p, pi) => { const y = cy + (pi - (row.pts.length - 1) / 2) * 9; if (isNaN(p.v)) return;
+      s += `<line x1="${x(p.lo)}" x2="${x(p.hi)}" y1="${y}" y2="${y}" stroke="${p.color}" stroke-width="2" stroke-linecap="round"/>`;
+      s += `<circle cx="${x(p.v)}" cy="${y}" r="5" fill="${p.color}" stroke="#fff" stroke-width="2"/>`; });
+    const last = row.pts[row.pts.length - 1];
+    if (!isNaN(last.v)) s += `<text x="${x(last.hi) + 6}" y="${cy + 8}" font-size="11.5" fill="${css("--ink-2")}">${last.v.toFixed(1)}%</text>`;
+    s += `<rect x="0" y="${ri * band}" width="${W}" height="${band}" fill="transparent" data-tip="${esc(row.tip || "")}"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+function renderWinRate() {
+  const per = periodSpec(state.period), lo = per.lo, hiW = Math.min(per.hi, 715);
+  const base = { ...state, period: "All", office: "All" };
+  const cohort = (st, y) => hiW >= lo ? select(st, { y, mdLo: lo, mdHi: hiW }) : [];
+  const rows = REG.map(r => { const a = wrStats(cohort({ ...base, region: r }, 0)), b = wrStats(cohort({ ...base, region: r }, 1)); const pv = pTwo(a, b);
+    return { label: r === "India & Middle East" ? "India & ME" : r, hl: r === "India & Middle East",
+      pts: [{ v: a.p, lo: a.lo, hi: a.hi, color: css("--context") }, { v: b.p, lo: b.lo, hi: b.hi, color: css("--accent") }],
+      tip: tipHTML(r, [`2025: ${a.p.toFixed(1)}% of ${a.n.toLocaleString()} decided`, `2026: ${b.p.toFixed(1)}% of ${b.n.toLocaleString()} decided`,
+        `Change ${fmtPP(b.p - a.p)} (${fmtP(pv)}${pv < 0.05 ? ", significant" : ", not significant"})`]) }; });
+  const tot = { a: wrStats(cohort({ ...base, region: "All" }, 0)), b: wrStats(cohort({ ...base, region: "All" }, 1)) };
+  rows.push({ label: "All PPK", hl: true, pts: [{ v: tot.a.p, lo: tot.a.lo, hi: tot.a.hi, color: css("--context") }, { v: tot.b.p, lo: tot.b.lo, hi: tot.b.hi, color: css("--accent") }],
+    tip: tipHTML("All PPK", [`2025: ${tot.a.p.toFixed(1)}%`, `2026: ${tot.b.p.toFixed(1)}%`, `Change ${fmtPP(tot.b.p - tot.a.p)} (${fmtP(pTwo(tot.a, tot.b))})`]) });
+  if (per.y === 0 || hiW < lo) { document.getElementById("ch-wr-region").innerHTML = `<p class="hint">Not available for this period: needs a 2026 cohort submitted by 15 Jul.</p>`; }
+  else dotPlot(document.getElementById("ch-wr-region"), rows);
+  const pAll = pTwo(tot.a, tot.b);
+  document.getElementById("wr-region-note").textContent = isNaN(pAll) ? "" :
+    `Year-on-year change for ${scopeLabel()}: ${fmtPP(tot.b.p - tot.a.p)}, ${fmtP(pAll)} (${pAll < 0.05 ? "significant" : "not significant"}). Overlapping lines mean the change is within noise.`;
+  const offRows = OFF.filter(o => state.region === "All" || o.region === state.region).map(o => {
+    const b = wrStats(cohort({ ...base, region: "All", office: o.name }, 1));
+    return { label: o.name, vals: [b.p], colors: [o.region === "India & Middle East" ? css("--accent") : css("--context")], hl: o.name === state.office,
+      tip: tipHTML(o.name, [`${b.p.toFixed(1)}% of ${b.n.toLocaleString()} decided`, `95% range ${b.lo.toFixed(1)}-${b.hi.toFixed(1)}%`]) }; })
+    .filter(r => !isNaN(r.vals[0])).sort((a, b) => b.vals[0] - a.vals[0]);
+  hbars(document.getElementById("ch-wr-office"), offRows, [{ name: "Win rate", color: css("--context") }], { labelW: 78, barH: 13, fmt: v => v.toFixed(1) + "%" });
+  const imp = S.impact, parityPP = -imp.ime_gap_pp;
+  const items = [["+1 point", imp.ime_wins_per_pp, imp.ime_value_per_pp_musd], [`+${imp.ime_target_pp.toFixed(0)} points (target)`, imp.ime_target_wins, imp.ime_target_value_musd],
+    [`+${parityPP.toFixed(1)} points (parity)`, imp.ime_wins_per_pp * parityPP, imp.ime_value_per_pp_musd * parityPP]];
+  const mxv = Math.max(...items.map(i => i[2]));
+  document.getElementById("wr-sizing").innerHTML = items.map((it, k) => `<div style="margin:6px 0 14px">
+      <div style="font-size:13px;font-weight:650">${esc(it[0])}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:4px"><svg viewBox="0 0 200 16" width="200" height="16"><path d="${barEnd(0, Math.max(3, it[2] / mxv * 196), 2, 12)}" fill="${k === 1 ? css("--accent") : css("--context")}"/></svg>
+      <span style="font-size:13px">~${Math.round(it[1])} wins, ~$${it[2].toFixed(0)}M</span></div></div>`).join("") +
+    `<p class="hint" style="margin-top:4px">India & ME decided ${imp.ime_decided_2025.toLocaleString()} proposals in 2025; mean won value $${Math.round(imp.ime_mean_won_usd / 1e3)}K. The gap is the same in Dubai, New Delhi and Riyadh, so it is regional, not practice mix.</p>`;
+}
+function refresh() { renderFilters(); renderGrowth(); renderOffices(); renderWinRate(); renderSpeed(); }
 
 /* ---------- navigation ---------- */
 const pages = [...document.querySelectorAll(".page")]; let cur = 0, scale = 1;

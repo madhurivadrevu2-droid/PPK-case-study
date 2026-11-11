@@ -12,6 +12,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from analysis import gap_mask as gap_flags
 from config import CLEAN, OUTPUTS, REPORTING
 from story import NOTES, story_numbers
 
@@ -26,12 +27,7 @@ def payload() -> dict:
     office_list = offices["office"].tolist()
     practice_list = sorted(p["practice"].unique())
     sd = p["submitted_date"]
-    review = p["under_review_date"]
-    bd_review = pd.Series(-1, index=p.index)
-    has = review.notna()
-    import numpy as np
-    bd_review[has] = np.busday_count(sd[has].values.astype("datetime64[D]"),
-                                     review[has].values.astype("datetime64[D]"))
+    bd_review = p["business_days_to_review"].fillna(-1)
     cols = {
         "y": (sd.dt.year - 2025).tolist(),
         "md": (sd.dt.month * 100 + sd.dt.day).tolist(),
@@ -42,6 +38,7 @@ def payload() -> dict:
         "s": p["close_status"].map(STATUS_CODE).fillna(0).astype(int).tolist(),
         "b": p["business_days_to_close"].fillna(-1).astype(int).tolist(),
         "r": bd_review.astype(int).tolist(),
+        "g": gap_flags(p).astype(int).tolist(),
     }
     issues = pd.read_csv(OUTPUTS / "data_issues_log.csv").to_dict("records")
     fetch = pd.read_csv(OUTPUTS / "holiday_fetch_log.csv")
@@ -70,6 +67,11 @@ def main() -> None:
     out = REPORTING / "PPK_Proposal_Performance.html"
     out.write_text(html, encoding="utf-8")
     print(f"Saved {out} ({out.stat().st_size / 1e6:.1f} MB)")
+    downloads = Path.home() / "Downloads"
+    if downloads.is_dir():
+        copy = downloads / out.name
+        copy.write_text(html, encoding="utf-8")
+        print(f"Copied to {copy}")
 
 
 if __name__ == "__main__":

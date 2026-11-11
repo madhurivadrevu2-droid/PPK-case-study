@@ -10,9 +10,11 @@ Steps
   3. Add business_days_to_close to each proposal -> data/clean/proposals_enriched.csv
 
 Business days exclude Saturdays, Sundays and public holidays. A holiday applies to an office
-if it is national (global=true) or listed for the office's ISO 3166-2 subdivision
-(e.g. Lincoln's Birthday for New York, US-NY). Countries with no API data are flagged, not
-fatal: their offices are counted on weekends only and marked holiday_data_missing=True.
+if its type includes "Public" (a day off; observances and optional days are ignored) and it is
+national (global=true) or listed for the office's ISO 3166-2 subdivision (e.g. GB-ENG for
+London's bank holidays). Countries with no API data are flagged, not fatal: their offices are
+counted on weekends only and marked holiday_data_missing=True. If the API fails mid-run, the
+saved copy of that country-year is reused (status 'cached') so good data is never overwritten.
 """
 from __future__ import annotations
 
@@ -32,7 +34,7 @@ HOLIDAYS_CSV = CLEAN / "public_holidays.csv"
 FETCH_LOG_CSV = OUTPUTS / "holiday_fetch_log.csv"
 
 
-def fetch_holidays(country: str, year: int, retries: int = 3, timeout: int = 15) -> tuple[list, str, str]:
+def fetch_holidays(country: str, year: int, retries: int = 2, timeout: int = 10) -> tuple[list, str, str]:
     """Return (holidays, status, detail). Never raises: failures come back as a status."""
     url = API.format(year=year, country=country)
     req = urllib.request.Request(url, headers={"User-Agent": "ppk-ops-analytics-case/1.0"})
@@ -57,14 +59,27 @@ def fetch_holidays(country: str, year: int, retries: int = 3, timeout: int = 15)
     return [], "error", f"failed after {retries} attempts ({detail})"
 
 
-def download_all(countries: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
-    rows, log = [], []
+def download_all(countries: list[str], cached: pd.DataFrame | None = None) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Fetch every country-year. On a network/API error, fall back to the saved copy of that
+    country-year (status 'cached') so a bad run never wipes good data; after 3 errors in a row
+    the API is treated as unreachable and the remaining calls use the cache straight away."""
+    rows, log, kept, errors_in_row = [], [], [], 0
     for country in countries:
         for year in YEARS:
-            data, status, detail = fetch_holidays(country, year)
+            if errors_in_row >= 3:
+                data, status, detail = [], "error", "skipped: API unreachable (3 errors in a row)"
+            else:
+                data, status, detail = fetch_holidays(country, year)
+                errors_in_row = errors_in_row + 1 if status == "error" else 0
+            if status == "error" and cached is not None:
+                prior = cached[(cached["country_code"] == country) & (cached["year"] == year)]
+                if len(prior):
+                    kept.append(prior)
+                    status, detail = "cached", f"{detail}; using saved copy"
+            n = len(data) if status != "cached" else len(kept[-1])
             log.append({"country_code": country, "year": year, "status": status,
-                        "holidays_returned": len(data), "detail": detail})
-            print(f"  {country} {year}: {status:<8} {len(data):>3} holidays  {detail}")
+                        "holidays_returned": n, "detail": detail})
+            print(f"  {country} {year}: {status:<8} {n:>3} holidays  {detail}")
             for h in data:
                 rows.append({
                     "country_code": country, "year": year, "date": h["date"], "name": h["name"],
@@ -74,6 +89,8 @@ def download_all(countries: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
                 })
     holidays = pd.DataFrame(rows, columns=["country_code", "year", "date", "name", "local_name",
                                            "is_national", "subdivisions", "types"])
+    if kept:
+        holidays = pd.concat([holidays, *kept], ignore_index=True)
     return holidays, pd.DataFrame(log)
 
 
@@ -81,7 +98,8 @@ def office_holiday_calendar(offices: pd.DataFrame, holidays: pd.DataFrame) -> di
     """Map each office to the holiday dates that apply to it (national + its subdivision)."""
     calendars = {}
     for _, o in offices.iterrows():
-        h = holidays[holidays["country_code"] == o["country_code"]]
+        h = holidays[(holidays["country_code"] == o["country_code"])
+                     & holidays["types"].fillna("").str.contains("Public")]   # days off only
         sub = o["subdivision_code"]
         applies = h["is_national"] | (h["subdivisions"].fillna("").str.split(";")
                                       .map(lambda subs: bool(sub) and sub in subs))
@@ -127,11 +145,12 @@ def main() -> None:
         log = pd.read_csv(FETCH_LOG_CSV)
     else:
         print(f"Fetching holidays for {len(countries)} countries x {len(YEARS)} years")
-        holidays, log = download_all(countries)
+        cached = pd.read_csv(HOLIDAYS_CSV, dtype={"subdivisions": str}) if HOLIDAYS_CSV.exists() else None
+        holidays, log = download_all(countries, cached)
         holidays.to_csv(HOLIDAYS_CSV, index=False)
         log.to_csv(FETCH_LOG_CSV, index=False)
 
-    missing = set(log.loc[log["status"] != "ok", "country_code"])
+    missing = set(log.loc[~log["status"].isin(["ok", "cached"]), "country_code"])
     if missing:
         print(f"WARNING: no holiday data for {sorted(missing)}; those offices count weekends only "
               "(flagged holiday_data_missing=True)")

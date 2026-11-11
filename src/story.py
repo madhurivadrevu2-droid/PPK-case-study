@@ -51,6 +51,9 @@ def story_numbers() -> dict:
     ga = _read("growth_total_gap_adjusted").iloc[0]
     reg, pr = _read("growth_by_region"), _read("growth_by_practice")
     rega, offa = _read("growth_by_region_gap_adjusted"), _read("growth_by_office_gap_adjusted")
+    pra = _read("growth_by_practice_gap_adjusted")
+    top3 = pra["volume_growth_pct"].nlargest(3)
+    top3_txt = f"+{top3.min():.0f}-{top3.max():.0f}%"
     stage, trend, yoy = _read("turnaround_stage_by_office"), _read("trend_by_quarter"), _read("quarterly_yoy")
     pipe = _read("pipeline_at_extract").loc["All PPK"]
     gaps = pd.read_csv(OUTPUTS / "submission_gaps.csv")
@@ -87,7 +90,7 @@ def story_numbers() -> dict:
         "findings": [
             ("Growth is concentrated and slowing",
              f"Americas +{am.volume_growth_pct:.1f}% and APAC +{apac.volume_growth_pct:.1f}% volume; PI, TMT and "
-             f"Strategy +15-16%. Year-on-year growth eased from +{yoy.loc['Q1', 'yoy_pct']:.0f}% in Q1 to "
+             f"Strategy {top3_txt}. Year-on-year growth eased from +{yoy.loc['Q1', 'yoy_pct']:.0f}% in Q1 to "
              f"+{yoy.loc['Q2', 'yoy_pct']:.0f}-{yoy.loc['Q3', 'yoy_gap_adjusted_pct']:.0f}% in Q2-Q3."),
             ("Win rate is steady; the regional gap is real",
              f"The +{g.win_rate_change_pp:.1f}pp rise is within noise (p={g.win_rate_p_value:.2f}). India & Middle "
@@ -100,12 +103,13 @@ def story_numbers() -> dict:
         "actions": [
             (f"Plan FY27 proposal capacity on a ~{yoy.loc['Q2', 'yoy_pct']:.0f}-"
              f"{yoy.loc['Q3', 'yoy_gap_adjusted_pct']:.0f}% run-rate",
-             f"Weight PPK proposal support to Americas and APAC (+{am.volume_growth_pct:.0f}% / "
-             f"+{apac.volume_growth_pct:.0f}%) and to PI, TMT and Strategy (+15-16%), not to the Q1 peak.",
+             f"Weight PPK proposal support to Americas and APAC (+{am.volume_growth_pct:.0f}% and "
+             f"+{apac.volume_growth_pct:.0f}%) and to PI, TMT and Strategy ({top3_txt}), not to the Q1 peak.",
              "Owner: PPK Ops lead with regional COOs. Measure: forecast vs actual volume each quarter."),
             (f"Lift India & Middle East win rate by {imp['ime_target_pp']:.0f}pp",
              f"From {imp['ime_wr']:.1f}% toward {imp['ime_wr'] + imp['ime_target_pp']:.0f}% by end FY27 with bid/no-bid "
-             f"discipline and the Americas pursuit playbook ({am.win_rate_2026:.0f}% win rate).",
+             f"discipline and a pursuit review: the gap is the same across its offices and practices, so it "
+             f"is structural, not mix.",
              f"Owner: India & ME leadership. Worth ~{imp['ime_target_wins']:.0f} wins, "
              f"~${imp['ime_target_value_musd']:.0f}M won value a year."),
             (f"Cut Paris time to decision from {paris.business_days_to_close:.0f} to "
