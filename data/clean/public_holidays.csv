@@ -1,0 +1,323 @@
+country_code,year,date,name,local_name,is_national,subdivisions,types
+AU,2025,2025-01-01,New Year's Day,New Year's Day,True,,Public
+AU,2025,2025-01-27,Australia Day,Australia Day,True,,Public
+AU,2025,2025-03-03,Labour Day,Labour Day,False,AU-WA,Public
+AU,2025,2025-03-10,Canberra Day,Canberra Day,False,AU-ACT,Public
+AU,2025,2025-03-10,Adelaide Cup Day,Adelaide Cup Day,False,AU-SA,Public
+AU,2025,2025-03-10,Eight Hours Day,Eight Hours Day,False,AU-TAS,Public
+AU,2025,2025-03-10,Labour Day,Labour Day,False,AU-VIC,Public
+AU,2025,2025-04-18,Good Friday,Good Friday,True,,Public
+AU,2025,2025-04-19,Holy Saturday,Easter Eve,False,AU-ACT;AU-NSW;AU-NT;AU-QLD;AU-SA;AU-VIC,Public
+AU,2025,2025-04-20,Easter Sunday,Easter Sunday,False,AU-ACT;AU-NSW;AU-NT;AU-QLD;AU-SA;AU-VIC;AU-WA,Public
+AU,2025,2025-04-21,Easter Monday,Easter Monday,True,,Public
+AU,2025,2025-04-25,Anzac Day,Anzac Day,True,,Public
+AU,2025,2025-05-05,May Day,May Day,False,AU-NT,Public
+AU,2025,2025-05-05,Labour Day,Labour Day,False,AU-QLD,Public
+AU,2025,2025-06-02,Reconciliation Day,Reconciliation Day,False,AU-ACT,Public
+AU,2025,2025-06-02,Western Australia Day,Western Australia Day,False,AU-WA,Public
+AU,2025,2025-06-09,King's Birthday,King's Birthday,False,AU-ACT;AU-NSW;AU-NT;AU-SA;AU-TAS;AU-VIC,Public
+AU,2025,2025-08-04,Picnic Day,Picnic Day,False,AU-NT,Public
+AU,2025,2025-09-26,Friday before AFL Grand Final,Friday before AFL Grand Final,False,AU-VIC,Public
+AU,2025,2025-09-29,King's Birthday,King's Birthday,False,AU-WA,Public
+AU,2025,2025-10-06,Labour Day,Labour Day,False,AU-ACT;AU-NSW;AU-SA,Public
+AU,2025,2025-10-06,King's Birthday,King's Birthday,False,AU-QLD,Public
+AU,2025,2025-11-04,Melbourne Cup,Melbourne Cup,False,AU-VIC,Public
+AU,2025,2025-12-25,Christmas Day,Christmas Day,True,,Public
+AU,2025,2025-12-26,St. Stephen's Day,Boxing Day,True,,Public
+AU,2026,2026-01-01,New Year's Day,New Year's Day,True,,Public
+AU,2026,2026-01-26,Australia Day,Australia Day,True,,Public
+AU,2026,2026-03-02,Labour Day,Labour Day,False,AU-WA,Public
+AU,2026,2026-03-09,Canberra Day,Canberra Day,False,AU-ACT,Public
+AU,2026,2026-03-09,Adelaide Cup Day,Adelaide Cup Day,False,AU-SA,Public
+AU,2026,2026-03-09,Eight Hours Day,Eight Hours Day,False,AU-TAS,Public
+AU,2026,2026-03-09,Labour Day,Labour Day,False,AU-VIC,Public
+AU,2026,2026-04-03,Good Friday,Good Friday,True,,Public
+AU,2026,2026-04-04,Holy Saturday,Easter Eve,False,AU-ACT;AU-NSW;AU-NT;AU-QLD;AU-SA;AU-VIC,Public
+AU,2026,2026-04-05,Easter Sunday,Easter Sunday,False,AU-ACT;AU-NSW;AU-NT;AU-QLD;AU-SA;AU-VIC;AU-WA,Public
+AU,2026,2026-04-06,Easter Monday,Easter Monday,True,,Public
+AU,2026,2026-04-25,Anzac Day,Anzac Day,False,AU-SA;AU-TAS;AU-VIC,Public
+AU,2026,2026-04-27,Anzac Day,Anzac Day,False,AU-NSW;AU-ACT;AU-WA,Public
+AU,2026,2026-04-25,Anzac Day,Anzac Day,False,AU-NT;AU-QLD,Public
+AU,2026,2026-05-04,May Day,May Day,False,AU-NT,Public
+AU,2026,2026-05-04,Labour Day,Labour Day,False,AU-QLD,Public
+AU,2026,2026-06-01,Reconciliation Day,Reconciliation Day,False,AU-ACT,Public
+AU,2026,2026-06-01,Western Australia Day,Western Australia Day,False,AU-WA,Public
+AU,2026,2026-06-08,King's Birthday,King's Birthday,False,AU-ACT;AU-NSW;AU-NT;AU-SA;AU-TAS;AU-VIC,Public
+AU,2026,2026-08-03,Picnic Day,Picnic Day,False,AU-NT,Public
+AU,2026,2026-09-25,Friday before AFL Grand Final,Friday before AFL Grand Final,False,AU-VIC,Public
+AU,2026,2026-09-28,King's Birthday,King's Birthday,False,AU-WA,Public
+AU,2026,2026-10-05,Labour Day,Labour Day,False,AU-ACT;AU-NSW;AU-SA,Public
+AU,2026,2026-10-05,King's Birthday,King's Birthday,False,AU-QLD,Public
+AU,2026,2026-11-03,Melbourne Cup,Melbourne Cup,False,AU-VIC,Public
+AU,2026,2026-12-25,Christmas Day,Christmas Day,True,,Public
+AU,2026,2026-12-28,St. Stephen's Day,Boxing Day,True,,Public
+BR,2025,2025-01-01,New Year's Day,Confraternização Universal,True,,Public
+BR,2025,2025-03-03,Carnival,Carnaval,True,,Bank;Optional
+BR,2025,2025-03-04,Carnival,Carnaval,True,,Bank;Optional
+BR,2025,2025-04-18,Good Friday,Sexta-feira Santa,True,,Public
+BR,2025,2025-04-20,Easter Sunday,Domingo de Páscoa,True,,Public
+BR,2025,2025-04-21,Tiradentes,Dia de Tiradentes,True,,Public
+BR,2025,2025-05-01,Labour Day,Dia do Trabalhador,True,,Public
+BR,2025,2025-06-19,Corpus Christi,Corpus Christi,True,,Public
+BR,2025,2025-07-09,Constitutionalist Revolution of 1932,Revolução Constitucionalista de 1932,False,BR-SP,Public
+BR,2025,2025-09-07,Independence Day,Dia da Independência,True,,Public
+BR,2025,2025-10-12,Our Lady of Aparecida,Nossa Senhora Aparecida,True,,Public
+BR,2025,2025-11-02,All Souls' Day,Dia de Finados,True,,Public
+BR,2025,2025-11-15,Republic Proclamation Day,Proclamação da República,True,,Public
+BR,2025,2025-11-20,Black Awareness Day,Dia da Consciência Negra,True,,Public
+BR,2025,2025-12-25,Christmas Day,Natal,True,,Public
+BR,2026,2026-01-01,New Year's Day,Confraternização Universal,True,,Public
+BR,2026,2026-02-16,Carnival,Carnaval,True,,Bank;Optional
+BR,2026,2026-02-17,Carnival,Carnaval,True,,Bank;Optional
+BR,2026,2026-04-03,Good Friday,Sexta-feira Santa,True,,Public
+BR,2026,2026-04-05,Easter Sunday,Domingo de Páscoa,True,,Public
+BR,2026,2026-04-21,Tiradentes,Dia de Tiradentes,True,,Public
+BR,2026,2026-05-01,Labour Day,Dia do Trabalhador,True,,Public
+BR,2026,2026-06-04,Corpus Christi,Corpus Christi,True,,Public
+BR,2026,2026-07-09,Constitutionalist Revolution of 1932,Revolução Constitucionalista de 1932,False,BR-SP,Public
+BR,2026,2026-09-07,Independence Day,Dia da Independência,True,,Public
+BR,2026,2026-10-12,Our Lady of Aparecida,Nossa Senhora Aparecida,True,,Public
+BR,2026,2026-11-02,All Souls' Day,Dia de Finados,True,,Public
+BR,2026,2026-11-15,Republic Proclamation Day,Proclamação da República,True,,Public
+BR,2026,2026-11-20,Black Awareness Day,Dia da Consciência Negra,True,,Public
+BR,2026,2026-12-25,Christmas Day,Natal,True,,Public
+DE,2025,2025-01-01,New Year's Day,Neujahr,True,,Public
+DE,2025,2025-01-06,Epiphany,Heilige Drei Könige,False,DE-BW;DE-BY;DE-ST,Public
+DE,2025,2025-03-08,International Women's Day,Internationaler Frauentag,False,DE-BE;DE-MV,Public
+DE,2025,2025-04-18,Good Friday,Karfreitag,True,,Public
+DE,2025,2025-04-20,Easter Sunday,Ostersonntag,False,DE-BB,Public
+DE,2025,2025-04-21,Easter Monday,Ostermontag,True,,Public
+DE,2025,2025-05-01,Labour Day,Tag der Arbeit,True,,Public
+DE,2025,2025-05-08,Liberation Day,Tag der Befreiung,False,DE-BE,Public
+DE,2025,2025-05-29,Ascension Day,Christi Himmelfahrt,True,,Public
+DE,2025,2025-06-08,Pentecost,Pfingstsonntag,False,DE-BB,Public
+DE,2025,2025-06-09,Whit Monday,Pfingstmontag,True,,Public
+DE,2025,2025-06-19,Corpus Christi,Fronleichnam,False,DE-BW;DE-BY;DE-HE;DE-NW;DE-RP;DE-SL,Public
+DE,2025,2025-08-15,Assumption Day,Mariä Himmelfahrt,False,DE-SL,Public
+DE,2025,2025-09-20,World Children's Day,Weltkindertag,False,DE-TH,Public
+DE,2025,2025-10-03,German Unity Day,Tag der Deutschen Einheit,True,,Public
+DE,2025,2025-10-31,Reformation Day,Reformationstag,False,DE-BB;DE-MV;DE-SN;DE-ST;DE-TH;DE-HB;DE-HH;DE-NI;DE-SH,Public
+DE,2025,2025-11-01,All Saints' Day,Allerheiligen,False,DE-BW;DE-BY;DE-NW;DE-RP;DE-SL,Public
+DE,2025,2025-11-19,Repentance and Prayer Day,Buß- und Bettag,False,DE-SN,Public
+DE,2025,2025-12-25,Christmas Day,Erster Weihnachtstag,True,,Public
+DE,2025,2025-12-26,St. Stephen's Day,Zweiter Weihnachtstag,True,,Public
+DE,2026,2026-01-01,New Year's Day,Neujahr,True,,Public
+DE,2026,2026-01-06,Epiphany,Heilige Drei Könige,False,DE-BW;DE-BY;DE-ST,Public
+DE,2026,2026-03-08,International Women's Day,Internationaler Frauentag,False,DE-BE;DE-MV,Public
+DE,2026,2026-04-03,Good Friday,Karfreitag,True,,Public
+DE,2026,2026-04-05,Easter Sunday,Ostersonntag,False,DE-BB,Public
+DE,2026,2026-04-06,Easter Monday,Ostermontag,True,,Public
+DE,2026,2026-05-01,Labour Day,Tag der Arbeit,True,,Public
+DE,2026,2026-05-14,Ascension Day,Christi Himmelfahrt,True,,Public
+DE,2026,2026-05-24,Pentecost,Pfingstsonntag,False,DE-BB,Public
+DE,2026,2026-05-25,Whit Monday,Pfingstmontag,True,,Public
+DE,2026,2026-06-04,Corpus Christi,Fronleichnam,False,DE-BW;DE-BY;DE-HE;DE-NW;DE-RP;DE-SL,Public
+DE,2026,2026-08-15,Assumption Day,Mariä Himmelfahrt,False,DE-SL,Public
+DE,2026,2026-09-20,World Children's Day,Weltkindertag,False,DE-TH,Public
+DE,2026,2026-10-03,German Unity Day,Tag der Deutschen Einheit,True,,Public
+DE,2026,2026-10-31,Reformation Day,Reformationstag,False,DE-BB;DE-MV;DE-SN;DE-ST;DE-TH;DE-HB;DE-HH;DE-NI;DE-SH,Public
+DE,2026,2026-11-01,All Saints' Day,Allerheiligen,False,DE-BW;DE-BY;DE-NW;DE-RP;DE-SL,Public
+DE,2026,2026-11-18,Repentance and Prayer Day,Buß- und Bettag,False,DE-SN,Public
+DE,2026,2026-12-25,Christmas Day,Erster Weihnachtstag,True,,Public
+DE,2026,2026-12-26,St. Stephen's Day,Zweiter Weihnachtstag,True,,Public
+ES,2025,2025-01-01,New Year's Day,Año Nuevo,True,,Public
+ES,2025,2025-01-06,Epiphany,Día de Reyes / Epifanía del Señor,True,,Public
+ES,2025,2025-02-28,Day of Andalucía,Día de Andalucía,False,ES-AN,Public
+ES,2025,2025-03-01,Day of the Balearic Islands,Dia de les Illes Balears,False,ES-IB,Public
+ES,2025,2025-04-17,Maundy Thursday,Jueves Santo,False,ES-AN;ES-AR;ES-CL;ES-CM;ES-CN;ES-EX;ES-GA;ES-IB;ES-RI;ES-MD;ES-MC;ES-NC;ES-AS;ES-PV;ES-CB,Public
+ES,2025,2025-04-18,Good Friday,Viernes Santo,True,,Public
+ES,2025,2025-04-21,Easter Monday,Lunes de Pascua,False,ES-CT;ES-IB;ES-RI;ES-NC;ES-PV;ES-VC,Public
+ES,2025,2025-04-23,Castile and León Day,Día de Castilla y León,False,ES-CL,Public
+ES,2025,2025-04-23,Day of Aragón,San Jorge (Día de Aragón),False,ES-AR,Public
+ES,2025,2025-05-01,Labour Day,Fiesta del trabajo,True,,Public
+ES,2025,2025-05-02,Day of Madrid,Fiesta de la Comunidad de Madrid,False,ES-MD,Public
+ES,2025,2025-05-17,Galician Literature Day,Día das Letras Galegas,False,ES-GA,Public
+ES,2025,2025-05-30,Day of the Canary Islands,Día de Canarias,False,ES-CN,Public
+ES,2025,2025-05-31,Day of Castilla-La Mancha,Día de la Región Castilla-La Mancha,False,ES-CM,Public
+ES,2025,2025-06-09,Day of La Rioja,Día de La Rioja,False,ES-RI,Public
+ES,2025,2025-06-09,Day of Murcia,Día de la Región de Murcia,False,ES-MC,Public
+ES,2025,2025-06-19,Corpus Christi,Corpus Christi,False,ES-CM,Public
+ES,2025,2025-06-24,St. John's Day,Sant Joan,False,ES-CT;ES-VC,Public
+ES,2025,2025-07-25,Santiago Apóstol,Santiago Apóstol,False,ES-GA;ES-PV,Public
+ES,2025,2025-07-28,Day of the Cantabrian Institutions,Día de las Instituciones de Cantabria,False,ES-CB,Public
+ES,2025,2025-08-15,Assumption,Asunción,True,,Public
+ES,2025,2025-09-08,Day of Asturias,Día de Asturias,False,ES-AS,Public
+ES,2025,2025-09-08,Day of Extremadura,Día de Extremadura,False,ES-EX,Public
+ES,2025,2025-09-11,National Day of Catalonia,Diada Nacional de Catalunya,False,ES-CT,Public
+ES,2025,2025-09-15,Feast of Our Lady of Bien Aparecida,Festividad de la Bien Aparecida,False,ES-CB,Public
+ES,2025,2025-10-09,Day of the Valencian Community,Dia de la Comunitat Valenciana,False,ES-VC,Public
+ES,2025,2025-10-12,National Day of Spain,Fiesta Nacional de España,True,,Public
+ES,2025,2025-11-01,All Saints Day,Día de todos los Santos,True,,Public
+ES,2025,2025-12-06,Constitution Day,Día de la Constitución,True,,Public
+ES,2025,2025-12-08,Immaculate Conception,Inmaculada Concepción,True,,Public
+ES,2025,2025-12-25,Christmas Day,Navidad,True,,Public
+ES,2025,2025-12-26,St. Stephen's Day,Feast of Saint Stephen,False,ES-CT,Public
+ES,2026,2026-01-01,New Year's Day,Año Nuevo,True,,Public
+ES,2026,2026-01-06,Epiphany,Día de Reyes / Epifanía del Señor,True,,Public
+ES,2026,2026-02-28,Day of Andalucía,Día de Andalucía,False,ES-AN,Public
+ES,2026,2026-03-01,Day of the Balearic Islands,Dia de les Illes Balears,False,ES-IB,Public
+ES,2026,2026-04-02,Maundy Thursday,Jueves Santo,False,ES-AN;ES-AR;ES-CL;ES-CM;ES-CN;ES-EX;ES-GA;ES-IB;ES-RI;ES-MD;ES-MC;ES-NC;ES-AS;ES-PV;ES-CB,Public
+ES,2026,2026-04-03,Good Friday,Viernes Santo,True,,Public
+ES,2026,2026-04-06,Easter Monday,Lunes de Pascua,False,ES-CT;ES-IB;ES-RI;ES-NC;ES-PV;ES-VC,Public
+ES,2026,2026-04-23,Castile and León Day,Día de Castilla y León,False,ES-CL,Public
+ES,2026,2026-04-23,Day of Aragón,San Jorge (Día de Aragón),False,ES-AR,Public
+ES,2026,2026-05-01,Labour Day,Fiesta del trabajo,True,,Public
+ES,2026,2026-05-02,Day of Madrid,Fiesta de la Comunidad de Madrid,False,ES-MD,Public
+ES,2026,2026-05-17,Galician Literature Day,Día das Letras Galegas,False,ES-GA,Public
+ES,2026,2026-05-30,Day of the Canary Islands,Día de Canarias,False,ES-CN,Public
+ES,2026,2026-05-31,Day of Castilla-La Mancha,Día de la Región Castilla-La Mancha,False,ES-CM,Public
+ES,2026,2026-06-04,Corpus Christi,Corpus Christi,False,ES-CM,Public
+ES,2026,2026-06-09,Day of La Rioja,Día de La Rioja,False,ES-RI,Public
+ES,2026,2026-06-09,Day of Murcia,Día de la Región de Murcia,False,ES-MC,Public
+ES,2026,2026-06-24,St. John's Day,Sant Joan,False,ES-CT;ES-VC,Public
+ES,2026,2026-07-25,Santiago Apóstol,Santiago Apóstol,False,ES-GA;ES-PV,Public
+ES,2026,2026-07-28,Day of the Cantabrian Institutions,Día de las Instituciones de Cantabria,False,ES-CB,Public
+ES,2026,2026-08-15,Assumption,Asunción,True,,Public
+ES,2026,2026-09-08,Day of Asturias,Día de Asturias,False,ES-AS,Public
+ES,2026,2026-09-08,Day of Extremadura,Día de Extremadura,False,ES-EX,Public
+ES,2026,2026-09-11,National Day of Catalonia,Diada Nacional de Catalunya,False,ES-CT,Public
+ES,2026,2026-09-15,Feast of Our Lady of Bien Aparecida,Festividad de la Bien Aparecida,False,ES-CB,Public
+ES,2026,2026-10-09,Day of the Valencian Community,Dia de la Comunitat Valenciana,False,ES-VC,Public
+ES,2026,2026-10-12,National Day of Spain,Fiesta Nacional de España,True,,Public
+ES,2026,2026-11-01,All Saints Day,Día de todos los Santos,True,,Public
+ES,2026,2026-12-06,Constitution Day,Día de la Constitución,True,,Public
+ES,2026,2026-12-08,Immaculate Conception,Inmaculada Concepción,True,,Public
+ES,2026,2026-12-25,Christmas Day,Navidad,True,,Public
+ES,2026,2026-12-26,St. Stephen's Day,Feast of Saint Stephen,False,ES-CT,Public
+FR,2025,2025-01-01,New Year's Day,Jour de l'an,True,,Public
+FR,2025,2025-04-21,Easter Monday,Lundi de Pâques,True,,Public
+FR,2025,2025-05-01,Labour Day,Fête du Travail,True,,Public
+FR,2025,2025-05-08,Victory in Europe Day,Victoire 1945,True,,Public
+FR,2025,2025-05-29,Ascension Day,Ascension,True,,Public
+FR,2025,2025-06-09,Whit Monday,Lundi de Pentecôte,True,,Public
+FR,2025,2025-07-14,Bastille Day,Fête nationale,True,,Public
+FR,2025,2025-08-15,Assumption Day,Assomption,True,,Public
+FR,2025,2025-11-01,All Saints' Day,Toussaint,True,,Public
+FR,2025,2025-11-11,Armistice Day,Armistice 1918,True,,Public
+FR,2025,2025-12-25,Christmas Day,Noël,True,,Public
+FR,2026,2026-01-01,New Year's Day,Jour de l'an,True,,Public
+FR,2026,2026-04-06,Easter Monday,Lundi de Pâques,True,,Public
+FR,2026,2026-05-01,Labour Day,Fête du Travail,True,,Public
+FR,2026,2026-05-08,Victory in Europe Day,Victoire 1945,True,,Public
+FR,2026,2026-05-14,Ascension Day,Ascension,True,,Public
+FR,2026,2026-05-25,Whit Monday,Lundi de Pentecôte,True,,Public
+FR,2026,2026-07-14,Bastille Day,Fête nationale,True,,Public
+FR,2026,2026-08-15,Assumption Day,Assomption,True,,Public
+FR,2026,2026-11-01,All Saints' Day,Toussaint,True,,Public
+FR,2026,2026-11-11,Armistice Day,Armistice 1918,True,,Public
+FR,2026,2026-12-25,Christmas Day,Noël,True,,Public
+GB,2025,2025-01-01,New Year's Day,New Year's Day,False,GB-ENG;GB-NIR;GB-SCT;GB-WLS,Public
+GB,2025,2025-01-02,2 January,2 January,False,GB-SCT,Public
+GB,2025,2025-03-17,Saint Patrick's Day,Saint Patrick's Day,False,GB-NIR,Public
+GB,2025,2025-04-18,Good Friday,Good Friday,True,,Public
+GB,2025,2025-04-21,Easter Monday,Easter Monday,False,GB-ENG;GB-WLS;GB-NIR,Public
+GB,2025,2025-05-05,Early May Bank Holiday,Early May Bank Holiday,True,,Public
+GB,2025,2025-05-26,Spring Bank Holiday,Spring Bank Holiday,True,,Public
+GB,2025,2025-07-14,Battle of the Boyne,Battle of the Boyne,False,GB-NIR,Public
+GB,2025,2025-08-04,Summer Bank Holiday,Summer Bank Holiday,False,GB-SCT,Public
+GB,2025,2025-08-25,Summer Bank Holiday,Summer Bank Holiday,False,GB-ENG;GB-WLS;GB-NIR,Public
+GB,2025,2025-12-01,Saint Andrew's Day,Saint Andrew's Day,False,GB-SCT,Public
+GB,2025,2025-12-25,Christmas Day,Christmas Day,True,,Public
+GB,2025,2025-12-26,St. Stephen's Day,Boxing Day,True,,Public
+GB,2026,2026-01-01,New Year's Day,New Year's Day,False,GB-ENG;GB-NIR;GB-SCT;GB-WLS,Public
+GB,2026,2026-01-02,2 January,2 January,False,GB-SCT,Public
+GB,2026,2026-03-17,Saint Patrick's Day,Saint Patrick's Day,False,GB-NIR,Public
+GB,2026,2026-04-03,Good Friday,Good Friday,True,,Public
+GB,2026,2026-04-06,Easter Monday,Easter Monday,False,GB-ENG;GB-WLS;GB-NIR,Public
+GB,2026,2026-05-04,Early May Bank Holiday,Early May Bank Holiday,True,,Public
+GB,2026,2026-05-25,Spring Bank Holiday,Spring Bank Holiday,True,,Public
+GB,2026,2026-06-15,World Cup Bank Holiday,World Cup Bank Holiday,False,GB-SCT,Public
+GB,2026,2026-07-13,Battle of the Boyne,Battle of the Boyne,False,GB-NIR,Public
+GB,2026,2026-08-03,Summer Bank Holiday,Summer Bank Holiday,False,GB-SCT,Public
+GB,2026,2026-08-31,Summer Bank Holiday,Summer Bank Holiday,False,GB-ENG;GB-WLS;GB-NIR,Public
+GB,2026,2026-11-30,Saint Andrew's Day,Saint Andrew's Day,False,GB-SCT,Public
+GB,2026,2026-12-25,Christmas Day,Christmas Day,True,,Public
+GB,2026,2026-12-28,St. Stephen's Day,Boxing Day,True,,Public
+JP,2025,2025-01-01,New Year's Day,元日,True,,Public
+JP,2025,2025-01-13,Coming of Age Day,成人の日,True,,Public
+JP,2025,2025-02-11,Foundation Day,建国記念の日,True,,Public
+JP,2025,2025-02-24,The Emperor's Birthday,天皇誕生日,True,,Public
+JP,2025,2025-03-20,Vernal Equinox Day,春分の日,True,,Public
+JP,2025,2025-04-29,Shōwa Day,昭和の日,True,,Public
+JP,2025,2025-05-03,Constitution Memorial Day,憲法記念日,True,,Public
+JP,2025,2025-05-06,Greenery Day,みどりの日,True,,Public
+JP,2025,2025-05-05,Children's Day,こどもの日,True,,Public
+JP,2025,2025-07-21,Marine Day,海の日,True,,Public
+JP,2025,2025-08-11,Mountain Day,山の日,True,,Public
+JP,2025,2025-09-15,Respect for the Aged Day,敬老の日,True,,Public
+JP,2025,2025-09-23,Autumnal Equinox Day,秋分の日,True,,Public
+JP,2025,2025-10-13,Sports Day,スポーツの日,True,,Public
+JP,2025,2025-11-03,Culture Day,文化の日,True,,Public
+JP,2025,2025-11-24,Labour Thanksgiving Day,勤労感謝の日,True,,Public
+JP,2026,2026-01-01,New Year's Day,元日,True,,Public
+JP,2026,2026-01-12,Coming of Age Day,成人の日,True,,Public
+JP,2026,2026-02-11,Foundation Day,建国記念の日,True,,Public
+JP,2026,2026-02-23,The Emperor's Birthday,天皇誕生日,True,,Public
+JP,2026,2026-03-20,Vernal Equinox Day,春分の日,True,,Public
+JP,2026,2026-04-29,Shōwa Day,昭和の日,True,,Public
+JP,2026,2026-05-06,Constitution Memorial Day,憲法記念日,True,,Public
+JP,2026,2026-05-04,Greenery Day,みどりの日,True,,Public
+JP,2026,2026-05-05,Children's Day,こどもの日,True,,Public
+JP,2026,2026-07-20,Marine Day,海の日,True,,Public
+JP,2026,2026-08-11,Mountain Day,山の日,True,,Public
+JP,2026,2026-09-21,Respect for the Aged Day,敬老の日,True,,Public
+JP,2026,2026-09-23,Autumnal Equinox Day,秋分の日,True,,Public
+JP,2026,2026-10-12,Sports Day,スポーツの日,True,,Public
+JP,2026,2026-11-03,Culture Day,文化の日,True,,Public
+JP,2026,2026-11-23,Labour Thanksgiving Day,勤労感謝の日,True,,Public
+SG,2025,2025-01-01,New Year's Day,New Year's Day,True,,Public
+SG,2025,2025-01-29,Chinese New Year,Chinese New Year,True,,Public
+SG,2025,2025-01-30,Chinese New Year,Chinese New Year,True,,Public
+SG,2025,2025-03-31,Hari Raya Puasa,Hari Raya Puasa,True,,Public
+SG,2025,2025-04-18,Good Friday,Good Friday,True,,Public
+SG,2025,2025-05-01,Labour Day,Labour Day,True,,Public
+SG,2025,2025-05-12,Vesak Day,Vesak Day,True,,Public
+SG,2025,2025-06-07,Hari Raya Haji,Hari Raya Haji,True,,Public
+SG,2025,2025-08-09,National Day,National Day,True,,Public
+SG,2025,2025-10-21,Deepavali,Deepavali,True,,Public
+SG,2025,2025-12-25,Christmas Day,Christmas Day,True,,Public
+SG,2026,2026-01-01,New Year's Day,New Year's Day,True,,Public
+SG,2026,2026-02-17,Chinese New Year,Chinese New Year,True,,Public
+SG,2026,2026-02-18,Chinese New Year,Chinese New Year,True,,Public
+SG,2026,2026-03-21,Hari Raya Puasa,Hari Raya Puasa,True,,Public
+SG,2026,2026-04-03,Good Friday,Good Friday,True,,Public
+SG,2026,2026-05-01,Labour Day,Labour Day,True,,Public
+SG,2026,2026-05-27,Hari Raya Haji,Hari Raya Haji,True,,Public
+SG,2026,2026-06-01,Vesak Day,Vesak Day,True,,Public
+SG,2026,2026-08-10,National Day,National Day,True,,Public
+SG,2026,2026-11-09,Deepavali,Deepavali,True,,Public
+SG,2026,2026-12-25,Christmas Day,Christmas Day,True,,Public
+US,2025,2025-01-01,New Year's Day,New Year's Day,True,,Public;Bank
+US,2025,2025-01-20,"Martin Luther King, Jr. Day","Martin Luther King, Jr. Day",True,,Public;Bank
+US,2025,2025-02-12,Lincoln's Birthday,Lincoln's Birthday,False,US-CA;US-CT;US-IL;US-IN;US-KY;US-MI;US-NY;US-MO;US-OH,Observance
+US,2025,2025-02-17,Presidents Day,Washington's Birthday,True,,Public;Bank
+US,2025,2025-04-18,Good Friday,Good Friday,False,US-CT;US-DE;US-HI;US-IN;US-KY;US-LA;US-NC;US-ND;US-NJ;US-TN,Public
+US,2025,2025-04-18,Good Friday,Good Friday,False,US-TX,Optional
+US,2025,2025-05-08,Truman Day,Truman Day,False,US-MO,School;Authorities
+US,2025,2025-05-26,Memorial Day,Memorial Day,True,,Public;Bank
+US,2025,2025-06-19,Juneteenth National Independence Day,Juneteenth National Independence Day,True,,Public;Bank
+US,2025,2025-07-04,Independence Day,Independence Day,True,,Public;Bank
+US,2025,2025-09-01,Labour Day,Labor Day,True,,Public;Bank
+US,2025,2025-10-13,Columbus Day,Columbus Day,False,US-AL;US-AZ;US-CO;US-CT;US-GA;US-ID;US-IL;US-IN;US-IA;US-KS;US-KY;US-LA;US-ME;US-MD;US-MA;US-MS;US-MO;US-MT;US-NE;US-NH;US-NJ;US-NM;US-NY;US-NC;US-OH;US-OK;US-PA;US-RI;US-SC;US-TN;US-UT;US-VA;US-WV,Public
+US,2025,2025-10-13,Columbus Day,Columbus Day,True,,Bank
+US,2025,2025-10-13,Indigenous Peoples' Day,Indigenous Peoples' Day,False,US-AK;US-AL;US-CA;US-HI;US-IA;US-LA;US-ME;US-MI;US-MN;US-NC;US-NE;US-NM;US-OK;US-OR;US-SD;US-TX;US-VA;US-VT;US-WI,Public
+US,2025,2025-11-11,Veterans Day,Veterans Day,True,,Public;Bank
+US,2025,2025-11-27,Thanksgiving Day,Thanksgiving Day,True,,Public;Bank
+US,2025,2025-12-25,Christmas Day,Christmas Day,True,,Public;Bank
+US,2026,2026-01-01,New Year's Day,New Year's Day,True,,Public;Bank
+US,2026,2026-01-19,"Martin Luther King, Jr. Day","Martin Luther King, Jr. Day",True,,Public;Bank
+US,2026,2026-02-12,Lincoln's Birthday,Lincoln's Birthday,False,US-CA;US-CT;US-IL;US-IN;US-KY;US-MI;US-NY;US-MO;US-OH,Observance
+US,2026,2026-02-16,Presidents Day,Washington's Birthday,True,,Public;Bank
+US,2026,2026-04-03,Good Friday,Good Friday,False,US-CT;US-DE;US-HI;US-IN;US-KY;US-LA;US-NC;US-ND;US-NJ;US-TN,Public
+US,2026,2026-04-03,Good Friday,Good Friday,False,US-TX,Optional
+US,2026,2026-05-08,Truman Day,Truman Day,False,US-MO,School;Authorities
+US,2026,2026-05-25,Memorial Day,Memorial Day,True,,Public;Bank
+US,2026,2026-06-19,Juneteenth National Independence Day,Juneteenth National Independence Day,True,,Public;Bank
+US,2026,2026-07-03,Independence Day,Independence Day,True,,Public;Bank
+US,2026,2026-09-07,Labour Day,Labor Day,True,,Public;Bank
+US,2026,2026-10-12,Columbus Day,Columbus Day,False,US-AL;US-AZ;US-CO;US-CT;US-GA;US-ID;US-IL;US-IN;US-IA;US-KS;US-KY;US-LA;US-ME;US-MD;US-MA;US-MS;US-MO;US-MT;US-NE;US-NH;US-NJ;US-NM;US-NY;US-NC;US-OH;US-OK;US-PA;US-RI;US-SC;US-TN;US-UT;US-VA;US-WV,Public
+US,2026,2026-10-12,Columbus Day,Columbus Day,True,,Bank
+US,2026,2026-10-12,Indigenous Peoples' Day,Indigenous Peoples' Day,False,US-AK;US-AL;US-CA;US-HI;US-IA;US-LA;US-ME;US-MI;US-MN;US-NC;US-NE;US-NM;US-OK;US-OR;US-SD;US-TX;US-VA;US-VT;US-WI,Public
+US,2026,2026-11-11,Veterans Day,Veterans Day,True,,Public;Bank
+US,2026,2026-11-26,Thanksgiving Day,Thanksgiving Day,True,,Public;Bank
+US,2026,2026-12-25,Christmas Day,Christmas Day,True,,Public;Bank

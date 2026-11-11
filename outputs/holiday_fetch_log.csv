@@ -1,0 +1,25 @@
+country_code,year,status,holidays_returned,detail
+AE,2025,no_data,0,HTTP 204: API has no holidays for AE
+AE,2026,no_data,0,HTTP 204: API has no holidays for AE
+AU,2025,ok,25,HTTP 200
+AU,2026,ok,27,HTTP 200
+BR,2025,ok,15,HTTP 200
+BR,2026,ok,15,HTTP 200
+DE,2025,ok,20,HTTP 200
+DE,2026,ok,19,HTTP 200
+ES,2025,ok,32,HTTP 200
+ES,2026,ok,32,HTTP 200
+FR,2025,ok,11,HTTP 200
+FR,2026,ok,11,HTTP 200
+GB,2025,ok,13,HTTP 200
+GB,2026,ok,14,HTTP 200
+IN,2025,no_data,0,HTTP 204: API has no holidays for IN
+IN,2026,no_data,0,HTTP 204: API has no holidays for IN
+JP,2025,ok,16,HTTP 200
+JP,2026,ok,16,HTTP 200
+SA,2025,no_data,0,HTTP 204: API has no holidays for SA
+SA,2026,no_data,0,HTTP 204: API has no holidays for SA
+SG,2025,ok,11,HTTP 200
+SG,2026,ok,11,HTTP 200
+US,2025,ok,17,HTTP 200
+US,2026,ok,17,HTTP 200
