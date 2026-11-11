@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+# Case brief must not be committed
+*Case_Instructions*
+00_Read_Me_First.txt
+~$*

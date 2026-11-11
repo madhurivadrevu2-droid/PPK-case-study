@@ -1,0 +1,17 @@
+file,field,description
+proposals.csv,proposal_id,Unique identifier of the proposal
+proposals.csv,submitted_date,Date the proposal was submitted
+proposals.csv,office,Office that owns the proposal
+proposals.csv,client_name,Anonymised client name
+proposals.csv,practice,Practice that owns the proposal
+proposals.csv,proposal_value_usd,Estimated proposal value in US dollars
+status_events.csv,proposal_id,Identifier of the proposal
+status_events.csv,event_date,Date of the status change
+status_events.csv,status,"New status: Submitted, Under Review, Won, Lost or Withdrawn"
+offices.csv,office,Office name
+offices.csv,country,Country of the office
+offices.csv,country_code,ISO 3166-1 alpha-2 country code
+offices.csv,subdivision_code,ISO 3166-2 subdivision code where relevant (blank if not applicable)
+offices.csv,region,Reporting region
+general,extract_date,All files extracted from the proposal system on 2026-10-15
+general,coverage,Proposals submitted from 2025-01-01 to the extract date
