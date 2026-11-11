@@ -1,0 +1,420 @@
+{
+  "config": "{\"version\": \"5.43\", \"themeCollection\": {\"customTheme\": {\"name\": \"PPK_Ops_theme.json\", \"version\": \"5.43\", \"type\": 1}}, \"activeSectionIndex\": 0, \"defaultDrillFilterOtherVisuals\": true, \"settings\": {\"useNewFilterPaneExperience\": true, \"allowChangeFilterTypes\": true, \"useStylableVisualContainerHeader\": true, \"exportDataMode\": 1}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "name": "RegisteredResources",
+        "type": 1,
+        "disabled": false,
+        "items": [
+          {
+            "name": "PPK_Ops_theme.json",
+            "path": "PPK_Ops_theme.json",
+            "type": 202
+          }
+        ]
+      }
+    }
+  ],
+  "sections": [
+    {
+      "name": "f1c7a64a49a95691bfb8",
+      "displayName": "1 Growth",
+      "displayOption": 1,
+      "filters": "[]",
+      "ordinal": 0,
+      "width": 1280,
+      "height": 720,
+      "config": "{}",
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 8,
+          "z": 0,
+          "width": 1240,
+          "height": 44,
+          "config": "{\"name\": \"b65e0ec0dc365c1694c6\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 8, \"z\": 0, \"width\": 1240, \"height\": 44, \"tabOrder\": 0}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Proposal growth: 1 Jan-15 Oct 2026 vs same window 2025\", \"textStyle\": {\"fontWeight\": \"bold\", \"fontSize\": \"18pt\", \"color\": \"#1b1b1b\"}}]}]}}]}}}",
+          "filters": "[]",
+          "tabOrder": 0
+        },
+        {
+          "x": 20,
+          "y": 58,
+          "z": 1000,
+          "width": 230,
+          "height": 62,
+          "config": "{\"name\": \"ead09dd38d005d33aea8\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 58, \"z\": 1000, \"width\": 230, \"height\": 62, \"tabOrder\": 1000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_office.region\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"region\"}, \"Name\": \"dim_office.region\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Region'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 1000
+        },
+        {
+          "x": 260,
+          "y": 58,
+          "z": 2000,
+          "width": 230,
+          "height": 62,
+          "config": "{\"name\": \"24c9e83c8a29570982b8\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 260, \"y\": 58, \"z\": 2000, \"width\": 230, \"height\": 62, \"tabOrder\": 2000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_office.office\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"office\"}, \"Name\": \"dim_office.office\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Office'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 2000
+        },
+        {
+          "x": 500,
+          "y": 58,
+          "z": 3000,
+          "width": 300,
+          "height": 62,
+          "config": "{\"name\": \"62e31cedadb15a9087ec\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 500, \"y\": 58, \"z\": 3000, \"width\": 300, \"height\": 62, \"tabOrder\": 3000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_practice.practice\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"dim_practice\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"practice\"}, \"Name\": \"dim_practice.practice\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Practice'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 3000
+        },
+        {
+          "x": 810,
+          "y": 58,
+          "z": 4000,
+          "width": 200,
+          "height": 62,
+          "config": "{\"name\": \"98b072a6e24d5cf6bbae\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 810, \"y\": 58, \"z\": 4000, \"width\": 200, \"height\": 62, \"tabOrder\": 4000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_date.quarter_of_year\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"dim_date\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"quarter_of_year\"}, \"Name\": \"dim_date.quarter_of_year\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Period (quarter)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 4000
+        },
+        {
+          "x": 20,
+          "y": 124,
+          "z": 5000,
+          "width": 200,
+          "height": 86,
+          "config": "{\"name\": \"e3fdd25b54df5b239e38\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 124, \"z\": 5000, \"width\": 200, \"height\": 86, \"tabOrder\": 5000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Proposals 2026 YTD\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Proposals 2026 YTD\"}, \"Name\": \"fact_proposals.Proposals 2026 YTD\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Proposals, 2026 YTD'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 5000
+        },
+        {
+          "x": 227,
+          "y": 124,
+          "z": 6000,
+          "width": 200,
+          "height": 86,
+          "config": "{\"name\": \"92e6d7d5497a5c79a481\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 227, \"y\": 124, \"z\": 6000, \"width\": 200, \"height\": 86, \"tabOrder\": 6000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Volume Growth %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth %\"}, \"Name\": \"fact_proposals.Volume Growth %\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Volume growth'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 6000
+        },
+        {
+          "x": 434,
+          "y": 124,
+          "z": 7000,
+          "width": 200,
+          "height": 86,
+          "config": "{\"name\": \"58e0301f65325821aa88\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 434, \"y\": 124, \"z\": 7000, \"width\": 200, \"height\": 86, \"tabOrder\": 7000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Volume Growth % Gap-adjusted\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth % Gap-adjusted\"}, \"Name\": \"fact_proposals.Volume Growth % Gap-adjusted\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Volume growth, gap-adjusted'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 7000
+        },
+        {
+          "x": 641,
+          "y": 124,
+          "z": 8000,
+          "width": 200,
+          "height": 86,
+          "config": "{\"name\": \"350fc8460e6551159432\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 641, \"y\": 124, \"z\": 8000, \"width\": 200, \"height\": 86, \"tabOrder\": 8000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Value Growth %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Value Growth %\"}, \"Name\": \"fact_proposals.Value Growth %\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Value growth'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 8000
+        },
+        {
+          "x": 848,
+          "y": 124,
+          "z": 9000,
+          "width": 200,
+          "height": 86,
+          "config": "{\"name\": \"76393e3538bf59abb6ab\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 848, \"y\": 124, \"z\": 9000, \"width\": 200, \"height\": 86, \"tabOrder\": 9000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Won Value Growth %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Won Value Growth %\"}, \"Name\": \"fact_proposals.Won Value Growth %\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Won value growth'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 9000
+        },
+        {
+          "x": 1055,
+          "y": 124,
+          "z": 10000,
+          "width": 200,
+          "height": 86,
+          "config": "{\"name\": \"741ea4eb7ef85512b529\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1055, \"y\": 124, \"z\": 10000, \"width\": 200, \"height\": 86, \"tabOrder\": 10000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Win Rate 2026\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Win Rate 2026\"}, \"Name\": \"fact_proposals.Win Rate 2026\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Win rate 2026 (Jan-Jul cohorts)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 10000
+        },
+        {
+          "x": 20,
+          "y": 222,
+          "z": 11000,
+          "width": 400,
+          "height": 480,
+          "config": "{\"name\": \"8f8009818ed0586e944d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 222, \"z\": 11000, \"width\": 400, \"height\": 480, \"tabOrder\": 11000}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Category\": [{\"queryRef\": \"dim_office.region\"}], \"Y\": [{\"queryRef\": \"fact_proposals.Volume Growth % Gap-adjusted\"}, {\"queryRef\": \"fact_proposals.Value Growth % Gap-adjusted\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"region\"}, \"Name\": \"dim_office.region\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth % Gap-adjusted\"}, \"Name\": \"fact_proposals.Volume Growth % Gap-adjusted\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Value Growth % Gap-adjusted\"}, \"Name\": \"fact_proposals.Value Growth % Gap-adjusted\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth % Gap-adjusted\"}}}]}, \"objects\": {\"labels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Growth by region, gap-adjusted'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 11000
+        },
+        {
+          "x": 430,
+          "y": 222,
+          "z": 12000,
+          "width": 400,
+          "height": 480,
+          "config": "{\"name\": \"e68b41aedcaa5460b63e\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 430, \"y\": 222, \"z\": 12000, \"width\": 400, \"height\": 480, \"tabOrder\": 12000}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Category\": [{\"queryRef\": \"dim_practice.practice\"}], \"Y\": [{\"queryRef\": \"fact_proposals.Volume Growth %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"p\", \"Entity\": \"dim_practice\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"practice\"}, \"Name\": \"dim_practice.practice\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth %\"}, \"Name\": \"fact_proposals.Volume Growth %\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth %\"}}}]}, \"objects\": {\"labels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Volume growth by practice'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 12000
+        },
+        {
+          "x": 840,
+          "y": 222,
+          "z": 13000,
+          "width": 420,
+          "height": 480,
+          "config": "{\"name\": \"7efbadf2d1f4584184e5\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 840, \"y\": 222, \"z\": 13000, \"width\": 420, \"height\": 480, \"tabOrder\": 13000}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Category\": [{\"queryRef\": \"dim_date.month_name\"}], \"Series\": [{\"queryRef\": \"dim_date.year\"}], \"Y\": [{\"queryRef\": \"fact_proposals.Proposals Complete Months\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"d\", \"Entity\": \"dim_date\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"month_name\"}, \"Name\": \"dim_date.month_name\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"year\"}, \"Name\": \"dim_date.year\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Proposals Complete Months\"}, \"Name\": \"fact_proposals.Proposals Complete Months\"}]}, \"objects\": {\"dataPoint\": [{\"properties\": {\"fill\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#CC0000'\"}}}}}}, \"selector\": {\"data\": [{\"scopeId\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"dim_date\"}}, \"Property\": \"year\"}}, \"Right\": {\"Literal\": {\"Value\": \"2026L\"}}}}}]}}, {\"properties\": {\"fill\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#A9A8A2'\"}}}}}}, \"selector\": {\"data\": [{\"scopeId\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"dim_date\"}}, \"Property\": \"year\"}}, \"Right\": {\"Literal\": {\"Value\": \"2025L\"}}}}}]}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Proposals per month, 2026 vs 2025 (Oct 2026 partial, not shown)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 13000
+        }
+      ]
+    },
+    {
+      "name": "44b5b1a85b92514e8947",
+      "displayName": "2 Win rate & speed",
+      "displayOption": 1,
+      "filters": "[]",
+      "ordinal": 1,
+      "width": 1280,
+      "height": 720,
+      "config": "{}",
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 8,
+          "z": 0,
+          "width": 1240,
+          "height": 44,
+          "config": "{\"name\": \"40f8ffda6c235dbca11b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 8, \"z\": 0, \"width\": 1240, \"height\": 44, \"tabOrder\": 0}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Win rate is steady; Paris is slow to decide; recent quarters are not yet mature\", \"textStyle\": {\"fontWeight\": \"bold\", \"fontSize\": \"18pt\", \"color\": \"#1b1b1b\"}}]}]}}]}}}",
+          "filters": "[]",
+          "tabOrder": 0
+        },
+        {
+          "x": 20,
+          "y": 58,
+          "z": 1000,
+          "width": 230,
+          "height": 62,
+          "config": "{\"name\": \"a2e0b3ac9dfa5d6eb085\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 58, \"z\": 1000, \"width\": 230, \"height\": 62, \"tabOrder\": 1000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_office.region\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"region\"}, \"Name\": \"dim_office.region\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Region'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 1000
+        },
+        {
+          "x": 260,
+          "y": 58,
+          "z": 2000,
+          "width": 230,
+          "height": 62,
+          "config": "{\"name\": \"c5c3d55d17f757b59d54\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 260, \"y\": 58, \"z\": 2000, \"width\": 230, \"height\": 62, \"tabOrder\": 2000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_office.office\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"office\"}, \"Name\": \"dim_office.office\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Office'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 2000
+        },
+        {
+          "x": 500,
+          "y": 58,
+          "z": 3000,
+          "width": 300,
+          "height": 62,
+          "config": "{\"name\": \"f6cd6de20af954edb4fa\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 500, \"y\": 58, \"z\": 3000, \"width\": 300, \"height\": 62, \"tabOrder\": 3000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_practice.practice\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"dim_practice\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"practice\"}, \"Name\": \"dim_practice.practice\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Practice'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 3000
+        },
+        {
+          "x": 810,
+          "y": 58,
+          "z": 4000,
+          "width": 200,
+          "height": 62,
+          "config": "{\"name\": \"6b16846f06f0578abd7a\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 810, \"y\": 58, \"z\": 4000, \"width\": 200, \"height\": 62, \"tabOrder\": 4000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_date.quarter_of_year\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"dim_date\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"quarter_of_year\"}, \"Name\": \"dim_date.quarter_of_year\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Period (quarter)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 4000
+        },
+        {
+          "x": 20,
+          "y": 124,
+          "z": 5000,
+          "width": 300,
+          "height": 578,
+          "config": "{\"name\": \"c06dab5b99595a9cb4e8\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 124, \"z\": 5000, \"width\": 300, \"height\": 578, \"tabOrder\": 5000}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Category\": [{\"queryRef\": \"dim_office.office\"}], \"Y\": [{\"queryRef\": \"fact_proposals.Win Rate 2026\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"office\"}, \"Name\": \"dim_office.office\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Win Rate 2026\"}, \"Name\": \"fact_proposals.Win Rate 2026\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Win Rate 2026\"}}}]}, \"objects\": {\"labels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Win rate by office, 2026'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 5000
+        },
+        {
+          "x": 330,
+          "y": 124,
+          "z": 6000,
+          "width": 450,
+          "height": 578,
+          "config": "{\"name\": \"4a4ebd815de25f15912b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 330, \"y\": 124, \"z\": 6000, \"width\": 450, \"height\": 578, \"tabOrder\": 6000}}], \"singleVisual\": {\"visualType\": \"barChart\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Category\": [{\"queryRef\": \"dim_office.office\"}], \"Y\": [{\"queryRef\": \"fact_proposals.Median Days to Review\"}, {\"queryRef\": \"fact_proposals.Median Review to Decision\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"office\"}, \"Name\": \"dim_office.office\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Median Days to Review\"}, \"Name\": \"fact_proposals.Median Days to Review\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Median Review to Decision\"}, \"Name\": \"fact_proposals.Median Review to Decision\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Median Review to Decision\"}}}]}, \"objects\": {\"labels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}}}], \"dataPoint\": [{\"properties\": {\"fill\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#BFBFBF'\"}}}}}}, \"selector\": {\"metadata\": \"fact_proposals.Median Days to Review\"}}, {\"properties\": {\"fill\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#6F6E69'\"}}}}}}, \"selector\": {\"metadata\": \"fact_proposals.Median Review to Decision\"}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Median business days to decision, by stage'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 6000
+        },
+        {
+          "x": 790,
+          "y": 124,
+          "z": 7000,
+          "width": 470,
+          "height": 284,
+          "config": "{\"name\": \"c2072ebc26da58199b59\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 790, \"y\": 124, \"z\": 7000, \"width\": 470, \"height\": 284, \"tabOrder\": 7000}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Category\": [{\"queryRef\": \"dim_date.quarter\"}], \"Y\": [{\"queryRef\": \"fact_proposals.Median Days to Decision\"}, {\"queryRef\": \"fact_proposals.P90 Days to Decision\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"d\", \"Entity\": \"dim_date\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"quarter\"}, \"Name\": \"dim_date.quarter\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Median Days to Decision\"}, \"Name\": \"fact_proposals.Median Days to Decision\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"P90 Days to Decision\"}, \"Name\": \"fact_proposals.P90 Days to Decision\"}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Business days to decision by submission quarter'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 7000
+        },
+        {
+          "x": 790,
+          "y": 418,
+          "z": 8000,
+          "width": 470,
+          "height": 284,
+          "config": "{\"name\": \"49ea7d971ff550b2af48\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 790, \"y\": 418, \"z\": 8000, \"width\": 470, \"height\": 284, \"tabOrder\": 8000}}], \"singleVisual\": {\"visualType\": \"clusteredColumnChart\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Category\": [{\"queryRef\": \"dim_date.quarter\"}], \"Y\": [{\"queryRef\": \"fact_proposals.Share Still Open\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"d\", \"Entity\": \"dim_date\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"quarter\"}, \"Name\": \"dim_date.quarter\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Share Still Open\"}, \"Name\": \"fact_proposals.Share Still Open\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Share still open at extract (why 2026 Q3-Q4 look faster)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 8000
+        }
+      ]
+    },
+    {
+      "name": "30e6bf41cb615f1d932a",
+      "displayName": "3 Office scorecard",
+      "displayOption": 1,
+      "filters": "[]",
+      "ordinal": 2,
+      "width": 1280,
+      "height": 720,
+      "config": "{}",
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 8,
+          "z": 0,
+          "width": 1240,
+          "height": 44,
+          "config": "{\"name\": \"e585f80c6b5c5231a66b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 8, \"z\": 0, \"width\": 1240, \"height\": 44, \"tabOrder\": 0}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Office scorecard: growth, win rate and speed\", \"textStyle\": {\"fontWeight\": \"bold\", \"fontSize\": \"18pt\", \"color\": \"#1b1b1b\"}}]}]}}]}}}",
+          "filters": "[]",
+          "tabOrder": 0
+        },
+        {
+          "x": 20,
+          "y": 58,
+          "z": 1000,
+          "width": 230,
+          "height": 62,
+          "config": "{\"name\": \"6a176b50c3825935bd08\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 58, \"z\": 1000, \"width\": 230, \"height\": 62, \"tabOrder\": 1000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_office.region\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"region\"}, \"Name\": \"dim_office.region\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Region'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 1000
+        },
+        {
+          "x": 260,
+          "y": 58,
+          "z": 2000,
+          "width": 230,
+          "height": 62,
+          "config": "{\"name\": \"8b720c84e4ad56ad82d9\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 260, \"y\": 58, \"z\": 2000, \"width\": 230, \"height\": 62, \"tabOrder\": 2000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_office.office\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"office\"}, \"Name\": \"dim_office.office\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Office'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 2000
+        },
+        {
+          "x": 500,
+          "y": 58,
+          "z": 3000,
+          "width": 300,
+          "height": 62,
+          "config": "{\"name\": \"456119bf697c59f2bb09\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 500, \"y\": 58, \"z\": 3000, \"width\": 300, \"height\": 62, \"tabOrder\": 3000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_practice.practice\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"dim_practice\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"practice\"}, \"Name\": \"dim_practice.practice\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Practice'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 3000
+        },
+        {
+          "x": 810,
+          "y": 58,
+          "z": 4000,
+          "width": 200,
+          "height": 62,
+          "config": "{\"name\": \"7c8bd0c4f6665c648893\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 810, \"y\": 58, \"z\": 4000, \"width\": 200, \"height\": 62, \"tabOrder\": 4000}}], \"singleVisual\": {\"visualType\": \"slicer\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_date.quarter_of_year\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"dim_date\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"quarter_of_year\"}, \"Name\": \"dim_date.quarter_of_year\"}]}, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Period (quarter)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 4000
+        },
+        {
+          "x": 20,
+          "y": 124,
+          "z": 5000,
+          "width": 1240,
+          "height": 578,
+          "config": "{\"name\": \"8c8c191f1c8a57979266\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 124, \"z\": 5000, \"width\": 1240, \"height\": 578, \"tabOrder\": 5000}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"dim_office.office\"}, {\"queryRef\": \"dim_office.region\"}, {\"queryRef\": \"fact_proposals.Proposals 2025 YTD\"}, {\"queryRef\": \"fact_proposals.Proposals 2026 YTD\"}, {\"queryRef\": \"fact_proposals.Volume Growth %\"}, {\"queryRef\": \"fact_proposals.Volume Growth % Gap-adjusted\"}, {\"queryRef\": \"fact_proposals.Value Growth %\"}, {\"queryRef\": \"fact_proposals.Win Rate 2026\"}, {\"queryRef\": \"fact_proposals.Win Rate Change pp\"}, {\"queryRef\": \"fact_proposals.Median Days 2026\"}, {\"queryRef\": \"fact_proposals.Share Over 30 Days\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}, {\"Name\": \"o\", \"Entity\": \"dim_office\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"office\"}, \"Name\": \"dim_office.office\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"o\"}}, \"Property\": \"region\"}, \"Name\": \"dim_office.region\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Proposals 2025 YTD\"}, \"Name\": \"fact_proposals.Proposals 2025 YTD\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Proposals 2026 YTD\"}, \"Name\": \"fact_proposals.Proposals 2026 YTD\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth %\"}, \"Name\": \"fact_proposals.Volume Growth %\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth % Gap-adjusted\"}, \"Name\": \"fact_proposals.Volume Growth % Gap-adjusted\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Value Growth %\"}, \"Name\": \"fact_proposals.Value Growth %\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Win Rate 2026\"}, \"Name\": \"fact_proposals.Win Rate 2026\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Win Rate Change pp\"}, \"Name\": \"fact_proposals.Win Rate Change pp\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Median Days 2026\"}, \"Name\": \"fact_proposals.Median Days 2026\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Share Over 30 Days\"}, \"Name\": \"fact_proposals.Share Over 30 Days\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Volume Growth %\"}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'By office (volume: 1 Jan-15 Oct; win rate and days: cohorts to 15 Jul)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 5000
+        }
+      ]
+    },
+    {
+      "name": "a126831e5811513d8494",
+      "displayName": "4 Data quality",
+      "displayOption": 1,
+      "filters": "[]",
+      "ordinal": 3,
+      "width": 1280,
+      "height": 720,
+      "config": "{}",
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 8,
+          "z": 0,
+          "width": 1240,
+          "height": 44,
+          "config": "{\"name\": \"5f785bb3eacc579d80b5\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 8, \"z\": 0, \"width\": 1240, \"height\": 44, \"tabOrder\": 0}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Data quality: issues found, why they matter and how each was handled\", \"textStyle\": {\"fontWeight\": \"bold\", \"fontSize\": \"18pt\", \"color\": \"#1b1b1b\"}}]}]}}]}}}",
+          "filters": "[]",
+          "tabOrder": 0
+        },
+        {
+          "x": 20,
+          "y": 60,
+          "z": 1000,
+          "width": 900,
+          "height": 642,
+          "config": "{\"name\": \"c8ceab884e155bd3b4a7\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 60, \"z\": 1000, \"width\": 900, \"height\": 642, \"tabOrder\": 1000}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"ref_data_issues.issue_no\"}, {\"queryRef\": \"ref_data_issues.short\"}, {\"queryRef\": \"ref_data_issues.rows_affected\"}, {\"queryRef\": \"ref_data_issues.impact\"}, {\"queryRef\": \"ref_data_issues.treatment\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"i\", \"Entity\": \"ref_data_issues\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"issue_no\"}, \"Name\": \"ref_data_issues.issue_no\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"short\"}, \"Name\": \"ref_data_issues.short\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"rows_affected\"}, \"Name\": \"ref_data_issues.rows_affected\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"impact\"}, \"Name\": \"ref_data_issues.impact\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"treatment\"}, \"Name\": \"ref_data_issues.treatment\"}], \"OrderBy\": [{\"Direction\": 1, \"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"issue_no\"}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Data issues log'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 1000
+        },
+        {
+          "x": 930,
+          "y": 60,
+          "z": 2000,
+          "width": 330,
+          "height": 420,
+          "config": "{\"name\": \"1bb6bbbe3e7a5d72a8ed\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 930, \"y\": 60, \"z\": 2000, \"width\": 330, \"height\": 420, \"tabOrder\": 2000}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"ref_holiday_fetch.country_code\"}, {\"queryRef\": \"ref_holiday_fetch.year\"}, {\"queryRef\": \"ref_holiday_fetch.status\"}, {\"queryRef\": \"ref_holiday_fetch.holidays_returned\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"h\", \"Entity\": \"ref_holiday_fetch\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"h\"}}, \"Property\": \"country_code\"}, \"Name\": \"ref_holiday_fetch.country_code\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"h\"}}, \"Property\": \"year\"}, \"Name\": \"ref_holiday_fetch.year\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"h\"}}, \"Property\": \"status\"}, \"Name\": \"ref_holiday_fetch.status\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"h\"}}, \"Property\": \"holidays_returned\"}, \"Name\": \"ref_holiday_fetch.holidays_returned\"}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Holiday API coverage (Task 1)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 2000
+        },
+        {
+          "x": 930,
+          "y": 492,
+          "z": 3000,
+          "width": 160,
+          "height": 100,
+          "config": "{\"name\": \"afcfff3d44cf53c9a512\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 930, \"y\": 492, \"z\": 3000, \"width\": 160, \"height\": 100, \"tabOrder\": 3000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Rescaled Values\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Rescaled Values\"}, \"Name\": \"fact_proposals.Rescaled Values\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Values rescaled (units)'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 3000
+        },
+        {
+          "x": 1100,
+          "y": 492,
+          "z": 4000,
+          "width": 160,
+          "height": 100,
+          "config": "{\"name\": \"4de15b615545519399e3\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1100, \"y\": 492, \"z\": 4000, \"width\": 160, \"height\": 100, \"tabOrder\": 4000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Share Without Holiday Data\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Share Without Holiday Data\"}, \"Name\": \"fact_proposals.Share Without Holiday Data\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Proposals without holiday data'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 4000
+        },
+        {
+          "x": 930,
+          "y": 602,
+          "z": 5000,
+          "width": 330,
+          "height": 100,
+          "config": "{\"name\": \"c2fef78bd18f54ffb16c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 930, \"y\": 602, \"z\": 5000, \"width\": 330, \"height\": 100, \"tabOrder\": 5000}}], \"singleVisual\": {\"visualType\": \"card\", \"drillFilterOtherVisuals\": true, \"projections\": {\"Values\": [{\"queryRef\": \"fact_proposals.Proposals\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"fact_proposals\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Proposals\"}, \"Name\": \"fact_proposals.Proposals\"}]}, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}, \"labelDisplayUnits\": {\"expr\": {\"Literal\": {\"Value\": \"1D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Clean proposals'\"}}}}}]}}}",
+          "filters": "[]",
+          "tabOrder": 5000
+        }
+      ]
+    }
+  ]
+}

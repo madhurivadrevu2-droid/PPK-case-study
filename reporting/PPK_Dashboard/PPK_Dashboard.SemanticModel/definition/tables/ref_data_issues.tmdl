@@ -1,0 +1,66 @@
+table ref_data_issues
+	lineageTag: 99ce32c8-3408-59dd-9658-7d2ea46db2b7
+
+	column issue_no
+		dataType: int64
+		formatString: 0
+		lineageTag: 32fbe0d2-3fb6-59fa-885f-c3c7822da224
+		summarizeBy: none
+		sourceColumn: issue_no
+
+		annotation SummarizationSetBy = Automatic
+
+	column short
+		dataType: string
+		lineageTag: 938e3a41-7af6-5d69-a17d-6e8c463f374a
+		summarizeBy: none
+		sourceColumn: short
+
+		annotation SummarizationSetBy = Automatic
+
+	column issue
+		dataType: string
+		lineageTag: b8c055e6-3d09-591c-bdd7-70ec39917085
+		summarizeBy: none
+		sourceColumn: issue
+
+		annotation SummarizationSetBy = Automatic
+
+	column rows_affected
+		dataType: int64
+		formatString: 0
+		lineageTag: e5a2ff69-080f-5797-9547-9a1c5504a724
+		summarizeBy: none
+		sourceColumn: rows_affected
+
+		annotation SummarizationSetBy = Automatic
+
+	column impact
+		dataType: string
+		lineageTag: c63b1555-720a-5708-9133-ddf4c51e92fc
+		summarizeBy: none
+		sourceColumn: impact
+
+		annotation SummarizationSetBy = Automatic
+
+	column treatment
+		dataType: string
+		lineageTag: 2bcc58b4-61ec-5a1e-9eaa-1daf662fd79f
+		summarizeBy: none
+		sourceColumn: treatment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ref_data_issues = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ref_data_issues.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"issue_no", "short", "issue", "rows_affected", "impact", "treatment"}),
+				    Blanks = Table.ReplaceValue(Kept, "", null, Replacer.ReplaceValue, Table.ColumnNames(Kept)),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"issue_no", Int64.Type}, {"short", type text}, {"issue", type text}, {"rows_affected", Int64.Type}, {"impact", type text}, {"treatment", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

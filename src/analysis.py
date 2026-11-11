@@ -188,12 +188,17 @@ def write_powerbi_model(p: pd.DataFrame) -> None:
     dates = pd.date_range("2025-01-01", "2026-12-31", freq="D")
     pd.DataFrame({"date": dates.strftime("%Y-%m-%d"), "year": dates.year,
                   "quarter": dates.to_period("Q").astype(str), "month": dates.strftime("%Y-%m"),
+                  "quarter_of_year": "Q" + dates.quarter.astype(str),
+                  "month_num": dates.month, "month_name": dates.strftime("%b"),
                   "month_day": dates.strftime("%m-%d"),
                   "is_ytd_window": dates.strftime("%m-%d") <= YTD_END,
                   "is_mature_window": dates.strftime("%m-%d") <= MATURE_END}
                  ).to_csv(out / "dim_date.csv", index=False)
     pd.read_csv(CLEAN / "public_holidays.csv").to_csv(out / "ref_public_holidays.csv", index=False)
-    pd.read_csv(OUTPUTS / "data_issues_log.csv").to_csv(out / "ref_data_issues.csv", index=False)
+    issues = pd.read_csv(OUTPUTS / "data_issues_log.csv")
+    issues.insert(0, "issue_no", range(1, len(issues) + 1))
+    issues.to_csv(out / "ref_data_issues.csv", index=False)
+    pd.read_csv(OUTPUTS / "holiday_fetch_log.csv").to_csv(out / "ref_holiday_fetch.csv", index=False)
 
 
 def main() -> None:

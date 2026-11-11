@@ -1,0 +1,5 @@
+expression DataFolder = "C:\Users\Rahul Gautam\Downloads\PPK_Ops_Analytics_Case\solution\reporting\powerbi_model\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 46297e3a-042f-5a3c-8310-ad9887daeb32
+
+	annotation PBI_ResultType = Text
+

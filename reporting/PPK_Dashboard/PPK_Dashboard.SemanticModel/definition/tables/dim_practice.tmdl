@@ -1,0 +1,24 @@
+table dim_practice
+	lineageTag: 2ebc7647-a289-58ff-922e-7f6fa345922e
+
+	column practice
+		dataType: string
+		lineageTag: a21d720f-2c0c-598e-a653-60b111a6a7ee
+		summarizeBy: none
+		sourceColumn: practice
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_practice = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_practice.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"practice"}),
+				    Blanks = Table.ReplaceValue(Kept, "", null, Replacer.ReplaceValue, Table.ColumnNames(Kept)),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"practice", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

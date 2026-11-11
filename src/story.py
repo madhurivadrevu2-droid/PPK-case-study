@@ -141,6 +141,55 @@ def story_numbers() -> dict:
     }
 
 
+def qa() -> list[tuple[str, str]]:
+    """Likely panel questions with answers, computed from the same outputs."""
+    s = story_numbers()
+    g, imp, dub, pa = s["total"], s["impact"], s["dubai"], s["paris"]
+    pr = _read("growth_by_practice")
+    enr = pr.loc["Energy & Natural Resources"]
+    p = pd.read_csv(CLEAN / "proposals_enriched.csv")
+    d = p[p["close_status"].isin(["Won", "Lost"])]
+    won_med, lost_med = (d.groupby("close_status")["business_days_to_close"].median()[["Won", "Lost"]])
+    clients = p.groupby("client_name").size()
+    return [
+        ("Is the win-rate improvement real?",
+         f"No. +{g['win_rate_change_pp']:.1f}pp has p={g['win_rate_p_value']:.2f}, so I call it steady. Value win rate "
+         f"rose from {g['value_win_rate_2025']:.1f}% to {g['value_win_rate_2026']:.1f}% and won value is up "
+         f"{g['won_value_growth_pct']:.0f}%: we are winning bigger, not more often. Energy's +{enr.win_rate_change_pp:.0f}pp "
+         f"(p={enr.win_rate_p_value:.3f}) does not survive testing 11 practices at once."),
+        ("Is Dubai collapsing?",
+         f"Mostly no. August 2026 has zero submissions for Dubai and Riyadh while the system kept logging their status "
+         f"changes, so it is an extract gap. Gap-adjusted, Dubai is {dub['ytd_adj']:+.1f}% and Riyadh "
+         f"{dub['riyadh_adj']:+.1f}%; India & ME is {dub['ime_adj']:+.1f}%, not {dub['ime_reported']:+.1f}%. I would confirm "
+         f"with both offices before acting."),
+        ("Why is Paris slow?",
+         f"It is the decision step, not the review stage. Paris proposals that skip formal review still take "
+         f"{pa['no_review']:.0f} business days vs ~{pa['network_total']:.0f} elsewhere, in every practice and quarter, and "
+         f"{pa['over30']:.0f}% of decisions take over 30 days. That points to how Paris signs off, so the first step is "
+         f"mapping its approval chain."),
+        ("Does speed affect winning?",
+         f"Not in this data: won and lost proposals both take a median of {won_med:.0f} and {lost_med:.0f} business days, "
+         f"and Paris wins at the same rate as its EMEA peers. So the Paris fix is about capacity and client experience."),
+        ("Is turnaround improving?",
+         f"No. Q3 2026 looks faster only because {s['censoring']['open_pct']:.0f}% of that cohort is still open. On mature "
+         f"cohorts (submitted by 15 Jul) the median is {g['median_bd_to_close_2025']:.0f} days in both years."),
+        ("Is India & ME's low win rate a mix effect?",
+         f"No. It is {imp['ime_wr']:.1f}% vs {imp['rest_wr']:.1f}% for the rest of PPK (p<0.001), and similar in Dubai, "
+         f"New Delhi and Riyadh and across practices. Each point is worth ~{imp['ime_wins_per_pp']:.0f} wins and "
+         f"~${imp['ime_value_per_pp_musd']:.1f}M a year."),
+        ("Why rescale values rather than drop them?",
+         "Every Tokyo proposal from 1 Apr 2026 is keyed in thousands and nothing else is, so it is a unit switch, not "
+         "noise. Rescaling keeps 618 real proposals in the value numbers; each row is flagged in value_flag, so the "
+         "change is reversible. The 1.5B row is the same keying error in reverse."),
+        ("How concentrated are clients?",
+         f"Not at all: {len(clients):,} clients with ~{clients.mean():.1f} proposals each, and repeat clients win at the "
+         "same rate as new ones, so I left client analysis out of the story."),
+        ("What would you build next?",
+         "Local holiday calendars for India, UAE and Saudi Arabia (the API has none) and a Friday-Saturday weekend for "
+         "Riyadh; a monthly scheduled refresh; and a completeness alert that would have caught the Gulf gap on day one."),
+    ]
+
+
 NOTES = {
     "title": "Thank the panel. Frame: I was asked to build the fact base on proposal performance ahead of FY27 "
              "planning. Twenty minutes: the answer first, then growth, win rate, speed, data quality and the three "

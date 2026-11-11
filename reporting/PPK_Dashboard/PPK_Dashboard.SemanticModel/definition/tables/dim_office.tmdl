@@ -1,0 +1,56 @@
+table dim_office
+	lineageTag: 4bf30623-cf57-5612-9783-09240a1745b9
+
+	column office
+		dataType: string
+		lineageTag: 568cd5e7-1196-5099-9553-02e2d24e3894
+		summarizeBy: none
+		sourceColumn: office
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 0bef3e0a-439f-58f7-a115-24617dcb7133
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_code
+		dataType: string
+		lineageTag: 0767937f-91bb-5bee-8735-fcf4004f1cee
+		summarizeBy: none
+		sourceColumn: country_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column subdivision_code
+		dataType: string
+		lineageTag: d097b286-e702-5115-8b14-27f844d27b4d
+		summarizeBy: none
+		sourceColumn: subdivision_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 14f46044-50df-595d-a764-2d35f6765ce8
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_office = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_office.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"office", "country", "country_code", "subdivision_code", "region"}),
+				    Blanks = Table.ReplaceValue(Kept, "", null, Replacer.ReplaceValue, Table.ColumnNames(Kept)),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"office", type text}, {"country", type text}, {"country_code", type text}, {"subdivision_code", type text}, {"region", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

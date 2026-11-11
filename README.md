@@ -1,154 +1,167 @@
 # PPK Operations analytics case: proposal performance fact base
 
-A fact base on proposal performance across 14 offices and 11 practices, using proposals submitted
-from 1 Jan 2025 to the 15 Oct 2026 extract. It contains:
+A fact base on proposal performance across 14 offices and 11 practices. It covers proposals submitted from 1 Jan 2025 to the 15 Oct 2026 extract, and contains:
 - **Task 1:** a Python script that pulls public holidays from the Nager.Date API and adds business days to decision
-- **Task 2:** clean data, a Power BI model, an executive summary and a log of data issues
+- **Task 2:** a Power BI dashboard, an executive summary deck, an interactive HTML presentation, clean data and a data issues log
 
-## Headline findings
+## Headline
 
-1. **Growth.** Volume is up **+10.6%** and value **+10.4%**, comparing the same 1 Jan to 15 Oct window each year. Win rate rose from **40.3% to 41.6%**.
-   - **By region:** the Americas (+14.5%) and APAC (+14.2%) lead. India & Middle East is flat (−1.2%), because Dubai volume fell 42% in Q3 2026.
-   - **By practice:** Performance Improvement, TMT and Strategy lead (+15–16%). Energy & Natural Resources and M&A have flat volume but higher win rates (+8pp and +4pp).
-2. **Speed.** The median is **17 business days**, the same as 2025. Paris is the outlier at **23 days**, and the whole gap sits in the review-to-decision stage (20 days against 13 elsewhere), in every practice and quarter.
-   - The apparent Q3 2026 speed-up comes from unclosed slow proposals, not from a real improvement. See issue 12 below.
-3. **Data quality.** I found 12 issues in the source data, plus 1 gap in the holiday API, and treated each one (log below). The key traps:
+**Proposals are up ~12% and won value ~20% at a steady ~42% win rate. The FY27 upside is India & Middle East's win rate and Paris's slower decisions.**
+
+1. **Growth is concentrated and slowing.**
+   - Volume is up +10.6% as reported and **+11.9% gap-adjusted**. Value is up +10.4%. Both compare 1 Jan–15 Oct in each year.
+   - **Won value is up +19.9%** for proposals submitted 1 Jan–15 Jul.
+   - The Americas (+14.5%) and APAC (+14.2%) lead. Performance Improvement, TMT and Strategy grow +16–17% gap-adjusted.
+   - Year-on-year growth eased from +14% in Q1 to +9–12% in Q2–Q3.
+2. **Win rate is steady, but the regional gap is real.**
+   - Win rate rose from 40.3% to 41.6%. That +1.3pp is **not significant** (p = 0.13).
+   - India & Middle East wins **32.6% against 43.1%** for the rest of PPK (p < 0.001), and the gap is similar in all three of its offices.
+3. **Speed has not improved, and Paris lags.**
+   - The median is 17 business days in both years.
+   - Paris takes **23**, in every practice and quarter. Even proposals that skip formal review take 24 there. 30% of its decisions take more than 30 days, against about 11% elsewhere.
+4. **Data quality: 14 issues were found and treated** (log below). Five would have changed the answer:
    - IDs lost their leading zeros, so a naive join matches nothing.
-   - The "Customer Strategy & Marketing" practice was renamed "Customer" in 2026.
-   - Some values were entered in thousands.
-   - One value is a 1000× typo of $1.5B.
-4. **Actions.**
-   1. Put FY27 proposal capacity where growth is.
-   2. Fix the Paris review stage and the Dubai pipeline.
-   3. Fix data at source and automate this fact base.
+   - Tokyo keyed values in thousands from April 2026.
+   - One USD 1.5B value is a 1000× typo.
+   - The practice was renamed in 2026.
+   - **Dubai and Riyadh have no submissions in August 2026**, which made Dubai look −42% in Q3 when it is −5% gap-adjusted.
+5. **Actions:**
+   1. Plan FY27 proposal capacity on a ~9–12% run-rate, weighted to the growth regions and practices.
+   2. Lift India & Middle East win rate by 3pp, worth about 56 wins or $21M a year.
+   3. Cut Paris time to decision from 23 to 16 days by mapping its decision and sign-off step.
+
+   The enabler under all three: confirm the Gulf gap, fix data at source and refresh monthly.
 
 ## How to run
 
 ```bash
 pip install -r requirements.txt
-python run_pipeline.py            # clean -> holidays + business days -> analysis -> deck
+python run_pipeline.py            # clean -> holidays + business days -> analysis -> deck -> HTML -> Power BI project
 python run_pipeline.py --offline  # same, reusing saved holidays (no API call)
 ```
 
-You can also run each step on its own:
-
 | Step | Command | Outputs |
 |---|---|---|
-| Clean | `python src/clean.py` | `data/clean/proposals_clean.csv`, `status_events_clean.csv`, `outputs/data_issues_log.csv` |
+| Clean | `python src/clean.py` | `data/clean/proposals_clean.csv`, `status_events_clean.csv`, `outputs/data_issues_log.csv`, `outputs/submission_gaps.csv` |
 | **Task 1** | `python src/public_holidays.py` | `data/clean/public_holidays.csv`, `outputs/holiday_fetch_log.csv`, `data/clean/proposals_enriched.csv` |
-| Analysis | `python src/analysis.py` | `outputs/*.csv`, `reporting/powerbi_model/*.csv` |
+| Analysis | `python src/analysis.py` | `outputs/*.csv` (growth, significance, gap-adjusted, pipeline, stages), `reporting/powerbi_model/*.csv` |
 | Deck | `python src/build_slides.py` | `reporting/PPK_Executive_Summary.pptx` |
+| HTML | `python src/build_html.py` | `reporting/PPK_Proposal_Performance.html`, `reporting/presenter_script.md` |
+| Power BI | `python src/build_powerbi.py` | `reporting/PPK_Dashboard/PPK_Dashboard.pbip` |
 
-`public_holidays.py` runs the cleaning step itself if the clean file is missing, so Task 1 is also a single command. You need Python 3.10+; I tested with 3.12, pandas 3.0 and numpy 2.5.
+`public_holidays.py` runs the cleaning step itself if the clean file is missing, so Task 1 is also a single command. It needs Python 3.10+; tested with 3.12, pandas 3.0, numpy 2.5 and python-pptx 1.0.
 
-## Repository structure
+## Deliverables
 
-```
-run_pipeline.py          one command for the whole pipeline
-src/                     config, clean, public_holidays (Task 1), analysis, build_slides
-data/raw/                extract as received (unchanged)
-data/clean/              cleaned proposals, events, holidays, proposals with business days
-outputs/                 data issues log, holiday fetch log, analysis tables
-reporting/               executive summary .pptx, Power BI model CSVs, DAX measures, theme, build guide
-```
+| File | What it is |
+|---|---|
+| `reporting/PPK_Dashboard.pbix` | Power BI dashboard, 4 pages: Growth; Win rate & speed; Office scorecard; Data quality. Slicers for region, office, practice and period (quarter). |
+| `reporting/PPK_Dashboard/` | The same dashboard as a Power BI project (PBIP: TMDL model and report), generated by `build_powerbi.py` and diff-able in git. |
+| `reporting/PPK_Executive_Summary.pptx` | Executive summary: growth, speed with the three actions, and a data-quality page. |
+| `reporting/PPK_Proposal_Performance.html` | A 9-page presentation that works offline. Charts filter live by region, office, practice and period, with a gap-adjusted toggle. N shows speaker notes; Ctrl+P saves a PDF. |
+| `reporting/presenter_script.md` | Talk track per page, live-demo moves, and answers to likely panel questions. |
+
+**Power BI from the project:**
+1. Open `reporting/PPK_Dashboard/PPK_Dashboard.pbip` in Power BI Desktop and click **Refresh**.
+2. If the repo is in a different folder, first set the `DataFolder` parameter under *Transform data → Edit parameters*.
+
+The growth measures anchor the year inside DAX (2026 vs 2025, 1 Jan–15 Oct), so they stay like-for-like under any slicer. Slice by quarter with the "Period (quarter)" slicer.
 
 ## Task 1: holidays and business days
 
-- **API.** The script calls `GET https://date.nager.at/api/v3/PublicHolidays/{year}/{countryCode}` for each of the 12 office countries, for 2025 and 2026. It uses Python's standard `urllib`, a 15-second timeout, and 3 retries with exponential backoff.
-- **No data is not an error.** India (IN), the UAE (AE) and Saudi Arabia (SA) return **HTTP 204 (no content)**. These are logged as `no_data` in `outputs/holiday_fetch_log.csv`, and the script prints a warning and carries on.
-  - Proposals from those offices are counted on weekends only and flagged `holiday_data_missing = True`. That's 3,504 proposals, 14.4%.
-- **Regional holidays.** A holiday applies to an office if it is national (`global = true`) or if its `counties` list includes the office's ISO 3166-2 code from `offices.csv`. For example, New York gets Lincoln's Birthday (`US-NY`) and London gets England's bank holidays (`GB-ENG`).
-  - Using national holidays only would give London almost no holidays, because Nager tags UK bank holidays by nation.
-- **Business days** are `numpy.busday_count(submitted_date, close_date, holidays)`. That counts business days in `[submitted, close)`, so a proposal submitted Monday and closed Tuesday scores 1.
-  - Saturdays, Sundays and the office's holidays are excluded. Open proposals get no value.
+- **API.** The script calls `GET https://date.nager.at/api/v3/PublicHolidays/{year}/{countryCode}` for the 12 office countries, for 2025 and 2026.
+  - It uses the standard library `urllib`, a 10-second timeout and 2 retries.
+  - **Safe:** if a call fails, the script reuses the saved copy of that country-year (status `cached`). After 3 errors in a row it stops calling, so a network outage can't wipe good data or hang the run.
+- **No data is flagged, not fatal.** India (IN), the UAE (AE) and Saudi Arabia (SA) return **HTTP 204**. They are logged as `no_data` in `outputs/holiday_fetch_log.csv`, with a warning. Their offices are counted on weekends only and flagged `holiday_data_missing` (3,504 proposals, 14.4%).
+- **Which holidays apply.** A holiday counts as a day off for an office if:
+  - its type includes **Public** (observances such as Lincoln's Birthday and optional days such as Carnival are ignored), and
+  - it is national, or listed for the office's ISO 3166-2 subdivision.
+
+  That is why London gets England's bank holidays (`GB-ENG`). A national-only filter would give London almost none.
+- **Business days** are `numpy.busday_count(submitted_date, close_date, holidays)`, which counts the business days in `[submitted, close)`. Submitted Monday and closed Tuesday gives 1.
+  - The submit-to-review stage uses the same calendar, so the stages add up.
 - **Checks:**
-  - business days never exceed calendar days
-  - spot checks match a manual `busday_count`
-  - 23,220 closed proposals get a value
+  - Business days are never more than calendar days.
+  - Spot checks match a manual count.
+  - 23,220 closed proposals get a value.
 
 ## Definitions
 
 | Metric | Definition |
 |---|---|
-| Volume | Count of proposals submitted (after removing duplicates and test records) |
+| Volume | Count of proposals submitted, after removing duplicates and test records |
 | Value | Sum of `proposal_value_usd` after unit corrections |
 | Win rate | Won / (Won + Lost). Withdrawn proposals (4.6% of closed) and open proposals are excluded |
+| Won value, value win rate | Value of Won proposals; value win rate = won value / decided value |
 | Turnaround | Business days from `submitted_date` to the first Won or Lost event |
-| Stage split | Submitted to Under Review, and Under Review to decision. About 30% of proposals skip Under Review |
-| Growth (volume, value) | 2026 vs 2025 over the same window, **1 Jan to 15 Oct**, because 2026 is a partial year |
-| Win rate and turnaround trends | Cohorts submitted **1 Jan to 15 Jul** in each year. These are at least 90 days old at extract, so nearly all have closed (the slowest observed decision took 161 days) |
-| Open / stale | No Won, Lost or Withdrawn event by the extract. Stale means open for more than 90 days |
+| Growth (volume, value) | 2026 vs 2025 over the same window, **1 Jan–15 Oct**, because 2026 is a partial year |
+| Win rate, won value and turnaround trends | Cohorts submitted **1 Jan–15 Jul** in each year. These are at least 90 days old at extract, and the slowest observed decision took 161 days |
+| Gap-adjusted | Excludes August for Dubai and Riyadh **in both years** (see issue 14), so the comparison stays like-for-like |
+| Significance | Two-proportion z-test on win-rate changes. p < 0.05 counts as significant, and practice-level claims are tested against 0.05/11 |
+| Open / stale | No Won, Lost or Withdrawn event at the extract. Stale means no status change for more than 90 days |
 
 ## Data issues log
 
 | # | Issue | Rows | Impact | Treatment |
 |---|---|---:|---|---|
-| 1 | Exact duplicate proposal rows | 300 | Inflates volume and value | Dropped duplicates, kept first |
-| 2 | Test / dummy records (ZZ IDs, clients like 'TEST CLIENT', 'Dummy Co') | 50 | Fake round values (USD 1-5M) inflate value | Excluded from clean data |
-| 3 | Mixed date formats in submitted_date (5,670 dd/mm/yyyy, 2,884 'dd Mon yyyy') | 8,554 | Naive parsing misreads or drops ~35% of dates | Parsed each format explicitly; slash dates are day-first (first part >12 in 3,400+ rows, second part never >12) |
-| 4 | Office names with inconsistent case / stray whitespace | 744 | Splits one office into up to 5 labels | Trimmed and case-matched to offices.csv |
-| 5 | Practice names with inconsistent case / stray whitespace | 681 | Splits one practice into several labels | Trimmed and case-matched |
-| 6 | Practice renamed: 'Customer Strategy & Marketing' (2025) -> 'Customer' (from Jan 2026) | 952 | Without merging, one practice looks like it vanished and a new one appeared | Merged under 'Customer Strategy & Marketing' to keep 11 practices comparable |
-| 7 | Values entered in USD thousands (USD 30 - 2,000 vs median ~USD 244K; empty gap between 2K and 30K) | 618 | Understates value and distorts averages | Multiplied by 1,000; flagged in value_flag |
-| 8 | Extreme value outlier (USD 1.5B, ~3,700x median; 1000x keying error) | 1 | Single row would be ~25% of total 2025 value | Divided by 1,000 (USD 1.5M); flagged in value_flag |
-| 9 | proposal_id lost leading zeros in status_events (e.g. '10131' vs '0010131') | 64,391 | A string join matches ~0% of events to proposals | Zero-padded to 7 characters before joining |
-| 10 | Status events with no matching clean proposal (test records) | 100 | Would add phantom outcomes | Excluded |
-| 11 | Open proposals with no status change for >90 days (likely stale, never closed) | 4 | Pipeline overstated; true win/loss unknown | Kept as open; excluded from win rate and turnaround; flagged is_stale |
-| 12 | Right-censoring: recent proposals still open at extract (Jul-Oct 2026 cohorts) | 1,148 | Recent cohorts only contain fast decisions, so turnaround looks better than it is | Trends use mature cohorts only (submitted on/before 15 Jul, >=90 days before extract) |
-| 13 | Holiday API returns no data for IN, AE, SA (HTTP 204); Task 1, see `outputs/holiday_fetch_log.csv` | 3,504 | Business days for those offices slightly overstated | Weekends only; flagged holiday_data_missing |
+| 1 | **Duplicate rows**: exact duplicate proposal rows | 300 | Inflates volume and value | Dropped duplicates, kept first |
+| 2 | **Test / dummy records**: ZZ IDs, clients like 'TEST CLIENT', 'Dummy Co' | 50 | Fake round values (USD 1–5M) inflate value | Excluded |
+| 3 | **Mixed date formats**: 5,670 dd/mm/yyyy and 2,884 'dd Mon yyyy' | 8,554 | Naive parsing misreads or drops ~35% of dates | Each format parsed explicitly. Slash dates are day-first: the first part is >12 in 3,400+ rows, the second part never is |
+| 4 | **Office name variants**: case and stray whitespace | 744 | Splits one office into up to 5 labels | Trimmed and case-matched to `offices.csv` |
+| 5 | **Practice name variants**: case and stray whitespace | 681 | Splits one practice into several labels | Trimmed and case-matched |
+| 6 | **Practice renamed in 2026**: 'Customer Strategy & Marketing' became 'Customer' from Jan 2026 | 952 | One practice looks like it vanished and a new one appeared | Merged under 'Customer Strategy & Marketing' (11 practices, as in the brief) |
+| 7 | **Tokyo values in thousands**: every Tokyo proposal from 1 Apr 2026 (USD 30–4,226 against a median of USD 249,400); no other office or period affected | 618 | Understates Tokyo value ~1000× from April 2026, probably a fiscal-year template change | Multiplied by 1,000 by rule (office + date). Cross-checked against the empty value band between USD 4,226 and 30,000. Flagged in `value_flag` |
+| 8 | **USD 1.5B keying error**: ~6,000× the median | 1 | This one row would be ~25% of 2025 value | Divided by 1,000 (USD 1.5M). Flagged in `value_flag` |
+| 9 | **IDs lost leading zeros** in `status_events` ('10131' vs '0010131') | 64,391 | A string join matches ~0% of events to proposals | Zero-padded to 7 characters before joining |
+| 10 | **Orphan status events** belonging to test records | 100 | Would add phantom outcomes | Excluded |
+| 11 | **Stale open proposals**: no status change for more than 90 days | 2 | Pipeline overstated; true win/loss unknown | Kept as open, excluded from win rate and turnaround, flagged `is_stale` |
+| 12 | **Proposals skip review**: 30% of decided proposals go straight from Submitted to Won/Lost | 6,729 | The stage split only exists for reviewed proposals. Skipping doesn't change win rate or speed | Stage chart uses reviewed proposals, total turnaround uses all, and the no-review median is shown separately |
+| 13 | **Recent cohorts not yet closed** (right-censoring) | 1,148 | Recent cohorts contain only fast decisions, so turnaround looks better than it is | Trends use mature cohorts only (submitted by 15 Jul) |
+| 14 | **Missing Gulf submissions, Aug 2026**: zero proposals from Dubai and Riyadh, while their status events kept flowing (105 events) | ~110 missing | Dubai Q3 looks −42% and India & ME looks flat | Kept as received (rows can't be imputed). Growth is also reported gap-adjusted. Confirm with the offices |
+| (Task 1) | **Holiday API has no data for IN, AE, SA** (HTTP 204) | 3,504 | Business days for those offices slightly overstated | Weekends only; flagged `holiday_data_missing` |
 
 I also checked these and found no issue:
 - no missing values
 - no dates outside the coverage window
 - no event dated before its proposal's submission
 - no proposal with more than one Won/Lost/Withdrawn event
-- every Submitted event date equals the proposal's `submitted_date`
+- no status after a closing status
+- every Submitted event date equals `submitted_date`
 
 ## Assumptions
 
-- Slash dates are `dd/mm/yyyy`. The first part exceeds 12 in 3,400+ rows and the second part never does.
-- Values below USD 10,000 were keyed in thousands. There's a clean gap between about USD 2K and USD 30K, and once rescaled these values match the overall distribution. The USD 1.5B value is a 1000× keying error. All of these are flagged, so they can be reversed.
-- "Customer" (2026) and "Customer Strategy & Marketing" (2025) are the same practice. The labels switch cleanly on 1 Jan 2026, and this matches the 11 practices in the brief.
+- Slash dates are `dd/mm/yyyy` (see issue 3).
+- Tokyo's values from 1 Apr 2026 are in USD thousands, and the USD 1.5B value is a 1000× typo. Both are flagged and reversible.
+- "Customer" (2026) and "Customer Strategy & Marketing" (2025) are the same practice: the label switches cleanly on 1 Jan 2026.
 - Records with `ZZ` IDs or placeholder client names are test data.
-- Weekends are Saturday and Sunday everywhere, as the brief says. Saudi Arabia actually has a Friday–Saturday weekend (listed under next steps).
+- The missing Dubai and Riyadh submissions in August 2026 are an extract gap, not zero activity, because their status changes continued that month.
+- Weekends are Saturday and Sunday everywhere, as the brief says. Saudi Arabia actually has a Friday–Saturday weekend (see next steps).
 - Withdrawn proposals are neither a win nor a loss.
-
-## Dashboard
-
-Power BI Desktop builds the `.pbix` by hand. I've prepared everything it needs in `reporting/`:
-- `powerbi_model/`: a star schema of `fact_proposals`, `fact_status_events`, `dim_office`, `dim_practice` and `dim_date`
-- `powerbi_measures.dax`: all measures, including like-for-like YoY that still responds to slicers
-- `ppk_theme.json`
-- `powerbi_build_guide.md`: a page-by-page spec covering growth, speed, and data quality with definitions
-
-There are slicers for region, office, practice, year and quarter.
 
 ## AI use
 
-I built this repository with Claude Code (Anthropic) as a pair-programmer. It did the following:
-- profiled the raw data and found the issues listed above
-- drafted the cleaning, holiday API, analysis and deck-generation code
-- drafted the DAX measures, the Power BI build guide and this README
+I built this with **Claude Code (Anthropic)** as a pair-programmer:
+- It profiled the raw data and drafted all the code: cleaning, the holiday API script, analysis, the deck, the HTML and the Power BI project generator.
+- It also drafted the storyline, the speaker notes and this README.
 
-I validated the AI output by running every script end to end and reconciling counts at each step:
-- 24,722 raw rows, minus 300 duplicates and 50 test records, leaves 24,372
-- all 64,391 events join after ID padding
-- business days are never more than calendar days, and spot checks match manual `busday_count`
+Two independent AI reviewers then checked the work against the brief:
+- **The correctness reviewer** re-derived the data issues and recomputed every headline number from raw data. It found the August Gulf gap, the Tokyo-only unit switch and a holiday inconsistency in the stage split.
+- **The analysis reviewer** tested additional analyses for significance and sized each action.
 
-I checked one finding before using it: Consumer Products' +29% value growth is broad-based. Proposals above USD 2M went from 2 to 11, so a single bad record isn't driving it.
+Every finding was re-verified in code before it went into the story. For example, the Gulf gap was confirmed in the raw extract, alongside 49 and 56 status events that month.
 
-I checked the deck by rendering every slide. All numbers on the slides are generated from `outputs/`, not typed by hand.
+**Validation:**
+- Counts reconcile at each step: 24,722 raw rows, minus 300 duplicates and 50 test records, leaves 24,372.
+- All 64,391 events join after ID padding.
+- A fresh clone reruns end to end with identical outputs.
+- Every deck number and HTML number is generated from `outputs/`, not typed by hand. Every slide and HTML page was rendered and inspected.
+- The Power BI file was opened and refreshed in Power BI Desktop, and its numbers match the pipeline.
 
 ## Next steps
 
-1. Add local holidays for India, the UAE and Saudi Arabia from a manual calendar or a second API, and a Friday–Saturday weekend for Riyadh.
-2. Map the Paris review workflow, then test whether its review-to-decision time falls toward the 13-day network median.
-3. Fix data at source in the proposal system:
-   - picklists for office and practice
-   - ISO dates
-   - a USD range check
-   - text IDs
-   - a test-record flag
-   - auto-closing proposals that have gone stale
-4. Schedule `run_pipeline.py` with Power Automate or a scheduled task, so the dashboard refreshes monthly without manual work.
-5. Add win-rate drivers beyond office and practice, such as client repeat rate and value band, once more fields are available.
+1. Add local holidays for India, the UAE and Saudi Arabia (a manual calendar or a second API), and a Friday–Saturday weekend for Riyadh.
+2. Confirm the August 2026 gap with Dubai and Riyadh, and backfill it if the proposals exist.
+3. Map the Paris decision and sign-off steps, then track its median and its over-30-day share monthly.
+4. Fix data at source: picklists for office and practice, ISO dates, USD range checks, text IDs, a test-record flag and a monthly completeness alert.
+5. Schedule `run_pipeline.py` (Power Automate or a scheduled task) so the dashboard refreshes without manual work.
+6. Estimate time to decision with a method that accounts for still-open proposals (survival analysis), instead of cutting off at mature cohorts.

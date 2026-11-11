@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "PPK_Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "22d4ad54-eaa8-5127-bddc-ab9dd89d3b25"
+  }
+}

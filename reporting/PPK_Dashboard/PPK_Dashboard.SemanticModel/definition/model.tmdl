@@ -1,0 +1,19 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DataFolder", "fact_proposals", "dim_office", "dim_practice", "dim_date", "ref_data_issues", "ref_holiday_fetch"]
+
+ref table fact_proposals
+ref table dim_office
+ref table dim_practice
+ref table dim_date
+ref table ref_data_issues
+ref table ref_holiday_fetch
+

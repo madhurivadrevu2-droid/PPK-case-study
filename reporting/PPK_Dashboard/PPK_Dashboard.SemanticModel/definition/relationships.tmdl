@@ -1,0 +1,13 @@
+relationship 51616d07-a42c-5ffb-8cd5-9a7107884a4c
+	fromColumn: fact_proposals.submitted_date
+	toColumn: dim_date.date
+	joinOnDateBehavior: datePartOnly
+
+relationship da948da8-ed4e-58ca-bb9d-71b3a0b435a8
+	fromColumn: fact_proposals.office
+	toColumn: dim_office.office
+
+relationship 30cae8a8-8668-5a4f-9295-0a3db5aa773c
+	fromColumn: fact_proposals.practice
+	toColumn: dim_practice.practice
+

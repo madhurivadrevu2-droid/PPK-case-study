@@ -14,7 +14,7 @@ import pandas as pd
 
 from analysis import gap_mask as gap_flags
 from config import CLEAN, OUTPUTS, REPORTING
-from story import NOTES, story_numbers
+from story import NOTES, qa, story_numbers
 
 TEMPLATE = Path(__file__).with_name("presentation_template.html")
 STATUS_CODE = {"Won": 1, "Lost": 2, "Withdrawn": 3}
@@ -67,11 +67,39 @@ def main() -> None:
     out = REPORTING / "PPK_Proposal_Performance.html"
     out.write_text(html, encoding="utf-8")
     print(f"Saved {out} ({out.stat().st_size / 1e6:.1f} MB)")
+    script = REPORTING / "presenter_script.md"
+    script.write_text(presenter_script(data["story"]), encoding="utf-8")
+    print(f"Saved {script}")
     downloads = Path.home() / "Downloads"
     if downloads.is_dir():
-        copy = downloads / out.name
-        copy.write_text(html, encoding="utf-8")
-        print(f"Copied to {copy}")
+        for src in (out, script):
+            copy = downloads / ("PPK_" + src.name if not src.name.startswith("PPK") else src.name)
+            copy.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+            print(f"Copied to {copy}")
+
+
+PAGES = [("title", "Title"), ("summary", "Executive summary"), ("growth", "Growth"), ("offices", "Office scorecard"),
+         ("winrate", "Win rate"), ("speed", "Speed"), ("quality", "Data quality"), ("actions", "Actions"),
+         ("appendix", "Appendix: definitions and method")]
+
+
+def presenter_script(s: dict) -> str:
+    lines = ["# Presenter script: PPK proposal performance", "",
+             "Open `PPK_Proposal_Performance.html` in Edge or Chrome. Use the arrow keys to move, N for these notes on "
+             "screen, F for full screen, and Ctrl+P to save a PDF. About 20 minutes plus questions.", "",
+             f"**Headline:** {s['headline']}.", "", "## Talk track", ""]
+    for i, (key, title) in enumerate(PAGES, 1):
+        lines += [f"### {i}. {title}", "", NOTES[key], ""]
+    lines += ["## Live demo moves", "",
+              "- Growth page: set Region to India & Middle East, then untick Gap-adjusted to show how the August gap "
+              "changes the answer.",
+              "- Office scorecard: set Practice to one practice and show that the Paris and India & ME patterns hold.",
+              "- Win rate page: point at the overlapping 2025 and 2026 ranges (noise) vs the gap between regions (real).",
+              "- Speed page: set Office to Paris, then Period to a single quarter.", "",
+              "## Likely questions", ""]
+    for q, a in qa():
+        lines += [f"**{q}**", "", a, ""]
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":

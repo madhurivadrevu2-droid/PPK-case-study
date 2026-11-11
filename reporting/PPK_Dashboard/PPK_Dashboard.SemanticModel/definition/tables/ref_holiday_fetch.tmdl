@@ -1,0 +1,58 @@
+table ref_holiday_fetch
+	lineageTag: 994b7473-4779-5089-a909-fceac72aad01
+
+	column country_code
+		dataType: string
+		lineageTag: 79a4583c-f618-522a-b98c-c202adce004c
+		summarizeBy: none
+		sourceColumn: country_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: e0649cfc-c01a-533e-936b-bf01780a0ebd
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: bfb61207-1360-593d-b2cb-bdab8fe5dfe3
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column holidays_returned
+		dataType: int64
+		formatString: 0
+		lineageTag: fd130bf0-1e71-5cd2-828d-d4e672e9833d
+		summarizeBy: none
+		sourceColumn: holidays_returned
+
+		annotation SummarizationSetBy = Automatic
+
+	column detail
+		dataType: string
+		lineageTag: 95005adb-ed0f-549e-848c-91461bad53d0
+		summarizeBy: none
+		sourceColumn: detail
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ref_holiday_fetch = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ref_holiday_fetch.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"country_code", "year", "status", "holidays_returned", "detail"}),
+				    Blanks = Table.ReplaceValue(Kept, "", null, Replacer.ReplaceValue, Table.ColumnNames(Kept)),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"country_code", type text}, {"year", Int64.Type}, {"status", type text}, {"holidays_returned", Int64.Type}, {"detail", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

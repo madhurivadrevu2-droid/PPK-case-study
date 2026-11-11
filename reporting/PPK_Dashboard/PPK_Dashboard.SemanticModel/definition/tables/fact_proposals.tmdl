@@ -1,0 +1,327 @@
+table fact_proposals
+	lineageTag: b4866855-09b5-569e-921d-e4f811ecafb6
+
+	measure Proposals = COUNTROWS(fact_proposals)
+		formatString: #,0
+		lineageTag: 423ed4b6-7a36-5b57-9db5-ce3039cda051
+
+	measure 'Value USD' = SUM(fact_proposals[proposal_value_usd])
+		formatString: $#,0
+		lineageTag: fcb8439b-644d-5665-bdf4-ed6411f650a2
+
+	measure Won = CALCULATE([Proposals], fact_proposals[close_status] = "Won")
+		formatString: #,0
+		lineageTag: a88b8252-9f87-5824-bb80-4093ce9928b3
+
+	measure Decided = CALCULATE([Proposals], fact_proposals[is_decided] = TRUE())
+		formatString: #,0
+		lineageTag: d81b6697-bc96-5981-9d6d-3f620cff94a9
+
+	measure 'Win Rate' = DIVIDE([Won], [Decided])
+		formatString: 0.0%
+		lineageTag: e259f287-d23e-5aa6-8c57-f414f8515fc5
+
+	measure 'Won Value USD' = CALCULATE([Value USD], fact_proposals[close_status] = "Won")
+		formatString: $#,0
+		lineageTag: 069a371a-6085-5a5d-bdff-b43969c427e4
+
+	measure 'Median Days to Decision' = CALCULATE(MEDIAN(fact_proposals[business_days_to_close]), fact_proposals[is_decided] = TRUE())
+		formatString: 0
+		lineageTag: 33a83bc1-6cc8-531f-841f-3bedad81d8b4
+
+	measure 'P90 Days to Decision' = CALCULATE(PERCENTILE.INC(fact_proposals[business_days_to_close], 0.9), fact_proposals[is_decided] = TRUE())
+		formatString: 0
+		lineageTag: e8e398ca-9c59-5c5d-b311-ba61d58c8b9b
+
+	measure 'Median Days to Review' = CALCULATE(MEDIAN(fact_proposals[bd_to_review]), fact_proposals[is_decided] = TRUE())
+		formatString: 0
+		lineageTag: 32db07dc-b9ba-5e0b-ad54-8fac551ad6c7
+
+	measure 'Median Review to Decision' = CALCULATE(MEDIAN(fact_proposals[bd_review_to_close]), fact_proposals[is_decided] = TRUE())
+		formatString: 0
+		lineageTag: 81941994-6a9d-5067-b8f8-7c27cf824ad7
+
+	measure 'Share Over 30 Days' = DIVIDE(CALCULATE([Proposals], fact_proposals[is_decided] = TRUE(), fact_proposals[business_days_to_close] > 30), [Decided])
+		formatString: 0%
+		lineageTag: 616e7914-60df-5766-863e-d43753a2805d
+
+	measure 'Open Pipeline USD' = CALCULATE([Value USD], fact_proposals[is_open] = TRUE())
+		formatString: $#,0
+		lineageTag: 934fe540-673c-5dd6-b3da-afa6b0da4aed
+
+	measure 'Share Still Open' = DIVIDE(CALCULATE([Proposals], fact_proposals[is_open] = TRUE()), [Proposals])
+		formatString: 0%
+		lineageTag: f3ced9fa-934b-5151-a6a9-85b0ec4d2e1a
+
+	measure 'Proposals 2026 YTD' = CALCULATE([Proposals], dim_date[year] = 2026, dim_date[is_ytd_window] = TRUE())
+		formatString: #,0
+		lineageTag: c487924e-bf51-5932-854a-e71c9a3d707c
+
+	measure 'Proposals 2025 YTD' = CALCULATE([Proposals], dim_date[year] = 2025, dim_date[is_ytd_window] = TRUE())
+		formatString: #,0
+		lineageTag: 616ed75d-3344-5665-937b-e2d763fcccb6
+
+	measure 'Volume Growth %' = DIVIDE([Proposals 2026 YTD] - [Proposals 2025 YTD], [Proposals 2025 YTD])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 753e9c0d-9293-5cd2-95c5-4ef8f07c202c
+
+	measure 'Volume Growth % Gap-adjusted' = VAR c = CALCULATE([Proposals 2026 YTD], fact_proposals[in_submission_gap] = FALSE()) VAR p = CALCULATE([Proposals 2025 YTD], fact_proposals[in_submission_gap] = FALSE()) RETURN DIVIDE(c - p, p)
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: be7a7aed-17cb-5f5a-819d-5d2b665df4dc
+
+	measure 'Value 2026 YTD' = CALCULATE([Value USD], dim_date[year] = 2026, dim_date[is_ytd_window] = TRUE())
+		formatString: $#,0
+		lineageTag: 687b77f1-1a5c-55c2-9116-03ed608cb02a
+
+	measure 'Value 2025 YTD' = CALCULATE([Value USD], dim_date[year] = 2025, dim_date[is_ytd_window] = TRUE())
+		formatString: $#,0
+		lineageTag: 17a2367d-7ba2-5590-851c-2a276f2fee91
+
+	measure 'Value Growth %' = DIVIDE([Value 2026 YTD] - [Value 2025 YTD], [Value 2025 YTD])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 19198ddd-6398-56b9-a4da-4ecefc481d59
+
+	measure 'Value Growth % Gap-adjusted' = VAR c = CALCULATE([Value 2026 YTD], fact_proposals[in_submission_gap] = FALSE()) VAR p = CALCULATE([Value 2025 YTD], fact_proposals[in_submission_gap] = FALSE()) RETURN DIVIDE(c - p, p)
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 0b4ff6ac-797c-5c6e-8733-c58274ab042c
+
+	measure 'Proposals Complete Months' = IF(MAX(dim_date[month]) = "2026-10", BLANK(), [Proposals])
+		formatString: #,0
+		lineageTag: d00dd748-4c78-5e95-bfe6-04ad0d4317d3
+
+	measure 'Win Rate 2026' = CALCULATE([Win Rate], dim_date[year] = 2026, dim_date[is_mature_window] = TRUE())
+		formatString: 0.0%
+		lineageTag: c21b4aef-8ff1-5d6e-adff-5d7601f5e7b5
+
+	measure 'Win Rate 2025' = CALCULATE([Win Rate], dim_date[year] = 2025, dim_date[is_mature_window] = TRUE())
+		formatString: 0.0%
+		lineageTag: d539176d-bc30-5c15-9191-6133fcc2eb73
+
+	measure 'Win Rate Change pp' = IF(ISBLANK([Win Rate 2025]) || ISBLANK([Win Rate 2026]), BLANK(), ([Win Rate 2026] - [Win Rate 2025]) * 100)
+		formatString: +0.0;-0.0;0.0
+		lineageTag: e28fde69-09a0-5a49-882b-3323df6c689b
+
+	measure 'Won Value 2026' = CALCULATE([Won Value USD], dim_date[year] = 2026, dim_date[is_mature_window] = TRUE())
+		formatString: $#,0
+		lineageTag: 176e2b80-1ee0-5742-a8ec-eca224690a62
+
+	measure 'Won Value 2025' = CALCULATE([Won Value USD], dim_date[year] = 2025, dim_date[is_mature_window] = TRUE())
+		formatString: $#,0
+		lineageTag: 584f1de6-ca84-55c1-a835-a711345ff9a6
+
+	measure 'Won Value Growth %' = DIVIDE([Won Value 2026] - [Won Value 2025], [Won Value 2025])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 067db095-e3f9-5023-8559-54a9ee2214a1
+
+	measure 'Median Days 2026' = CALCULATE([Median Days to Decision], dim_date[year] = 2026, dim_date[is_mature_window] = TRUE())
+		formatString: 0
+		lineageTag: c1bb8b60-83e3-5b51-bac1-f6fdef1faef1
+
+	measure 'Median Days 2025' = CALCULATE([Median Days to Decision], dim_date[year] = 2025, dim_date[is_mature_window] = TRUE())
+		formatString: 0
+		lineageTag: c70fe73e-275e-5ab3-9993-a1991ed06bf9
+
+	measure 'Rescaled Values' = CALCULATE([Proposals], fact_proposals[value_flag] <> "ok")
+		formatString: #,0
+		lineageTag: fe2c4c81-9a6c-5a62-8ec3-949cb88193a9
+
+	measure 'Share Without Holiday Data' = DIVIDE(CALCULATE([Proposals], fact_proposals[holiday_data_missing] = TRUE()), [Proposals])
+		formatString: 0.0%
+		lineageTag: e0f639b9-05e8-5165-acfd-529b425afb18
+
+	column proposal_id
+		dataType: string
+		lineageTag: 2d8a2a80-697d-5c83-b676-f139aa54dcc9
+		summarizeBy: none
+		sourceColumn: proposal_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column submitted_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f1b1c165-ca43-5857-8852-e4920f523fad
+		summarizeBy: none
+		sourceColumn: submitted_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column office
+		dataType: string
+		lineageTag: 21bb5925-34ac-54eb-98b7-69be08d78ff8
+		summarizeBy: none
+		sourceColumn: office
+
+		annotation SummarizationSetBy = Automatic
+
+	column practice
+		dataType: string
+		lineageTag: 37d6546a-ea14-5134-8b5e-4db20b49353c
+		summarizeBy: none
+		sourceColumn: practice
+
+		annotation SummarizationSetBy = Automatic
+
+	column client_name
+		dataType: string
+		lineageTag: 2c6d3164-1bcd-5ccf-8b45-d9812a747558
+		summarizeBy: none
+		sourceColumn: client_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column proposal_value_usd
+		dataType: double
+		formatString: 0
+		lineageTag: 35777107-e33a-5db8-9d43-70836c59c472
+		summarizeBy: none
+		sourceColumn: proposal_value_usd
+
+		annotation SummarizationSetBy = Automatic
+
+	column value_flag
+		dataType: string
+		lineageTag: 6c198af0-678f-5764-8ba2-c98f75b5d061
+		summarizeBy: none
+		sourceColumn: value_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column current_status
+		dataType: string
+		lineageTag: 5c11c73c-e8fd-5b66-8183-49bea8cf0b5d
+		summarizeBy: none
+		sourceColumn: current_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column close_status
+		dataType: string
+		lineageTag: 7cbb628d-7e5f-5cd6-8f3a-9927d09da7a2
+		summarizeBy: none
+		sourceColumn: close_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column close_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: cd5514d9-7543-5335-a8d1-6e6bc9d4c65a
+		summarizeBy: none
+		sourceColumn: close_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_open
+		dataType: boolean
+		lineageTag: 37ef5ec1-1aa9-5f14-b68d-0df02f0b8720
+		summarizeBy: none
+		sourceColumn: is_open
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_stale
+		dataType: boolean
+		lineageTag: 8d73a660-21a0-57c2-9aab-2c71c3b4a26c
+		summarizeBy: none
+		sourceColumn: is_stale
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_decided
+		dataType: boolean
+		lineageTag: 6297d258-a5be-5faf-9c89-ab37d4dc88fa
+		summarizeBy: none
+		sourceColumn: is_decided
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_won
+		dataType: boolean
+		lineageTag: 683e0bbc-01d2-551f-8463-432d1e868fd5
+		summarizeBy: none
+		sourceColumn: is_won
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_days_to_close
+		dataType: double
+		formatString: 0
+		lineageTag: c54ebcec-d006-5173-95de-dc73ecb2d2ff
+		summarizeBy: none
+		sourceColumn: business_days_to_close
+
+		annotation SummarizationSetBy = Automatic
+
+	column bd_to_review
+		dataType: double
+		formatString: 0
+		lineageTag: 3c3efc85-d3d9-562b-92d4-5c2e1af1f9c1
+		summarizeBy: none
+		sourceColumn: bd_to_review
+
+		annotation SummarizationSetBy = Automatic
+
+	column bd_review_to_close
+		dataType: double
+		formatString: 0
+		lineageTag: bab5a143-922f-5cf7-a6c6-7c3d438a0f75
+		summarizeBy: none
+		sourceColumn: bd_review_to_close
+
+		annotation SummarizationSetBy = Automatic
+
+	column calendar_days_to_close
+		dataType: double
+		formatString: 0
+		lineageTag: 50832a40-67b1-5d88-86bc-5acd8ac0af5e
+		summarizeBy: none
+		sourceColumn: calendar_days_to_close
+
+		annotation SummarizationSetBy = Automatic
+
+	column holiday_data_missing
+		dataType: boolean
+		lineageTag: fa26b8e4-176a-5a36-b85c-57d0935407a7
+		summarizeBy: none
+		sourceColumn: holiday_data_missing
+
+		annotation SummarizationSetBy = Automatic
+
+	column in_ytd_window
+		dataType: boolean
+		lineageTag: 4bd9341d-7610-56a3-8c7b-f2b99d327f30
+		summarizeBy: none
+		sourceColumn: in_ytd_window
+
+		annotation SummarizationSetBy = Automatic
+
+	column in_mature_window
+		dataType: boolean
+		lineageTag: f273388f-19c9-58bb-a3cb-75614df3f7c9
+		summarizeBy: none
+		sourceColumn: in_mature_window
+
+		annotation SummarizationSetBy = Automatic
+
+	column in_submission_gap
+		dataType: boolean
+		lineageTag: b115c8aa-304b-5191-a148-ae1436f5cfd1
+		summarizeBy: none
+		sourceColumn: in_submission_gap
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_proposals = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_proposals.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"proposal_id", "submitted_date", "office", "practice", "client_name", "proposal_value_usd", "value_flag", "current_status", "close_status", "close_date", "is_open", "is_stale", "is_decided", "is_won", "business_days_to_close", "bd_to_review", "bd_review_to_close", "calendar_days_to_close", "holiday_data_missing", "in_ytd_window", "in_mature_window", "in_submission_gap"}),
+				    Blanks = Table.ReplaceValue(Kept, "", null, Replacer.ReplaceValue, Table.ColumnNames(Kept)),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"proposal_id", type text}, {"submitted_date", type date}, {"office", type text}, {"practice", type text}, {"client_name", type text}, {"proposal_value_usd", type number}, {"value_flag", type text}, {"current_status", type text}, {"close_status", type text}, {"close_date", type date}, {"is_open", type logical}, {"is_stale", type logical}, {"is_decided", type logical}, {"is_won", type logical}, {"business_days_to_close", type number}, {"bd_to_review", type number}, {"bd_review_to_close", type number}, {"calendar_days_to_close", type number}, {"holiday_data_missing", type logical}, {"in_ytd_window", type logical}, {"in_mature_window", type logical}, {"in_submission_gap", type logical}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
